@@ -1,6 +1,6 @@
 {
   "name": "fix-all-issues",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Parallel PR review and remediation workflow that finds issues, fixes them with background agents, and validates the result.",
   "author": {
     "name": "Nick Petalas",

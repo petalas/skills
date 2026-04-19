@@ -37,6 +37,10 @@ plugins/fix-all-issues/
 - omit `review_mode` when you want the full default pass
 - `review_mode=quick` is the faster, lower-noise mode for higher-signal findings
 - the skill explicitly asks background agents to send frequent progress updates so the main agent can show an aggregated status view
-- the skill now treats `num_agents` as a ceiling and explicitly reserves thread budget for fixers and the final fresh review
+- the skill treats `num_agents` as a ceiling and explicitly reserves thread budget for fixers and the final fresh review
+- reviewer count scales with PR size (3 for small, 4 for medium, 5 only for large or multi-subsystem diffs)
+- validation runs the autofix/formatter step before the strict lint and test pass, so tests always run against already-formatted code
+- triage records the acceptance rule (`high-confidence`, `two-reviewer-agreement`, or `main-agent-verified`) for every accepted finding
+- scope-expansion rule: the skill never silently lands behavior, UX, or analytics changes the PR body did not promise — it confirms with the user or defers as a follow-up
 - use `$fix-all-issues` consistently in prompts and examples
-- see [../../LEARNINGS.md](../../LEARNINGS.md) for design notes on agent budgets, timeouts, triage, prompt templates, and git safety
+- see [../../LEARNINGS.md](../../LEARNINGS.md) for design notes on agent budgets, timeouts, triage, prompt templates, scope guardrails, and git safety

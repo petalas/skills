@@ -160,15 +160,31 @@ Deduplicate by root cause, not wording.
 
 If three reviewers say the same thing three ways, keep one ledger item and merge the evidence.
 
+### Record Which Acceptance Rule Passed
+
+For every accepted finding, pin which of the three rules got it across the line:
+
+- `high-confidence`
+- `two-reviewer-agreement`
+- `main-agent-verified`
+
+Why:
+
+- exposes the reasoning in the final output
+- makes borderline acceptances visible
+- gives the user a clear audit trail when they skim the ledger
+- makes it obvious when a finding slipped in on weaker evidence than the rubric requires
+
 ### Triage Ledger Example
 
 Good ledger shape:
 
 ```text
-R1-001 | accepted | medium | analytics regression | verified locally | assigned to fixer-1
-R1-002 | rejected | low | speculative UX concern | no concrete failure mode
-R1-003 | deferred | low | live-store validation needed | note in final summary
-R1-004 | accepted | high | missing null guard | corroborated by 2 reviewers
+R1-001 | accepted | medium | two-reviewer-agreement | analytics regression | assigned to fixer-1
+R1-002 | rejected | low     |                         | speculative UX concern, no concrete failure mode
+R1-003 | deferred | low     |                         | live-store validation needed; note in final summary
+R1-004 | accepted | high   | main-agent-verified     | missing null guard
+R1-005 | deferred | medium |                         | scope-expansion → follow-up PR
 ```
 
 Bad ledger shape:
@@ -180,6 +196,37 @@ fix this later
 ```
 
 If the ledger is sloppy, the fix round will also be sloppy.
+
+## Scope Guardrails
+
+A parallel-review skill is dangerous precisely because it is good at finding things.
+
+The failure mode is not "the reviewers miss bugs." It is "the reviewers find extra bugs, the orchestrator accepts the fix because it is backwards-compatible, and the PR quietly grows behavior the author never signed up for."
+
+### The Scope-Expansion Rule
+
+If an accepted finding would land behavior, analytics, UX, surface area, or side effects that the PR body / description / commit messages do not already promise, do one of:
+
+- surface the scope expansion to the user and get explicit confirmation before adding it to the fix batch
+- defer the finding with reason `scope-expansion` and call it out as a follow-up PR in the final summary
+
+"Backwards-compatible" is not a license to expand scope. A backwards-compatible behavior change is still a behavior change, and reviewers on the other side of the PR are not expecting it.
+
+### Good Scope Behavior
+
+- reviewer flags "pending purchase alert has no recovery action"
+- proposed fix adds `refreshCustomerInfo` and `handleDismiss` on alert OK
+- orchestrator notices this adds new UX behavior not in the PR body
+- orchestrator asks the user: "accept this scope expansion or defer as follow-up?"
+- user decides explicitly
+
+### Bad Scope Behavior
+
+- same finding
+- orchestrator silently adds the new UX behavior because it is "helpful" and "backwards-compatible"
+- PR ships with a medium-severity UX change reviewers did not evaluate on the other side
+
+A skill that silently grows PRs is worse than a skill that misses nits.
 
 ## Choosing Review Modes
 
@@ -307,6 +354,37 @@ The prompt should answer four questions before the agent starts:
 
 If any of those is missing, expect drift.
 
+## Validation Order
+
+Run the repo's autofix/formatter command before strict validation, not after.
+
+Why:
+
+- strict lint will flag formatting issues that the formatter was about to fix anyway
+- if you run tests before the formatter, a later autofix pass can modify files and force you to re-run tests to be safe
+- running the formatter first means tests and typecheck execute against the final, formatted code — exactly the shape that will be committed
+
+Good order:
+
+1. autofix / formatter (`lint:fix`, `prettier --write`, `biome check --write`, `ruff format`, `gofmt`)
+2. narrow targeted checks (tests for touched files only)
+3. canonical strict lint + full test run
+4. typecheck / build
+
+Fixer workers should ideally run the autofix on their owned files before reporting done, so the main agent's canonical lint pass is green by construction. The main agent still runs a repo-wide autofix as a belt-and-braces step in case a worker forgot or a cross-file formatter rule needs a repo-wide pass.
+
+Commit the formatter output as part of the fix batch. Do not split off a separate "lint fix" commit — that fragments the audit trail.
+
+### Bad Validation Order
+
+- run tests first
+- run lint after tests
+- lint autofix touches five files
+- now you have no proof the tests still pass against the reformatted code
+- either re-run tests (wasted minutes) or push a silent risk
+
+Autofix first makes that whole problem disappear.
+
 ## Final Review Should Be Narrow
 
 A fresh final review is good.
@@ -373,16 +451,17 @@ Predictable collaboration is nicer.
 
 Use this mental checklist when running `fix-all-issues`:
 
-1. Resolve target PR or branch.
+1. Resolve target PR or branch. Flag unusual base branches (`dev`, release branches, long-lived integration branches).
 2. Read repo instructions and validation commands.
-3. Budget thread capacity before spawning reviewers.
+3. Budget thread capacity before spawning reviewers. Scale reviewer count to PR size (3 for small, 4 for medium, 5 only for large / multi-subsystem diffs).
 4. Run reviewer batch with fixed lenses and structured prompts.
-5. Triage with accept/reject/defer rubric.
+5. Triage with accept/reject/defer rubric. Record which acceptance rule passed per finding. Apply the scope-expansion rule — never silently grow the PR.
 6. Close old reviewers if capacity is tight.
-7. Spawn fixers with disjoint ownership.
-8. Run narrow validation, then canonical validation.
+7. Spawn fixers with disjoint ownership. Fixers apply the repo's autofix/formatter on owned files before reporting done.
+8. Run validation in order: autofix first (belt-and-braces), then narrow checks, then canonical lint and tests, then typecheck.
 9. Run narrow fresh final review on the current diff.
-10. Commit and push normally unless rewrite is explicitly justified.
+10. Update the PR description if the fix batch added behavior, analytics, UX, tests, or doc guidance beyond the original body.
+11. Commit and push normally unless rewrite is explicitly justified.
 
 ## Smells
 

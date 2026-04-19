@@ -1,5 +1,6 @@
 ---
 name: fix-all-issues
+version: 0.4.0
 description: Coordinate a multi-round PR review and remediation workflow using parallel background agents. Use when asked to review a pull request or current branch, find bugs, regressions, and nits, fix the accepted findings with delegated workers, rerun lint and tests, update the PR branch, and repeat until no actionable findings remain. Triggers include `$fix-all-issues`, requests to "review this PR and fix everything", or requests for a parallel review/fix loop on a GitHub PR.
 ---
 
@@ -27,6 +28,10 @@ Before spawning background agents, budget thread capacity deliberately.
 - Close completed or no-longer-needed agents before spawning the next batch.
 - If the platform enforces a thread cap and you cannot determine the remaining capacity, be conservative on the first review batch. Start with at most `4` reviewers even if `num_agents` is higher.
 - Prefer having one fewer reviewer over blocking the entire fix round because no worker slots remain.
+- Scale reviewer count to PR size. Oversizing a small PR wastes capacity and produces overlapping findings that still need deduplication:
+  - `< 200` changed lines: 3 reviewers (correctness, compatibility, tests)
+  - `200 – 1000` lines: 4 reviewers (add security/data integrity)
+  - `> 1000` lines, or a diff spanning multiple subsystems: up to 5 reviewers (add maintainability/nits)
 
 ## Precedence
 
@@ -55,6 +60,11 @@ Before spawning background agents, budget thread capacity deliberately.
 - Record the canonical lint, test, typecheck, and build commands.
 - Note any explicit compatibility constraints, generated code flows, or protected files.
 
+3. Sanity-check the base branch before spawning reviewers.
+
+- If the PR targets a non-default branch (for example `dev`, a release branch, or a long-lived feature integration branch), briefly acknowledge the unusual base in your own plan and surface it in the final summary. Findings from reviewers may reflect base-branch drift rather than the PR's own changes.
+- If the PR's diff against its declared base is much larger than the commits added in the PR, flag this — the base may be stale or the PR may need a rebase before review is useful.
+
 ## Review Round
 
 Spawn up to the effective reviewer count in parallel. Each reviewer inspects the same PR or branch diff, but use different review lenses to reduce duplicated blind spots:
@@ -78,7 +88,7 @@ Ask each reviewer to return only actionable findings. Require:
 - whether the fix has breaking-risk
 - any validation the fixer should run
 
-Use a reviewer prompt equivalent to:
+Use the template below as the canonical reviewer prompt. You MAY append short lens-specific hints when a lens needs a concrete pointer (for example, for the maintainability lens: "watch for `||` where the project convention is `??`"), but do not replace the template wholesale and do not drop any field from the structured finding schema:
 
 ```text
 Review only the current PR or branch diff against the base branch.
@@ -126,6 +136,11 @@ Apply a concrete triage rubric:
 - Reject a finding when it is speculative, duplicates an already-accepted root cause, lacks a concrete failure mode, or depends on an unstated product decision.
 - Defer a finding when it is concrete but needs live-system validation, a broader refactor, cross-team coordination, or explicit user approval.
 - Deduplicate by root cause, not wording. If three reviewers describe the same bug, keep one ledger item with merged supporting evidence.
+- For every accepted finding, record which acceptance rule passed (`high-confidence`, `two-reviewer-agreement`, or `main-agent-verified`). This exposes the reasoning, catches borderline acceptances, and gives the user a clear audit trail in the final ledger.
+- Scope-expansion rule: if an accepted finding would add behavior, analytics, UX, or surface area that the PR body / description / commit messages do not already promise — even when the fix is backwards-compatible — do not silently grow the PR. Either:
+  - surface the scope expansion to the user and get explicit confirmation before adding it to the fix batch, or
+  - defer the finding with reason `scope-expansion` and call it out as a follow-up PR in the final summary.
+    A "helpful" scope expansion can land medium-severity behavior changes the PR author never signed up for and complicates review/rollback.
 
 ## Fix Round
 
@@ -136,7 +151,7 @@ Spawn a new worker batch for the accepted findings.
 - Give each worker a disjoint write set whenever possible. Keep generated files and final integration under the main agent unless delegation is clearly safer.
 - Tell each worker that other workers are also active and they must not revert unrelated edits.
 - Require 100% backwards-compatible fixes unless the finding itself proves the current behavior is already broken.
-- Require the smallest relevant validation after each fix.
+- Require the smallest relevant validation after each fix. Workers should also run the repo's autofix/formatter command (for example `lint:fix`, `prettier --write`, `biome check --write`) against their owned files before reporting done, so the main agent's canonical lint pass is guaranteed to run against already-formatted code.
 - Ask each worker to report:
   - files changed
   - findings resolved
@@ -181,6 +196,7 @@ Report:
 - If the client supports richer live rendering, prefer compact progress bars or phase summaries that update in real time. If it does not, emit concise textual progress updates with the same information.
 - Do not wait silently for long-running agents when the main agent can show overall progress. Keep updates useful and compact rather than verbose.
 - Do not busy-poll with repeated short waits. Prefer longer waits while doing useful local work.
+- Useful local work to fill the wait: pre-draft fix-batch file partitions from the diff you already inspected; grep for callers of symbols the fix will likely touch; confirm canonical lint/test/typecheck commands exist in `package.json`, `Makefile`, or CI config; scaffold the final commit message and PR-description update. Avoid pre-reading file contents that a background agent is currently analyzing — that duplicates context and can bias your triage.
 
 ## Display Conventions
 
@@ -202,10 +218,10 @@ Prefer the richest structured display the client actually supports, but always k
 - Use fenced `json` or `yaml` blocks only when the schema itself matters more than readability.
 - Do not dump raw agent transcripts into the main progress view. Aggregate them into stable counters and ledger entries.
 - Do not emit giant metadata blocks repeatedly. Reuse the same keys and shapes so each update is easy to compare with the last one.
-- In the final output, prefer:
-  - short paragraph summary first
-  - flat bullets for accepted, rejected, or deferred findings
-  - a compact table only if it materially improves scanability
+- In the final output:
+  - lead with a one-paragraph summary (target PR or branch, round count, validation result, push status)
+  - follow with a compact findings ledger table covering accepted/fixed, rejected, and deferred items. Columns: `id`, `status`, `severity`, `rule-applied`, `note`. Rule-applied is only meaningful on accepted rows — leave empty on rejected/deferred.
+  - use bullets only for ancillary information such as validation commands run, generated-artifact notes, or scope-expansion items deferred to follow-up PRs
 
 Suggested live status template:
 
@@ -217,10 +233,12 @@ accepted 3 | deferred 1 | rejected 4
 Suggested final ledger table:
 
 ```md
-| id     | status   | severity | note                        |
-| ------ | -------- | -------- | --------------------------- |
-| R1-001 | fixed    | medium   | analytics regression        |
-| R1-002 | deferred | low      | needs live-store validation |
+| id     | status   | severity | rule-applied           | note                              |
+| ------ | -------- | -------- | ---------------------- | --------------------------------- |
+| R1-001 | fixed    | medium   | two-reviewer-agreement | analytics regression              |
+| R1-002 | deferred | low      |                        | needs live-store validation       |
+| R3-004 | deferred | medium   |                        | scope-expansion → follow-up PR    |
+| R4-002 | rejected | low      |                        | speculative, no concrete evidence |
 ```
 
 ## Generated Artifacts
@@ -232,12 +250,15 @@ Suggested final ledger table:
 
 After integrating the fix batch:
 
-1. Run the narrowest relevant checks first.
-2. Finish with the repo's canonical lint and test commands.
-3. Run typecheck or build if the repo treats them as required PR gates.
-4. If validation fails, open another fix batch for the failing area and rerun validation.
-5. If validation is green, run one fresh review round on the final diff before declaring success.
-6. Keep the final review narrow:
+Run validation in this order so the test/typecheck pass runs against the final, formatted code. This avoids the "autofix touched files, rerun tests" problem.
+
+1. Apply autofix first. If the repo exposes a formatter or lint autofix command (for example `lint:fix`, `prettier --write`, `biome check --write`, `ruff format`, `gofmt`), run it once before any strict validation. Fix workers should ideally do this themselves before reporting done, but the main agent should still run it as a belt-and-braces step in case a worker forgot or a cross-file formatter rule needs a repo-wide pass. Stage or commit the resulting changes with the fix batch, not as a separate "lint fix" commit.
+2. Run the narrowest relevant checks first (targeted tests for the files touched, fastest typecheck path).
+3. Finish with the repo's canonical strict lint and test commands. These must now pass without modifying files — if the canonical lint still reports issues after the autofix pass, they are real findings, not cosmetics.
+4. Run typecheck or build if the repo treats them as required PR gates.
+5. If validation fails, open another fix batch for the failing area and rerun validation.
+6. If validation is green, run one fresh review round on the final diff before declaring success.
+7. Keep the final review narrow:
    - use `1-2` reviewers, not the full first-round fanout
    - review the current final diff only
    - do not reopen already-rejected speculative findings unless the new diff changes the evidence
@@ -249,7 +270,7 @@ Treat stderr noise carefully: distinguish real validation failures from known or
 
 When validation is clean:
 
-1. Update the PR description if the scope or risk profile changed materially.
+1. Before pushing, review the PR body against the final diff. If the fix batch added behavior, analytics, UX changes, new tests, or new doc guidance beyond what the PR body already describes, update the PR description with a short "Additional fixes from review" section, grouped by category (correctness, analytics, UX, tests, docs). Keep commit message, PR title, and PR body aligned with the final diff.
 2. Default to a normal commit and regular push.
 3. Amend the last commit and force-push with lease only if the user explicitly asked for history cleanup, or the repo workflow clearly expects it, and the branch is rewrite-safe.
 4. If the branch is not rewrite-safe, stop and ask before rewriting history.

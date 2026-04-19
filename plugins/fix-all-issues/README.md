@@ -14,9 +14,10 @@ It is designed for workflows where the agent should:
 ## Example Prompts
 
 ```text
-Use /fix-all-issues on this PR with 5 agents
+Use $fix-all-issues on this PR with 5 agents
+Use $fix-all-issues pr=123
 Review my current branch against main and fix every issue you find
-Use /fix-all-issues pr=123 num_agents=6 max_rounds=5 review_mode=exhaustive
+Use $fix-all-issues pr=123 num_agents=6 max_rounds=5 review_mode=quick
 ```
 
 ## Source Map
@@ -32,5 +33,10 @@ plugins/fix-all-issues/
 ## Notes
 
 - repository instructions override the skill's defaults
-- `review_mode=exhaustive` keeps concrete low-severity issues and nits
+- `review_mode=exhaustive` is the default and keeps concrete low-severity issues and nits
+- omit `review_mode` when you want the full default pass
+- `review_mode=quick` is the faster, lower-noise mode for higher-signal findings
 - the skill explicitly asks background agents to send frequent progress updates so the main agent can show an aggregated status view
+- the skill now treats `num_agents` as a ceiling and explicitly reserves thread budget for fixers and the final fresh review
+- use `$fix-all-issues` consistently in prompts and examples
+- see [../../LEARNINGS.md](../../LEARNINGS.md) for design notes on agent budgets, timeouts, triage, prompt templates, and git safety

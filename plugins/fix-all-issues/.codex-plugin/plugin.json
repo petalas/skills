@@ -1,6 +1,6 @@
 {
   "name": "fix-all-issues",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Parallel PR review and remediation workflow that finds issues, fixes them with background agents, and validates the result.",
   "author": {
     "name": "Nick Petalas",
@@ -21,9 +21,9 @@
     "category": "Coding",
     "capabilities": ["Interactive", "Write"],
     "defaultPrompt": [
-      "Run /fix-all-issues on this PR with 5 agents",
+      "Run $fix-all-issues on this PR with 5 agents",
       "Review my current branch against main and fix every issue you find",
-      "Use /fix-all-issues pr=123 num_agents=6 max_rounds=5"
+      "Use $fix-all-issues pr=123 num_agents=6 max_rounds=5 review_mode=quick"
     ],
     "brandColor": "#2563EB",
     "screenshots": []

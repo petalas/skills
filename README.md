@@ -81,7 +81,7 @@ plugins/
 What each layer is for:
 
 - `SKILL.md` contains the actual skill instructions
-- `commands/` provides command entrypoints like `/fix-all-issues`
+- `commands/` provides command entrypoints like `$fix-all-issues`
 - `.codex-plugin/plugin.json` stores plugin metadata and public-facing display information
 - `.agents/plugins/marketplace.json` supports local plugin development
 - plugin-level `README.md` files make the repo easier to browse without digging through prompt files
@@ -107,6 +107,7 @@ More detail:
 
 - contribution workflow: [CONTRIBUTING.md](CONTRIBUTING.md)
 - release and update process: [docs/RELEASING.md](docs/RELEASING.md)
+- orchestration design notes: [LEARNINGS.md](LEARNINGS.md)
 
 ## Philosophy
 

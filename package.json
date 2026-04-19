@@ -1,0 +1,26 @@
+{
+  "name": "petalas-skills",
+  "private": true,
+  "description": "Public agent skills and maintenance tooling for petalas/skills.",
+  "homepage": "https://github.com/petalas/skills",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petalas/skills.git"
+  },
+  "bugs": {
+    "url": "https://github.com/petalas/skills/issues"
+  },
+  "packageManager": "bun@1.3.11",
+  "engines": {
+    "bun": ">=1.3.11"
+  },
+  "scripts": {
+    "check": "bun run format:check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "hooks:install": "git config core.hooksPath .githooks"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
+}

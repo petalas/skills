@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fix All Issues"
+  short_description: "Review a PR in parallel, fix findings, show live progress, and validate safely."
+  default_prompt: "Use $fix-all-issues to review a PR in parallel, fix findings with background agents, keep live overall progress updates visible while workers run, and stop after at most 5 rounds."

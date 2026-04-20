@@ -1,6 +1,6 @@
 ---
 name: fix-all-issues
-version: 0.5.0
+version: 0.6.0
 description: Coordinate a multi-round PR review and remediation workflow using parallel background agents. Quality-first by default — adds red-team and coverage lenses, per-finding verification, an independent second triager, mutation-style fix evidence, a dedicated cleanup round, live-feature validation, and a residual-risk inventory. Use when asked to review a pull request or current branch, find bugs, regressions, and nits, fix the accepted findings with delegated workers, rerun lint and tests, update the PR branch, and repeat until no actionable findings remain. Triggers include `$fix-all-issues`, requests to "review this PR and fix everything", or requests for a parallel review/fix loop on a GitHub PR.
 ---
 
@@ -96,6 +96,26 @@ Spawn the budgeted reviewers in parallel. Lenses for exhaustive mode:
 - **conformance** — mechanical pass over the extracted checklist; report every violation with file:line
 
 Quick mode runs only the first four lenses, with conformance hints folded into the maintainability prompt.
+
+### Red-team preconditions rule
+
+The red-team lens tends to generate speculative findings whose precondition is "if the primary authentication or signing gate is already compromised" (leaked bearer token, stolen webhook secret, forged HMAC signature, full DB access). These findings are almost always rejected at triage because they describe threats that are out of scope for a diff review — the diff did not introduce the gate, and the gate's integrity is a deployment/ops concern, not a code-review concern.
+
+Append this constraint to the red-team reviewer prompt:
+
+```text
+Do not generate findings whose precondition is "if the primary auth gate is compromised" — leaked bearer tokens, stolen webhook secrets, forged HMAC signatures, or full database access. Those are out of scope for a diff review.
+
+A red-team finding is in scope when at least one of the following holds:
+- the diff weakens or removes an existing auth / signing / rate-limit gate
+- the diff is reachable without crossing an auth gate (public endpoint, unauthenticated handler, user-controlled input parsed before auth)
+- the diff introduces a new trust boundary (new endpoint, new callback receiver, new webhook consumer)
+- the diff changes behavior that is observable to an unauthenticated caller (error shape, timing, response status) in a way that leaks information beyond what the pre-diff code leaked
+
+If none of the above apply, say so explicitly and report no findings for this diff.
+```
+
+This keeps red-team targeted on the diff's actual attack surface instead of the whole application's threat model.
 
 Reviewer prompt template (canonical — do not drop fields, may append lens-specific hints):
 
@@ -237,7 +257,15 @@ If the diff touches generated clients, schemas, codegen outputs, or framework-ge
 
 After integrating each fix batch, in order:
 
-1. **Autofix.** Run `lint:fix` / `prettier --write` / equivalent. Stage with the fix batch, not as a separate "lint fix" commit.
+1. **Autofix.** Run the repo's autofix command explicitly (`lint:fix` / `prettier --write` / `biome check --write` / `ruff format` / equivalent) even if you believe files are already clean — "I ran lint and it exited 0" is not autofix. `lint` reports problems; `lint:fix` actually rewrites files. Skipping the autofix step and claiming downstream lint was green leaves real formatting issues in the diff.
+
+   Report the autofix outcome explicitly in the final validation block. Use one of these three phrasings:
+   - `autofix: ran '<exact command>' — no files modified`
+   - `autofix: ran '<exact command>' — modified <N> files, staged with fix batch <id>`
+   - `autofix: skipped because <concrete reason, e.g. "repo has no configured autofix command">`
+
+   "No files modified" is the evidence that you ran autofix, not evidence that you skipped it. Stage any autofix changes with the fix batch that triggered them, not as a separate "lint fix" commit. Do not pass over this step silently.
+
 2. **Targeted checks.** Run the narrowest test/typecheck path for the touched files first.
 3. **Strict lint + canonical test suite.** Must pass without modifying files. If the strict lint still reports issues after autofix, they are real findings, not cosmetics.
 4. **Typecheck and build** if the repo treats them as required PR gates.
@@ -289,11 +317,84 @@ When bug-fix and cleanup rounds are both green:
 
 When validation, cleanup, and re-review are all clean:
 
-1. **Update the PR description to match the final diff.** If review fixes added behavior, analytics, UX, tests, or doc guidance beyond the original body, **fold them into the existing sections** — do not append a separate "Additional fixes from review" section that becomes misleading the moment the branch is squashed. Ensure title, commit messages, and body align.
-2. When editing the PR body via `gh pr edit`, **fetch the existing body first** (`gh pr view <n> --json body --jq .body`) and edit it. Do not clobber with a fresh string.
-3. Default to a normal commit and regular push.
-4. Amend or squash and force-push-with-lease only if the user explicitly asked OR the repo workflow requires it AND the branch is rewrite-safe.
-5. **After any history rewrite, rerun the full validation suite (lint + typecheck + tests, plus live exercise if it ran originally) against the new tip.** Squashes and amends can drop hunks; `--force-with-lease` catches lost commits but not lost lines within commits.
+1. **Always fetch the existing PR body before editing it.** Treat the PR body as state you must read before you write. Sequence:
+
+   ```bash
+   gh pr view <n> --json body --jq .body > /tmp/pr<n>_body.md
+   # edit /tmp/pr<n>_body.md to match the final diff
+   gh pr edit <n> --body-file /tmp/pr<n>_body.md
+   ```
+
+   Do NOT pass `--body "..."` with a freshly composed string — it clobbers everything the author wrote. `--body-file` against the fetched-then-edited file preserves structure while letting you make surgical changes.
+
+2. **Fold review-driven changes into the PR's existing sections. Do not append "Additional fixes from review".**
+
+   A separate fix-log section reads fine while the PR is open, but it becomes misleading the moment the branch is squashed — the squash commit inherits the body, and future readers see "Original intent + amendments" as if the PR shipped in two phases. Edit the original sections in place so the body describes the final state as if the PR had always been this shape.
+
+   Also update:
+   - claims that were true pre-review but false post-review (e.g. "tests out of scope", test counts, line counts, "single file changed")
+   - the Test plan checklist to reflect the new validation that actually ran
+   - any "out of scope" bullets that the review round closed
+
+   **Worked example — adding test coverage that the PR body said was out of scope:**
+
+   _Pre-review body (fragment):_
+
+   ```markdown
+   ## Fix
+
+   `foo.ts` — when X, log and return instead of throwing.
+
+   ## Scope / out-of-scope
+
+   - Out of scope: unit test for the handler. It is a non-exported helper;
+     existing tests cover the sibling mutation, not the action path. Adding
+     coverage requires new harness scaffolding beyond this fix.
+
+   ## Test plan
+
+   - [x] typecheck — pass
+   - [x] existing suite — 20 pass
+   ```
+
+   _Anti-pattern (appended):_
+
+   ```markdown
+   ## Additional fixes from review
+
+   Added 4 regression tests via t.fetch. Removed the "out of scope: unit test"
+   claim since it turned out existing t.fetch pattern covered it.
+   ```
+
+   ⚠ Contradicts "out of scope" above; survives the squash as two voices.
+
+   _Correct (fold-in):_
+
+   ```markdown
+   ## Fix
+
+   `foo.ts` — when X, log and return instead of throwing.
+
+   Regression coverage added in `foo.test.ts`: exercises the handler via
+   `t.fetch(<endpoint>)` (same pattern as <existing-sibling>.test.ts).
+   Red→green verified by temporarily reverting the fix.
+
+   ## Scope / out-of-scope
+
+   - Out of scope: <keep only bullets that are still true>.
+
+   ## Test plan
+
+   - [x] typecheck — pass
+   - [x] existing + new suite — 24 pass (20 existing + 4 new)
+   ```
+
+   ✓ Reads as if the PR always had the tests. Survives the squash cleanly.
+
+3. **Align title, commit messages, and body.** If review added tests, the PR title's scope may still be accurate (the user-visible fix didn't change) but the commit history has a new `test(...)` commit — check that the squash message the maintainer will see still reads correctly.
+4. Default to a normal commit and regular push.
+5. Amend or squash and force-push-with-lease only if the user explicitly asked OR the repo workflow requires it AND the branch is rewrite-safe.
+6. **After any history rewrite, rerun the full validation suite (lint + typecheck + tests, plus live exercise if it ran originally) against the new tip.** Squashes and amends can drop hunks; `--force-with-lease` catches lost commits but not lost lines within commits.
 
 Treat a branch as rewrite-safe only when ALL hold:
 

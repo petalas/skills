@@ -1,6 +1,6 @@
 {
   "name": "fix-all-issues",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Quality-first parallel PR review and remediation workflow. Finds issues with lens reviewers plus a red-team and coverage agent, verifies every finding, triages with an independent second pass, fixes with mutation-style evidence, runs a dedicated cleanup round, validates with a live feature exercise, and reports residual risks.",
   "author": {
     "name": "Nick Petalas",

@@ -501,3 +501,43 @@ This file is for the ideas behind the instructions:
 - what tradeoffs they encode
 
 When the skill feels too terse, update this file.
+
+## Quality-First Revision (v0.5.0)
+
+The 0.4.x pipeline optimized for a lean review/fix loop on bug-finding. Real-world runs surfaced consistent gaps where the skill said "clean" but a careful human review would still block. The 0.5.0 revision reorients the default mode (`exhaustive`) toward maximum residual-issue coverage at the cost of elapsed time. The leaner prior pipeline is still available as `quick`.
+
+### Failure Modes The Revision Targets
+
+**Reviewer overconfidence.** Reviewers cite line numbers they did not read. Triage trusted them. With small PRs the main agent caught bad citations by re-reading; with large PRs that fallback would silently fail. Fix: every reviewer tags findings `verified ✓` (file opened, claim confirmed) or `speculative ⚠` (suspicion). A verification subagent runs on every `⚠` finding before triage and reports `confirmed` / `refuted` / `needs-runtime-check`. Refuted findings are dropped automatically; the main agent stops adjudicating reviewer speculation.
+
+**Sympathetic review.** Lens reviewers read the PR for what it claims to do. They miss adversarial cases the author did not consider — race conditions, malformed clients, hostile state. Fix: a dedicated red-team reviewer whose only job is to find ways the PR is broken. Distinct from correctness, which still reads sympathetically for regressions.
+
+**Coverage as a side effect.** The "tests" lens reviews the test code that exists. It does not enumerate the input classes that should have tests but don't. Fix: a coverage reviewer whose only job is to list missing test classes for every newly exported function/route/event, independent of the existing test code.
+
+**Conformance buried in lens hints.** Codebases have mechanically-checkable rules (`??` not `||` for defaults, error-type conventions, no-import-from-X). The 0.4.x skill mentioned them as ad-hoc maintainability hints. Fix: extract the conformance checklist from `CLAUDE.md` / `AGENTS.md` / formatter config / style docs before reviewer fanout, inject it into every reviewer prompt as a hard checklist, and run a dedicated conformance reviewer.
+
+**Triage rubber-stamping.** The main agent reads the reviewer rationales, then triages. By the time the rubric runs, the main agent is already biased by reviewer framing. Fix: an independent second triager gets ONLY the merged finding list and the base diff (no rationales) and produces an independent verdict. Disagreements get investigated.
+
+**Acceptance via popularity.** "Two reviewers agree" was a primary acceptance rule. Two confidently-wrong reviewers can pass that bar. Fix: a single `verified ✓` finding is enough; two `⚠` findings are not. Verified evidence beats reviewer agreement.
+
+**Cleanup competing with bug-finding.** Maintainability was one of N lenses competing for attention with correctness in a single round. Cleanup got partial coverage at best. Fix: a dedicated cleanup round runs after bug fixes are validated. Constraint: zero behavior changes. Targets dead code, conformance violations, comment/doc rot, adjacent missing tests. Loops until one pass yields zero edits.
+
+**Tests passing as proof of feature working.** A green test suite tells you the unit tests pass, not that the feature actually works in the running app. For UI / payment / auth / API changes the gap matters. Fix: exhaustive validation requires a live feature exercise (boot dev server, hit endpoint, run CLI). If live exercise is impossible (sandbox required, secrets unavailable), it goes in the residual-risk report rather than being silently skipped.
+
+**Mutation-blind fixes.** Workers were asked for "smallest validation" — which can be satisfied by tests that already pass. There is no evidence the fix actually fixes the reported bug. Fix: every bug-fix worker (not refactor or pure doc/test addition) must write a failing test first, then implement the fix, then show red→green. Skipping the failing-test-first step means the fix has no evidence of fixing.
+
+**Final review reopens the whole PR.** A wide-fanout final review re-litigates rejected findings and burns budget on already-vetted code. Fix: keep the narrow re-review (1–2 reviewers on the final diff only). Add a separate "would I block this PR?" cold reviewer that sees only the final diff and PR description, with no prior context. Models the actual human reviewer who will see this PR cold.
+
+**Silent coverage gaps.** The skill ended on a green checkmark without acknowledging what was not checked. Fix: a mandatory residual-risk inventory in exhaustive mode lists what was NOT exercised — sandbox flows, third-party arrival confirmation, paths requiring secrets — and folds in `considered-but-not-changed` items from fix workers. Forces honesty.
+
+**Squash drops hunks.** A force-push-with-lease catches lost commits but not lost lines within commits. After any history rewrite, the prior pipeline trusted that the rewritten tip was still green. Fix: after any rewrite, rerun the full validation suite (lint + typecheck + tests, plus live exercise if it ran originally) against the new tip.
+
+**PR-body drift.** Appending an "Additional fixes from review" section made sense before the user squashed. After squash, "additional" is a lie — the section is now just part of the diff. Fix: fold review fixes into existing PR-body sections from the start. Always fetch the existing body before editing via `gh pr edit` (do not clobber).
+
+**Worker spawn overhead on trivial deltas.** Five tiny edits across three files were partitioned into a worker batch when a main-agent direct edit would have been faster. Fix: explicit threshold — for ≤5 single-line edits across ≤3 files, the main agent edits directly. Spawn workers only when the work is partitionable across files or large enough to amortize the spawn cost.
+
+**Base-branch drift inherited silently.** When PRs target non-default bases (`dev`, release branches, integration branches), reviewers were reading against an implicit `main` mental model. Fix: a base-branch drift audit enumerates `main..<base>` and surfaces load-bearing differences (schema changes, feature flags, behavior shifts) before reviewers spawn.
+
+### Tradeoffs
+
+The revision is roughly 2–3x the elapsed time and token cost of the 0.4.x pipeline on a typical medium PR. The expected return is a substantially lower residual-issue rate at ship: speculative findings get refuted instead of accepted-then-rejected later; cleanup happens in the same PR instead of accumulating; live-exercise catches "tests green, feature broken" cases that previously slipped to production. Use `quick` when the elapsed-time bound matters more than residual coverage.

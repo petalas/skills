@@ -1,35 +1,34 @@
 # $fix-all-issues
 
-Review the target pull request or current branch in parallel, fix the accepted findings, and iterate until validation is clean.
+Review the target pull request or current branch in parallel and fix the accepted findings until validation, cleanup, and a fresh re-review are all clean. Default mode is **quality-first** (exhaustive); pass `review_mode=quick` for the leaner prior pipeline.
 
 ## Arguments
 
 - `pr`: PR URL or number. If omitted, use the current branch against `main`.
-- `num_agents`: Parallel background agents to use for review and fix batches. Optional. Default `5`.
-- `max_rounds`: Maximum review and fix rounds before stopping. Optional. Default `5`.
-- `review_mode`: `exhaustive` or `quick`. Optional. Default `exhaustive`. Treat legacy `normal` as `quick`.
-- Omit `review_mode` for the full default pass.
+- `num_agents`: Ceiling on parallel background agents. Optional. Default `8` (exhaustive) or `5` (quick).
+- `max_rounds`: Maximum review/fix rounds before stopping. Optional. Default `8` (exhaustive) or `5` (quick).
+- `review_mode`: `exhaustive` (default) or `quick`. Treat legacy `normal` as `quick`.
 
 ## Workflow
 
 1. Use the `fix-all-issues` skill.
-2. Treat this command as explicit approval to use subagents and parallel worker batches.
-3. Follow repository `AGENTS.md`, local docs, and user instructions over the skill's default tool and git preferences.
-4. Resolve the target PR or current branch before delegating review work. Flag unusual base branches (for example `dev` or a release branch) and carry the note through the final summary.
-5. Budget thread capacity before spawning reviewers. Scale reviewer count to PR size (3 for small, 4 for medium, 5 only for large/multi-subsystem diffs). Reserve room for fixers and the final fresh review.
-6. Run one independent review batch, one fix batch, then validation.
-7. Close completed review agents before spawning fixers if capacity is tight.
-8. During triage, record the acceptance rule (`high-confidence`, `two-reviewer-agreement`, or `main-agent-verified`) for every accepted finding, and apply the scope-expansion rule: never silently land behavior/UX/analytics changes the PR body did not promise — confirm with the user or defer as a follow-up.
-9. Run the repo's autofix/formatter command before the strict lint and test pass, so tests always run against already-formatted code. Fix workers should do this on their owned files before reporting done.
-10. If validation is clean, run one fresh review batch on the current final diff before declaring success.
-11. While background agents are running, have them send frequent progress updates and keep the main agent showing an aggregated overall status.
-12. If the client supports it, use structured phase tracking for top-level progress and compact live counters for in-flight status. Otherwise emit concise textual progress updates.
-13. Use the skill's reviewer and fixer prompt templates so outputs stay structured and easy to triage.
-14. Repeat in rounds until a fresh review batch returns zero actionable findings and validation is still clean, or `max_rounds` is reached.
-15. Keep the main agent focused on orchestration, integration, and Git or GitHub state.
-16. Before pushing, update the PR description when the fix batch added behavior, analytics, UX changes, new tests, or new doc guidance beyond the original body.
-17. Default to a normal commit and regular push. Rewrite history only when the user explicitly asked for it or the repo workflow clearly requires it.
+2. Treat this command as explicit approval to spawn subagents and parallel worker batches.
+3. Repository `AGENTS.md`, `CLAUDE.md`, local docs, and user instructions override the skill's default tool, validation, and git preferences.
+4. Resolve the target PR or current branch. Flag unusual base branches (`dev`, release, integration). In exhaustive mode, audit `main..<base>` drift and inject the load-bearing notes into reviewer prompts.
+5. Build a per-repo conformance checklist by scanning `CLAUDE.md`, `AGENTS.md`, formatter/linter config, and style docs. Inject the checklist into every reviewer prompt.
+6. Budget thread capacity. Reserve slots for the verification pass, fix workers, cleanup workers, and the final cold reviewer. Scale reviewer fanout to PR size (4 small, 6 medium, up to 8 large/multi-subsystem in exhaustive; capped at 4 in quick).
+7. Run one independent review batch using lens reviewers plus (exhaustive only) red-team, coverage, and conformance reviewers. Every reviewer tags each finding `verified ✓` or `speculative ⚠` and lists categories considered-but-ruled-out.
+8. Run a verification subagent on every `⚠` finding before triage. Refuted findings are dropped; needs-runtime-check findings enter triage as defer candidates.
+9. Triage. Accept verified findings with concrete failure modes. Apply the scope-expansion rule: never silently land behavior/UX/analytics changes the PR body did not promise. In exhaustive mode, spawn an independent second triager with only the merged findings list and the base diff; investigate every disagreement.
+10. Spawn fix workers per disjoint file batch. Workers must produce failing-test-first then green evidence for any bug fix, run autofix on owned files, and report `considered-but-not-changed` items.
+11. Validate: autofix → targeted tests → strict lint → full test suite → typecheck/build. In exhaustive mode, also exercise the changed feature live (boot dev server / hit endpoint / run the CLI). If live exercise is impossible, log it in the residual-risk report rather than silently skipping.
+12. In exhaustive mode, run a dedicated cleanup round (no behavior changes) for dead code, conformance violations, comment/doc rot, and adjacent missing tests. Re-validate.
+13. Run a narrow re-review (1–2 reviewers on the final diff). In exhaustive mode, also run a "would I block this PR?" cold reviewer with no prior context — any blocker re-enters bug-fix triage.
+14. Keep frequent overall progress visible: round counter, reviewer/verifier/fixer/cleanup completion, validation status. Use structured phase tracking when the client supports it; concise textual counters otherwise.
+15. Repeat until bug-fix re-review is zero, cleanup yields zero edits, the cold reviewer has no blockers, and validation is clean — or `max_rounds` is hit (then summarize residuals).
+16. Before pushing, fold review fixes into the existing PR description sections (do not append a separate "Additional fixes" block — it goes stale on squash). Always fetch the existing PR body before editing.
+17. Default to a normal commit and regular push. Rewrite history only when the user asked or repo workflow requires it. After any rewrite, rerun the full validation suite against the new tip.
 
 ## Output
 
-Report the PR or branch reviewed, round count, validation result, and push status in a one-paragraph summary, followed by a findings ledger table (`id | status | severity | rule-applied | note`) covering accepted/fixed, rejected, and deferred items. Call out scope-expansion items deferred to follow-up PRs, unusual base branches, any generated artifacts refreshed, and whether history was rewritten.
+One-paragraph summary: PR/branch, mode, round count, validation result, push status, base-branch note. Findings ledger table (`id | status | severity | verified | note`). Validation block including live-exercise outcome. In exhaustive mode, a residual-risk inventory of what was NOT checked, the cleanup-round summary, and a follow-up PR list of `scope-expansion` deferrals.

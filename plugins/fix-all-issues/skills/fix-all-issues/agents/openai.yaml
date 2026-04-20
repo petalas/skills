@@ -1,4 +1,4 @@
 interface:
   display_name: "Fix All Issues"
-  short_description: "Review a PR in parallel, fix findings, show live progress, and validate safely."
-  default_prompt: "Use $fix-all-issues to review a PR in parallel, fix findings with background agents, keep live overall progress updates visible while workers run, and stop after at most 5 rounds."
+  short_description: "Quality-first parallel PR review with verification, cleanup, and residual-risk reporting."
+  default_prompt: "Use $fix-all-issues to review a PR end-to-end: fan out lens + red-team + coverage + conformance reviewers, verify every finding, triage with a second independent agent, fix with mutation-style evidence, run a dedicated cleanup round, validate with a live feature exercise, and report a residual-risk inventory. Default to exhaustive mode unless the user asks for quick."

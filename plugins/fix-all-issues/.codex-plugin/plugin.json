@@ -1,7 +1,7 @@
 {
   "name": "fix-all-issues",
-  "version": "0.4.0",
-  "description": "Parallel PR review and remediation workflow that finds issues, fixes them with background agents, and validates the result.",
+  "version": "0.5.0",
+  "description": "Quality-first parallel PR review and remediation workflow. Finds issues with lens reviewers plus a red-team and coverage agent, verifies every finding, triages with an independent second pass, fixes with mutation-style evidence, runs a dedicated cleanup round, validates with a live feature exercise, and reports residual risks.",
   "author": {
     "name": "Nick Petalas",
     "email": "webmasternikos@gmail.com",
@@ -15,15 +15,16 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Fix All Issues",
-    "shortDescription": "Review PRs in parallel, fix findings, and iterate to clean validation",
-    "longDescription": "Orchestrate a multi-round PR review and fix workflow: fan out independent reviewers, triage and dedupe findings, delegate fixes to background workers, rerun lint and tests, update the PR branch, and repeat until a clean round finds no actionable issues.",
+    "shortDescription": "Quality-first parallel PR review with verification, cleanup, and residual-risk reporting",
+    "longDescription": "Orchestrate a multi-round PR review and fix workflow optimized for catching every real issue and shipping a clean diff. Default exhaustive mode adds red-team and coverage reviewer lenses, a per-finding verification gate, an independent second triager, mutation-style fix evidence, a dedicated cleanup round, live-feature validation, a cold 'would I block this PR?' reviewer, and a residual-risk inventory. Quick mode preserves the leaner prior pipeline for elapsed-time-sensitive runs.",
     "developerName": "Nick Petalas",
     "category": "Coding",
     "capabilities": ["Interactive", "Write"],
     "defaultPrompt": [
-      "Run $fix-all-issues on this PR with 5 agents",
+      "Run $fix-all-issues on this PR",
       "Review my current branch against main and fix every issue you find",
-      "Use $fix-all-issues pr=123 num_agents=6 max_rounds=5 review_mode=quick"
+      "Use $fix-all-issues pr=123 review_mode=quick num_agents=5",
+      "Use $fix-all-issues pr=123 num_agents=8 max_rounds=8"
     ],
     "brandColor": "#2563EB",
     "screenshots": []

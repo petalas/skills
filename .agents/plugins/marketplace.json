@@ -17,10 +17,10 @@
       "category": "Coding"
     },
     {
-      "name": "tdd-refactor",
+      "name": "safe-refactor",
       "source": {
         "source": "local",
-        "path": "./plugins/tdd-refactor"
+        "path": "./plugins/safe-refactor"
       },
       "policy": {
         "installation": "AVAILABLE",

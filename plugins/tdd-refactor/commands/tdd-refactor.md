@@ -7,12 +7,12 @@ Find one small refactoring or architecture improvement, cover existing behavior 
 1. Use the `tdd-refactor` skill.
 2. Read repository instructions and required docs before editing.
 3. Inspect nearby code and tests. Pick one small candidate with a clear public test surface.
-4. State the chosen candidate, affected files, behavior to preserve, compatibility guardrails, and focused validation command.
+4. Before editing, state a candidate card: candidate, why it is the smallest valuable refactor, behavior to preserve, compatibility guardrails, first test, expected RED/characterization result, focused validation, and broader validation.
 5. Write or strengthen one behavior-focused test through a public interface.
-6. Run the test. If it is a characterization test for existing behavior, record that it passes before refactor; otherwise confirm expected RED.
+6. Run the test. If it is a characterization test for existing behavior, record that it passes before refactor and name the relationship or invariant it now protects; otherwise confirm expected RED.
 7. Refactor only while relevant tests are green. Keep public names, types, routes, Convex functions, schemas, and return shapes compatible unless the user approved a migration plan.
 8. Run focused validation after meaningful refactor steps.
-9. Run broader validation according to blast radius. If blocked, report exactly what was not validated.
+9. Run broader validation according to blast radius. If skipped or blocked, explain why focused checks are enough or report exactly what was not validated.
 
 ## Output
 

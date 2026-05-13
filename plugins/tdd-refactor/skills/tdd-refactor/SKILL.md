@@ -24,6 +24,19 @@ Reject candidates that require broad rewrites, new product behavior, schema/API 
 
 If several candidates exist, pick the smallest one with the clearest test surface. State the chosen candidate, affected files, current behavior to preserve, and validation command before editing.
 
+Before editing, write a short candidate card:
+
+- Candidate:
+- Why this is the smallest valuable refactor:
+- Behavior to preserve:
+- Compatibility guardrails:
+- Test to add first:
+- Expected first test result: expected RED or characterization pass
+- Focused validation:
+- Broader validation:
+
+Prefer candidates where the new or strengthened test protects a real maintenance risk: duplicated caller-visible behavior, scattered invariants, unclear module boundaries, or code that is hard to change safely. Avoid refactors that only move literals, rename private helpers, or introduce abstractions unless they clearly improve a public test surface or compatibility guardrail.
+
 ### 2. Define Compatibility Guardrails
 
 Before writing tests, identify what must not break:
@@ -44,6 +57,8 @@ Use vertical TDD:
 3. Add only the minimal implementation or test harness needed to make the behavior covered.
 4. Repeat only for behaviors needed to make the refactor safe.
 
+When a characterization test passes before the refactor, say what relationship or invariant it now protects. Do not treat "it passes" as enough justification by itself.
+
 Prefer integration-style tests through exported functions, public routes, Convex test helpers, or rendered user-visible behavior. Avoid tests that assert private helper names, internal call order, or mock-heavy implementation details.
 
 ### 4. Refactor While Green
@@ -61,7 +76,7 @@ If a refactor reveals behavior change is needed, stop and ask or create a separa
 
 Run the smallest relevant command first, then broader commands according to blast radius. For cross-workspace changes, finish with the repo's documented lint, typecheck, and test commands.
 
-If full validation is too expensive or blocked, run the strongest focused checks available and report the gap clearly.
+If full validation is unnecessary, too expensive, or blocked, run the strongest focused checks available and explicitly say why the checks are enough for the blast radius or what validation gap remains.
 
 ## Output Contract
 

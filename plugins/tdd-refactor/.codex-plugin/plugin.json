@@ -1,6 +1,6 @@
 {
   "name": "tdd-refactor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Find one small refactoring or architecture improvement, cover current behavior with tests first, then perform the refactor safely with compatibility guardrails.",
   "author": {
     "name": "Nick Petalas",

@@ -16,8 +16,12 @@ If you only want to install a skill, use the commands below and ignore the inter
 | Skill            | Category | What it does                                                                                                                                    |
 | ---------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | `fix-all-issues` | Coding   | Reviews a PR or branch in parallel, deduplicates findings, delegates fixes, validates the result, and runs a fresh final review before stopping |
+| `tdd-refactor`   | Coding   | Finds one small architecture improvement, covers current behavior with tests first, then refactors without breaking compatibility               |
 
-See [plugins/fix-all-issues/README.md](plugins/fix-all-issues/README.md) for prompts, workflow details, and source paths.
+See each plugin README for prompts, workflow details, and source paths:
+
+- [fix-all-issues](plugins/fix-all-issues/README.md)
+- [tdd-refactor](plugins/tdd-refactor/README.md)
 
 ## Install
 
@@ -31,6 +35,12 @@ Install `fix-all-issues` globally:
 
 ```bash
 bunx skills@latest add petalas/skills --skill fix-all-issues -g -y
+```
+
+Install `tdd-refactor` globally:
+
+```bash
+bunx skills@latest add petalas/skills --skill tdd-refactor -g -y
 ```
 
 Install `fix-all-issues` for the current project:
@@ -75,6 +85,12 @@ plugins/
     commands/fix-all-issues.md
     skills/fix-all-issues/SKILL.md
     skills/fix-all-issues/agents/openai.yaml
+  tdd-refactor/
+    .codex-plugin/plugin.json
+    README.md
+    commands/tdd-refactor.md
+    skills/tdd-refactor/SKILL.md
+    skills/tdd-refactor/agents/openai.yaml
 .agents/plugins/marketplace.json
 ```
 

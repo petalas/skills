@@ -1,0 +1,4 @@
+interface:
+  display_name: "TDD Refactor"
+  short_description: "Small safe refactors with tests first."
+  default_prompt: "Use $tdd-refactor to find one small architecture improvement, cover current behavior with public-interface tests, refactor only while green, and preserve backward compatibility."

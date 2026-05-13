@@ -1,0 +1,31 @@
+{
+  "name": "tdd-refactor",
+  "version": "0.1.0",
+  "description": "Find one small refactoring or architecture improvement, cover current behavior with tests first, then perform the refactor safely with compatibility guardrails.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "UNLICENSED",
+  "keywords": ["refactoring", "tdd", "testing", "architecture", "compatibility"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "TDD Refactor",
+    "shortDescription": "Small safe refactors with tests first",
+    "longDescription": "Find one small architecture or code quality improvement, characterize existing behavior with public-interface tests, refactor only while green, preserve backward compatibility, and report validation plus residual risk.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "Use $tdd-refactor to find a small architecture improvement, cover it with tests first, then refactor safely.",
+      "Use $tdd-refactor in this repo and preserve public API compatibility.",
+      "Find one small refactor opportunity and do it TDD style without behavior changes."
+    ],
+    "brandColor": "#16A34A",
+    "screenshots": []
+  }
+}

@@ -11,9 +11,11 @@ Find the highest-value behavior-preserving refactor that can be safely bounded, 
 5. If there is a clear winner, state the recommendation and proceed. Ask only when the choice depends on user intent, public compatibility, high-risk domains, subjective architecture tradeoffs, or blocked/expensive validation.
 6. Before editing, state a candidate card covering value dimensions, refactor shape, size/blast radius, scope justification, larger opportunity/this pass/deferred, behavior to preserve, non-goals, compatibility guardrails, type/performance evidence when relevant, tests/evidence, proceed/ask decision, docs impact, and validation.
 7. Add a focused characterization test or identify exact existing tests that already protect the behavior. For characterization tests, name the public behavior, future regression caught, and stable boundary.
-8. Refactor only while relevant tests/evidence are green. Keep each stage coherent, behavior-preserving, and compatible.
-9. Run focused validation after meaningful stages, then broader validation according to blast radius. Multi-workspace/cross-contract changes require repo-level validation unless skipped or blocked.
-10. Before final, inspect the diff for unrelated churn and run the hidden behavior-change checklist.
+8. Identify the build-green gate before editing: package typecheck/build, downstream consumer typecheck/build, app production build, deploy-equivalent command, or repo-level validation depending on blast radius.
+9. Refactor only while relevant tests/evidence are green. Keep each stage coherent, behavior-preserving, and compatible.
+10. Run focused validation after meaningful stages, then the build-green gate. Multi-workspace/cross-contract changes require repo-level validation unless skipped or blocked.
+11. Never report the refactor as complete/safe/validated unless the build-green gate passed. If blocked or skipped, name the exact command and residual risk.
+12. Before final, inspect the diff for unrelated churn and run the hidden behavior-change checklist.
 
 ## Recommendation-Only Mode
 

@@ -1,5 +1,6 @@
 ---
 name: safe-refactor
+version: 0.4.0
 description: Find the highest-value behavior-preserving refactor that can be safely bounded, covered by tests or equivalent evidence, and validated. Use when the user asks to improve code quality, simplify architecture, reduce duplication, improve performance or types, deepen a module, make code easier to test, or refactor safely while preserving behavior and compatibility.
 ---
 
@@ -151,6 +152,21 @@ A type-focused refactor may be validated primarily by typecheck when behavior is
 
 Performance can be the primary value dimension when the current code has measured cost, known scaling risk, obvious repeated work, excessive renders/subscriptions/queries, poor algorithmic complexity, or documented production pain. Before changing performance-sensitive code, record a benchmark/profile/test timing when practical, or a concrete complexity/repeated-work argument when measurement is too heavy. After the refactor, validate behavior first, then compare the performance claim where practical.
 
+### 6.5 Build-Green Gate
+
+Tests are not enough. A safe refactor must leave the relevant build and typecheck green before it can be reported as complete.
+
+Before editing, identify the minimum build/type surface that could break:
+
+- Package-local typecheck/build for files changed in one package.
+- Downstream workspace typecheck/build for shared or exported code consumed outside the edited package.
+- App production build for code included in deploy bundles, static generation, route handlers, middleware/proxy, or framework config.
+- Repo-level typecheck/build when the import graph is unclear, generated types are involved, or the refactor crosses package/workspace boundaries.
+
+If the repo has documented deploy validation, treat that command as the success gate for deploy-affecting code. For Vercel/Next.js, prefer the same production build command used by deployment, not only tests. For shared TypeScript packages, run either root typecheck or every known downstream consumer typecheck. If a package has no separate typecheck but an app build performs TypeScript checking, run that app build.
+
+Do not claim a refactor is done, safe, or validated unless the identified build-green gate passed. If the gate is too slow, expensive, unavailable, or blocked by environment, say the refactor is not fully validated, name the exact command not run, and name the residual risk. Do not soften this as "probably safe."
+
 ### 7. Refactor While Green
 
 Only refactor after relevant tests/evidence are green. Keep each stage coherent:
@@ -176,8 +192,9 @@ Update documentation when the refactor changes module ownership or boundaries, p
 Run the smallest relevant command first, then broader commands according to blast radius.
 
 - Single module/package: run focused tests first, then package/workspace typecheck or test suite when practical.
-- Shared exported types/functions: run downstream workspace typecheck or root typecheck.
+- Shared exported types/functions: run downstream workspace typecheck/build or root typecheck/build. If an exported helper is imported by an app, run that app's production build when practical.
 - Multi-workspace or cross-contract refactor: finish with repo-level validation required by project docs, typically lint, typecheck, and test, unless the user explicitly skips it or a tool/environment blocker prevents it.
+- Deploy-affecting app code: run the deploy-equivalent production build or explicitly report the unvalidated deploy risk.
 - Performance refactor: run behavior validation first, then benchmark/profile/build/analyzer checks when practical for the claim.
 
 If full validation is unnecessary, too expensive, skipped, or blocked, run the strongest focused checks available and explicitly say why the checks are enough for the blast radius or what validation gap remains.
@@ -187,6 +204,7 @@ Before final response, inspect the diff. Confirm every changed file serves the c
 Hidden behavior-change checklist:
 
 - Public inputs/outputs unchanged or backward-compatible.
+- Relevant build-green gate passed, including downstream consumers for shared/exported code.
 - Persisted-data tolerance unchanged.
 - Error/result variants compatible.
 - Analytics/event names unchanged.

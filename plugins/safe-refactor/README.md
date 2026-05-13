@@ -12,6 +12,7 @@ It is designed for workflows where the agent should:
 - use meaningful test design: fewest useful tests, representative edge cases, table/property tests for matrices, and diagnostic failures
 - require confirmation before editing a dirty tracked worktree
 - run focused validation first, then broader validation when the blast radius warrants it
+- require a build-green gate before completion: package typecheck/build, downstream consumer typecheck/build, deploy-equivalent app build, or repo-level validation as appropriate
 - inspect the final diff for unrelated churn and hidden behavior changes
 
 ## Example Prompts
@@ -44,3 +45,4 @@ plugins/safe-refactor/
 - performance refactors need measurement when practical or a defensible complexity/repeated-work argument
 - schema/API/high-risk work must stay additive and backward-compatible unless the user approves a migration plan
 - skipped full validation should include a blast-radius rationale or a clear validation gap
+- a refactor is not complete, safe, or validated until the relevant build-green gate has passed; tests alone are insufficient for build-affecting TypeScript or app code

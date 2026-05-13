@@ -1,16 +1,18 @@
 # Safe Refactor
 
-`safe-refactor` is a disciplined refactoring workflow for finding the highest-value behavior-preserving refactor that can be safely bounded, covered by tests or equivalent evidence, and validated.
+`safe-refactor` is an evidence-first refactoring workflow for finding the highest-value behavior-preserving refactor that can be safely bounded, staged, and validated.
 
 It is designed for workflows where the agent should:
 
-- identify one coherent high-value code architecture improvement
-- preserve current behavior through public-interface tests
-- use characterization tests, existing tests, vertical TDD, typecheck, benchmarks, or other appropriate evidence instead of speculative rewrites
-- keep Convex schemas, APIs, exported types, routes, and persisted data compatible with live clients
+- optimize for maintainability value per unit of risk, not smallest diff
+- preserve current behavior through public-interface tests, existing coverage, typecheck, benchmarks, or equivalent evidence
+- compare candidate refactors by value, risk, testability, scope coherence, and validation cost
+- support either an implemented refactor or a recommendation-only outcome when the right refactor is too strategic for one safe pass
+- keep public APIs, schemas, exported types, routes, persisted data, analytics events, error contracts, and high-risk domains compatible unless the user approves a migration
+- use meaningful test design: fewest useful tests, representative edge cases, table/property tests for matrices, and diagnostic failures
+- require confirmation before editing a dirty tracked worktree
 - run focused validation first, then broader validation when the blast radius warrants it
-- state a candidate card before editing so the refactor choice, first test, and validation scope are auditable
-- reject near-trivial cleanup unless the test protects a public invariant or compatibility guardrail
+- inspect the final diff for unrelated churn and hidden behavior changes
 
 ## Example Prompts
 
@@ -18,6 +20,7 @@ It is designed for workflows where the agent should:
 Use $safe-refactor to find the highest-value safe refactor and preserve behavior.
 Use $safe-refactor in this repo and preserve public API compatibility.
 Find a meaningful refactor opportunity, protect existing behavior, and validate it.
+Use $safe-refactor to evaluate whether this module has a worthwhile refactor; no token cleanup.
 ```
 
 ## Source Map
@@ -34,8 +37,10 @@ plugins/safe-refactor/
 
 - repository instructions override the skill's defaults
 - the skill chooses one coherent refactor, not unrelated broad cleanup
-- the agent should briefly mention rejected candidates when multiple options exist, so "small" does not collapse into "first easy cleanup"
-- characterization tests may pass before the refactor when covering existing behavior, but the protected invariant should be named
+- a successful run can end with no code changes when the best outcome is a staged recommendation
+- characterization tests may pass before the refactor when covering existing behavior, but the protected invariant and future regression should be named
 - tiny private-helper extraction is only acceptable when it protects a previously untested public invariant
-- schema or API work must stay additive and backward-compatible unless the user approves a migration plan
+- type-safety refactors should make internal types at least as strict while preserving public compatibility
+- performance refactors need measurement when practical or a defensible complexity/repeated-work argument
+- schema/API/high-risk work must stay additive and backward-compatible unless the user approves a migration plan
 - skipped full validation should include a blast-radius rationale or a clear validation gap

@@ -1,7 +1,7 @@
 {
   "name": "safe-refactor",
-  "version": "0.2.0",
-  "description": "Find the highest-value behavior-preserving refactor that can be safely bounded, covered by tests or equivalent evidence, and validated.",
+  "version": "0.3.0",
+  "description": "Find the highest-value behavior-preserving refactor that can be safely bounded, protected by tests or equivalent evidence, and validated.",
   "author": {
     "name": "Nick Petalas",
     "email": "webmasternikos@gmail.com",
@@ -16,14 +16,15 @@
   "interface": {
     "displayName": "Safe Refactor",
     "shortDescription": "High-value safe refactors with evidence first",
-    "longDescription": "Find the highest-value architecture or code-quality refactor that can be safely bounded, protect current behavior through tests or equivalent evidence, preserve backward compatibility, and report validation plus residual risk.",
+    "longDescription": "Find the highest-value architecture or code-quality refactor that can be safely bounded, protect current behavior through tests or equivalent evidence, preserve backward compatibility, and either implement it with validation or report a staged recommendation when code changes would be unsafe.",
     "developerName": "Nick Petalas",
     "category": "Coding",
     "capabilities": ["Interactive", "Write"],
     "defaultPrompt": [
       "Use $safe-refactor to find the highest-value safe refactor and preserve behavior.",
       "Use $safe-refactor in this repo and preserve public API compatibility.",
-      "Find a meaningful refactor opportunity, protect existing behavior, and validate it."
+      "Find a meaningful refactor opportunity, protect existing behavior, and validate it.",
+      "Use $safe-refactor to evaluate whether this module has a worthwhile refactor; no token cleanup."
     ],
     "brandColor": "#16A34A",
     "screenshots": []

@@ -10,6 +10,7 @@ It is designed for workflows where the agent should:
 - keep Convex schemas, APIs, exported types, routes, and persisted data compatible with live clients
 - run focused validation first, then broader validation when the blast radius warrants it
 - state a candidate card before editing so the refactor choice, first test, and validation scope are auditable
+- reject near-trivial cleanup unless the test protects a public invariant or compatibility guardrail
 
 ## Example Prompts
 
@@ -33,6 +34,8 @@ plugins/tdd-refactor/
 
 - repository instructions override the skill's defaults
 - the skill deliberately chooses one small candidate instead of broad cleanup
+- the agent should briefly mention rejected candidates when multiple options exist, so "small" does not collapse into "first easy cleanup"
 - characterization tests may pass before the refactor when covering existing behavior, but the protected invariant should be named
+- tiny private-helper extraction is only acceptable when it protects a previously untested public invariant
 - schema or API work must stay additive and backward-compatible unless the user approves a migration plan
 - skipped full validation should include a blast-radius rationale or a clear validation gap

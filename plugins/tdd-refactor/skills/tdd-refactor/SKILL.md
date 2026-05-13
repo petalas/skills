@@ -22,7 +22,7 @@ Choose a candidate only if it is:
 
 Reject candidates that require broad rewrites, new product behavior, schema/API breaks, speculative abstractions, or tests coupled to private implementation details.
 
-If several candidates exist, pick the smallest one with the clearest test surface. State the chosen candidate, affected files, current behavior to preserve, and validation command before editing.
+Scout enough to avoid grabbing the first easy cleanup. If several candidates exist, list 1-3 rejected candidates in one short line each with the reason they were not chosen, then pick the smallest one with the clearest test surface. State the chosen candidate, affected files, current behavior to preserve, and validation command before editing.
 
 Before editing, write a short candidate card:
 
@@ -36,6 +36,8 @@ Before editing, write a short candidate card:
 - Broader validation:
 
 Prefer candidates where the new or strengthened test protects a real maintenance risk: duplicated caller-visible behavior, scattered invariants, unclear module boundaries, or code that is hard to change safely. Avoid refactors that only move literals, rename private helpers, or introduce abstractions unless they clearly improve a public test surface or compatibility guardrail.
+
+Do not choose a refactor whose only value is extracting a private helper from fewer than 3 call sites unless the new or strengthened test covers a previously unprotected public invariant. When choosing a very small refactor, state why it is still worth doing beyond "less duplication."
 
 ### 2. Define Compatibility Guardrails
 
@@ -57,7 +59,7 @@ Use vertical TDD:
 3. Add only the minimal implementation or test harness needed to make the behavior covered.
 4. Repeat only for behaviors needed to make the refactor safe.
 
-When a characterization test passes before the refactor, say what relationship or invariant it now protects. Do not treat "it passes" as enough justification by itself.
+When a characterization test passes before the refactor, say what relationship or invariant it now protects and name the future regression it would catch. Do not treat "it passes" as enough justification by itself.
 
 Prefer integration-style tests through exported functions, public routes, Convex test helpers, or rendered user-visible behavior. Avoid tests that assert private helper names, internal call order, or mock-heavy implementation details.
 
@@ -82,8 +84,9 @@ If full validation is unnecessary, too expensive, or blocked, run the strongest 
 
 When finished, report:
 
-- Refactor chosen and why it was small.
+- Refactor chosen, why it was small, and why it met the candidate quality bar.
 - Tests added or changed, including what behavior they protect.
 - Compatibility guardrails checked, especially Convex/API/schema concerns.
 - Validation commands run and results.
+- Why full/root validation was run, skipped, or considered unnecessary for the blast radius.
 - Any remaining risk or follow-up that should stay separate from this refactor.

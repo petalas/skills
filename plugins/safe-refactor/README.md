@@ -6,6 +6,7 @@ It is designed for workflows where the agent should:
 
 - optimize for maintainability value per unit of risk, not smallest diff
 - preserve current behavior through public-interface tests, existing coverage, typecheck, benchmarks, or equivalent evidence
+- scout 2-4 plausible refactor candidates before choosing, so the first easy cleanup does not win by default
 - compare candidate refactors by value, risk, testability, scope coherence, and validation cost
 - support either an implemented refactor or a recommendation-only outcome when the right refactor is too strategic for one safe pass
 - keep public APIs, schemas, exported types, routes, persisted data, analytics events, error contracts, and high-risk domains compatible unless the user approves a migration
@@ -38,6 +39,7 @@ plugins/safe-refactor/
 
 - repository instructions override the skill's defaults
 - the skill chooses one coherent refactor, not unrelated broad cleanup
+- the default candidate card is compact; use the expanded card only for broad, high-risk, cross-workspace, public API, schema, auth, payments, analytics, AI, migration, or deploy-affecting refactors
 - a successful run can end with no code changes when the best outcome is a staged recommendation
 - characterization tests may pass before the refactor when covering existing behavior, but the protected invariant and future regression should be named
 - tiny private-helper extraction is only acceptable when it protects a previously untested public invariant

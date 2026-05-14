@@ -6,10 +6,10 @@ Find the highest-value behavior-preserving refactor that can be safely bounded, 
 
 1. Use the `safe-refactor` skill.
 2. Read repository instructions and required docs. Check worktree status before editing; if tracked files are already modified, inspect and recommend, but do not edit without user confirmation.
-3. Inspect nearby code and tests. Scout enough candidates to avoid grabbing the first easy cleanup.
+3. Inspect nearby code and tests. Identify 2-4 plausible candidates before choosing, so the first easy cleanup does not win by default.
 4. Compare candidates by value, risk, testability, scope coherence, and validation cost. Pick the best value-to-risk ratio, not the smallest diff.
 5. If there is a clear winner, state the recommendation and proceed. Ask only when the choice depends on user intent, public compatibility, high-risk domains, subjective architecture tradeoffs, or blocked/expensive validation.
-6. Before editing, state a candidate card covering value dimensions, refactor shape, size/blast radius, scope justification, larger opportunity/this pass/deferred, behavior to preserve, non-goals, compatibility guardrails, type/performance evidence when relevant, tests/evidence, proceed/ask decision, docs impact, and validation.
+6. Before editing, state a compact candidate card covering candidate, value, refactor shape, scope/blast radius, behavior to preserve, tests/evidence, compatibility guardrails, rejected candidates, and validation. Use the expanded card only for broad, high-risk, cross-workspace, public API, schema, auth, payments, analytics, AI, migration, or deploy-affecting refactors.
 7. Add a focused characterization test or identify exact existing tests that already protect the behavior. For characterization tests, name the public behavior, future regression caught, and stable boundary.
 8. Identify the build-green gate before editing: package typecheck/build, downstream consumer typecheck/build, app production build, deploy-equivalent command, or repo-level validation depending on blast radius.
 9. Refactor only while relevant tests/evidence are green. Keep each stage coherent, behavior-preserving, and compatible.

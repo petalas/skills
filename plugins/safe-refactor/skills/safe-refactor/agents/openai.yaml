@@ -1,4 +1,4 @@
 interface:
   display_name: "Safe Refactor"
   short_description: "High-value safe refactors with evidence first."
-  default_prompt: "Use $safe-refactor to find the highest-value behavior-preserving refactor that can be safely bounded, protect current behavior with tests or equivalent evidence, preserve backward compatibility, and avoid token cleanup when recommendation-only mode is more appropriate."
+  default_prompt: "Use $safe-refactor to find the highest-value behavior-preserving refactor that can be safely bounded, scout plausible candidates before choosing, protect current behavior with tests or equivalent evidence, preserve backward compatibility, and avoid token cleanup when recommendation-only mode is more appropriate."

@@ -1,6 +1,6 @@
 ---
 name: safe-refactor
-version: 0.4.0
+version: 0.5.0
 description: Find the highest-value behavior-preserving refactor that can be safely bounded, covered by tests or equivalent evidence, and validated. Use when the user asks to improve code quality, simplify architecture, reduce duplication, improve performance or types, deepen a module, make code easier to test, or refactor safely while preserving behavior and compatibility.
 ---
 
@@ -24,6 +24,8 @@ Follow repo branch conventions. For larger refactors, mention branch status befo
 
 Inspect nearby code and tests before proposing edits. Scout enough to avoid grabbing the first easy cleanup.
 
+Before choosing a refactor, identify 2-4 plausible candidates from the inspected area. Candidates can include recommendation-only outcomes when the best opportunity is too broad for one safe pass.
+
 When comparing candidates, consider:
 
 - Value: what maintenance cost, complexity, or risk it removes.
@@ -34,7 +36,7 @@ When comparing candidates, consider:
 
 Choose the candidate with the best value-to-risk ratio. Do not default to the smallest diff when a larger refactor has clearly better payoff and can be protected by tests. If there is a clear winner, recommend it and proceed. Ask for quick confirmation only when the choice depends on user intent, product semantics, public compatibility, high-risk domains, subjective architecture tradeoffs, or expensive/blocked validation.
 
-If several candidates exist, list 1-3 rejected candidates in one short line each with the reason they were not chosen.
+In the candidate card, list up to 3 rejected candidates in one short line each with the reason they were not chosen. Reasons can include lower value, weaker test boundary, broader blast radius, subjective design tradeoff, or not independently valuable.
 
 ### 2. Value Taxonomy
 
@@ -79,7 +81,19 @@ Prefer existing local patterns, naming, testing style, and abstractions by defau
 
 ### 4. Candidate Card
 
-Before editing, write a short candidate card:
+Before editing, write a compact candidate card:
+
+- Candidate:
+- Value:
+- Refactor shape:
+- Scope / blast radius:
+- Behavior to preserve:
+- Tests / evidence:
+- Compatibility guardrails:
+- Rejected candidates:
+- Validation:
+
+Use the expanded candidate card only for broad, high-risk, cross-workspace, public API, schema, auth, payments, analytics, AI, migration, or deploy-affecting refactors:
 
 - Candidate:
 - Value dimensions:

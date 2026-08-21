@@ -7,7 +7,7 @@
 Monorepo of public Claude Code / Codex agent skills distributed as plugins.
 
 - Runtime: `bun@>=1.3.11`
-- One plugin per directory under `plugins/`. Current: `plugins/fix-all-issues`.
+- One plugin per directory under `plugins/`. Current plugins: `commit-guidelines`, `fix-all-issues`, and `safe-refactor`.
 - Each plugin holds:
   - `.codex-plugin/plugin.json` — plugin manifest (name, version, marketing copy)
   - `commands/<name>.md` — slash-command entrypoint
@@ -75,6 +75,6 @@ type(scope): description
 ```
 
 Valid types: `feat`, `fix`, `refactor`, `chore`, `perf`, `docs`, `style`, `test`, `build`, `ci`, `revert`, `release`.
-Scopes are usually plugin names: `fix-all-issues`, or `docs`, `ci`, etc.
+Scopes are usually plugin names such as `commit-guidelines`, `fix-all-issues`, or `safe-refactor`, or repository areas such as `docs` and `ci`.
 
 Do not add `Co-Authored-By` footers.

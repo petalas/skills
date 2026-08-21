@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Guidelines"
+  short_description: "Conventional commits without AI co-author attribution."
+  default_prompt: "Use $commit-guidelines to inspect the intended diff, preserve unrelated work, run required checks, create a focused Conventional Commit, and never name an AI model, agent, assistant, bot, vendor, or tool as an author or co-author."

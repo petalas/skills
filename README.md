@@ -13,13 +13,15 @@ If you only want to install a skill, use the commands below and ignore the inter
 
 ## Available Skills
 
-| Skill            | Category | What it does                                                                                                                                    |
-| ---------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fix-all-issues` | Coding   | Reviews a PR or branch in parallel, deduplicates findings, delegates fixes, validates the result, and runs a fresh final review before stopping |
-| `safe-refactor`  | Coding   | Finds the highest-value behavior-preserving refactor that can be safely bounded, protected with evidence, and validated                         |
+| Skill               | Category | What it does                                                                                                                                    |
+| ------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `commit-guidelines` | Coding   | Creates focused Conventional Commits while preserving unrelated work and never attributing authorship or co-authorship to AI                    |
+| `fix-all-issues`    | Coding   | Reviews a PR or branch in parallel, deduplicates findings, delegates fixes, validates the result, and runs a fresh final review before stopping |
+| `safe-refactor`     | Coding   | Finds the highest-value behavior-preserving refactor that can be safely bounded, protected with evidence, and validated                         |
 
 See each plugin README for prompts, workflow details, and source paths:
 
+- [commit-guidelines](plugins/commit-guidelines/README.md)
 - [fix-all-issues](plugins/fix-all-issues/README.md)
 - [safe-refactor](plugins/safe-refactor/README.md)
 
@@ -29,6 +31,12 @@ List skills in this repo:
 
 ```bash
 bunx skills@latest add petalas/skills --list
+```
+
+Install `commit-guidelines` globally:
+
+```bash
+bunx skills@latest add petalas/skills --skill commit-guidelines -g -y
 ```
 
 Install `fix-all-issues` globally:
@@ -79,6 +87,12 @@ This repo keeps public install support and internal plugin metadata in the same 
 
 ```text
 plugins/
+  commit-guidelines/
+    .codex-plugin/plugin.json
+    README.md
+    commands/commit-guidelines.md
+    skills/commit-guidelines/SKILL.md
+    skills/commit-guidelines/agents/openai.yaml
   fix-all-issues/
     .codex-plugin/plugin.json
     README.md
@@ -97,7 +111,7 @@ plugins/
 What each layer is for:
 
 - `SKILL.md` contains the actual skill instructions
-- `commands/` provides command entrypoints like `$fix-all-issues`
+- `commands/` provides command entrypoints like `$commit-guidelines` and `$fix-all-issues`
 - `.codex-plugin/plugin.json` stores plugin metadata and public-facing display information
 - `.agents/plugins/marketplace.json` supports local plugin development
 - plugin-level `README.md` files make the repo easier to browse without digging through prompt files

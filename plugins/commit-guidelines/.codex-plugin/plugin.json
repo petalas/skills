@@ -1,0 +1,32 @@
+{
+  "name": "commit-guidelines",
+  "version": "0.1.0",
+  "description": "Create focused Git commits that follow Conventional Commits without attributing authorship or co-authorship to AI tools.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "UNLICENSED",
+  "keywords": ["git", "commits", "conventional-commits", "agents", "attribution"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Commit Guidelines",
+    "shortDescription": "Conventional commits without AI co-author attribution",
+    "longDescription": "Guide agents through making focused Git commits: inspect repository rules and the staged diff, run required checks, write a Conventional Commit message, keep unrelated changes out, and never name an AI model, agent, assistant, bot, vendor, or tool as an author or co-author.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "Use $commit-guidelines to commit the current intended changes.",
+      "Create a focused Conventional Commit for this work with no AI co-author attribution.",
+      "Use $commit-guidelines to propose a commit message for the staged diff.",
+      "Commit these changes without staging unrelated work or rewriting history."
+    ],
+    "brandColor": "#7C3AED",
+    "screenshots": []
+  }
+}

@@ -1,6 +1,7 @@
 ---
 name: safe-refactor
-version: 0.5.0
+version: 0.5.1
+disable-model-invocation: true
 description: Find the highest-value behavior-preserving refactor that can be safely bounded, covered by tests or equivalent evidence, and validated. Use when the user asks to improve code quality, simplify architecture, reduce duplication, improve performance or types, deepen a module, make code easier to test, or refactor safely while preserving behavior and compatibility.
 ---
 

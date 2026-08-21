@@ -1,6 +1,6 @@
 {
   "name": "safe-refactor",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Find the highest-value behavior-preserving refactor that can be safely bounded, protected by tests or equivalent evidence, and validated.",
   "author": {
     "name": "Nick Petalas",

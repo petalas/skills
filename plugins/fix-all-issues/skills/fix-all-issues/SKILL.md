@@ -1,6 +1,7 @@
 ---
 name: fix-all-issues
-version: 0.6.0
+version: 0.6.1
+disable-model-invocation: true
 description: Coordinate a multi-round PR review and remediation workflow using parallel background agents. Quality-first by default — adds red-team and coverage lenses, per-finding verification, an independent second triager, mutation-style fix evidence, a dedicated cleanup round, live-feature validation, and a residual-risk inventory. Use when asked to review a pull request or current branch, find bugs, regressions, and nits, fix the accepted findings with delegated workers, rerun lint and tests, update the PR branch, and repeat until no actionable findings remain. Triggers include `$fix-all-issues`, requests to "review this PR and fix everything", or requests for a parallel review/fix loop on a GitHub PR.
 ---
 

@@ -1,44 +1,51 @@
 ---
 name: fix-all-issues
-version: 0.7.0
+version: 0.8.0
 disable-model-invocation: true
-description: Coordinate a stateful, multi-round PR review and remediation workflow through fresh background agents. Bind findings and validation to exact Git trees, enforce independent verification and triage gates, fix accepted issues with red-green evidence, update the PR branch and description, and repeat until a fresh clean review or a named capped outcome. Use for requests to review a PR or branch, fix every accepted issue, publish the result, and keep the main agent available as an orchestrator.
+description: Coordinate a bounded, stateful PR review and remediation workflow through fresh outer-round worker pools. Attribute every verified finding, keep qualifying work inside an explicit responsibility envelope, route adjacent issues without dropping them, bind review and validation to exact Git trees and body hashes, consolidate repeated root causes, and stop only with an exact clean, scope-routed, blocked, stabilized, or capped terminal state. Use for requests to review a PR or branch, fix every qualifying issue, publish the result, and keep the main agent available as an orchestrator.
 ---
 
 # Fix all issues
 
-Run PR review as a state machine. The main agent owns orchestration, durable run state, progress, and the final summary. Fresh round coordinators own target work. In exhaustive mode, optimize for the lowest residual issue rate, not elapsed time.
+Run PR review as a bounded state machine. The main agent owns orchestration, durable state, capacity, progress, and the final report. A fresh coordinator and blind reviewer pool own each outer round. Reuse a small fixed worker pool inside the round unless a gate requires independence.
+
+The workflow must not choose between infinite scope growth and silently ignoring known issues. Attribute every verified finding, classify its responsibility, then either fix it in the current PR or record an explicit route.
 
 ## Inputs
 
-- `pr`: PR URL or number. If omitted, use the current branch against the repository's documented integration branch or default branch.
+- `pr`: PR URL or number. If omitted, use the current branch against the repository's documented integration or default branch.
 - `review_mode`: `exhaustive` by default, or `quick`. Treat legacy `normal` as `quick`.
-- `num_agents`: Concurrent background-agent ceiling, including the round coordinator. Default `8` in exhaustive mode and `5` in quick mode.
+- `num_agents`: Concurrent background-agent ceiling, including the coordinator. Default `6` in exhaustive mode and `4` in quick mode.
 - `orchestrator_only`: Default `true`. The main agent may manage state, agents, progress, and summaries, but may not review, triage, edit, validate, commit, push, or edit the PR.
-- `fresh_round_context`: Default `true`. Spawn a new round coordinator for every outer round and new reviewers inside it. Never reuse prior-round agents for a clean confirmation.
+- `fresh_round_context`: Default `true`. Freshness applies at the outer-round boundary. Start a new coordinator and blind reviewer pool for each outer round; do not create a new agent for every small gate. `false` cannot satisfy `stop_policy=fresh-zero`.
 - `stop_policy`: `fresh-zero` by default in exhaustive mode, `stabilized` by default in quick mode.
-- `required_clean_outer_rounds`: Consecutive fresh outer rounds with zero accepted findings required by `fresh-zero`. Default `1`.
-- `max_outer_rounds`: Maximum fresh review rounds. Default `8` in exhaustive mode and `5` in quick mode.
-- `max_fix_rounds`: Maximum fix/validate/cleanup cycles inside one outer round. Default `8` in exhaustive mode and `5` in quick mode.
+- `required_clean_outer_rounds`: Consecutive fresh outer rounds with zero qualifying in-envelope findings required by `fresh-zero`. Default `1`.
+- `max_outer_rounds`: Maximum fresh review rounds. Default `6` in exhaustive mode and `4` in quick mode.
+- `max_fix_rounds`: Maximum repair cycles inside one outer round. Default `6` in exhaustive mode and `4` in quick mode.
 - `max_rounds`: Legacy alias for `max_outer_rounds` when the new input is absent.
 - `cap_strategy`: `reserve-confirmation` by default, or `hard`, or `ask`.
+- `reviewer_timebox_minutes`: Per-reviewer elapsed-time budget. Default `12` in exhaustive mode and `8` in quick mode.
+- `early_claim_minutes`: Time to the first actionable claim or explicit no-claim checkpoint. Default `4` in exhaustive mode and `3` in quick mode.
 - `progress`: `milestones` by default, or `heartbeat` for a short update every 3-5 minutes while work is active.
 
 Explicit user values override mode defaults.
 
-## Modes
+## Authority and responsibility
 
-`exhaustive` requires independent verification, a second triager, risk-triggered specialist lenses, red-green fix evidence, cleanup convergence, affected-path live validation when practical, a fresh cold confirmation, and a residual-risk inventory.
+Invocation authorizes background agents, local edits, validation, focused commits, normal pushes to the target branch, and PR description updates. It does not authorize deployment, production mutation, history rewrite, force-push, destructive cleanup, external communication, or product expansion.
 
-`quick` may merge lenses, use one triager, fold cleanup into re-review, and stop at stabilization. It still binds evidence to a Git tree, preserves scope, records residuals, and validates before push.
+The responsibility envelope includes:
 
-## Authority and safety
+1. the originating spec and diff
+2. behavior changed or exposed by the candidate
+3. direct contracts and production callers of that behavior
+4. repairs necessary to make an accepted fix correct
 
-- Invocation authorizes background agents, local edits, validation, commits, normal pushes to the target branch, and PR description updates.
-- Invocation does not authorize deployment, production mutation, history rewrite, force-push, destructive cleanup, new external scope, or contacting people. Obtain explicit authority for those actions.
-- Repository and user instructions override this skill. Discover validation and Git workflow from repository sources. Never invent commands.
-- Preserve unrelated work. If the target worktree is dirty, record the state and isolate work safely before a worker edits.
-- Use normal commits and pushes by default. Rewrite only when separately authorized and safe. After a rewrite, invalidate all prior validation and rerun it on the rewritten tree.
+Attribute each finding as `originating-spec-diff`, `candidate-changed`, `candidate-exposed`, `direct-contract-caller`, `accepted-fix-correctness`, `adjacent-pre-existing`, or `product-decision`. The first five normally qualify as `in-envelope`. Adjacent pre-existing and new product behavior are `out-of-envelope` unless the user approves expansion.
+
+A verified in-envelope finding may not be rejected or deferred merely because the patch grew. Fix it, consolidate the responsible seam, replace the shallow patch, or report a real authority or operational blocker. A verified out-of-envelope finding must end as `deferred`, `routed-follow-up`, `routed-user-authority`, or `routed-external-owner`. `deferred` requires evidence, a reason, and a reconsideration condition. Never omit the finding from the ledger or call it fixed.
+
+Repository and user instructions override this skill. Preserve unrelated work. If the target worktree is dirty, record it and isolate worker edits safely.
 
 ## Required protocol
 
@@ -49,126 +56,122 @@ Before target work, read [references/protocol.md](references/protocol.md) comple
 - validation and live checks: [references/validation.md](references/validation.md)
 - commit, push, metadata, and PR body: [references/pr-delivery.md](references/pr-delivery.md)
 
-Use the canonical prompts in `templates/`. Preserve every required field when adding repository-specific instructions.
+Use the canonical prompts for the [round coordinator](templates/round-coordinator.md), [reviewer](templates/reviewer.md), [verifier](templates/verifier.md), [triager](templates/triager.md), [fixer](templates/fixer.md), and [cold reviewer](templates/cold-reviewer.md). Preserve required fields when adding repository-specific instructions.
 
-## Run state
+## Structured run state
 
 Create `.git/fix-all-issues/<run-id>/` before the first outer round. If the Git directory is unavailable, use a private temporary directory and report its path. Keep artifacts untracked:
 
-- `run.json`: target, inputs, phase, tree identities, round summaries, growth metrics, outcomes, deployments, and residual risks
-- `scope.md`: immutable original intent plus separately recorded user-approved scope changes
-- `findings.json`: one record per root-cause fingerprint, including rejected and deferred findings
-- `validation.json`: commands, environment, cache status, live checks, and results bound to a tree
-- `pr-body.md`: fetched working copy of the current PR body
+- `run.json`: phase, terminal state, outer rounds, capacity, growth, routes, and status alarms
+- `scope.md`: immutable original intent plus append-only user-approved changes
+- `evidence.json`: one exact-tree evidence packet with diff digest, repository rule paths, responsibility envelope, change contracts, and caller rows
+- `findings.json`: root-cause findings, attribution, responsibility, gate verdicts, disposition, and route
+- `validation.json`: tree-keyed command and review evidence with affected-surface invalidation and reuse links
+- `pr-body.md`: latest fetched remote body
+- `proposed-pr-body.md`: proposed body reviewed before delivery
 
-Conform `run.json` to [schemas/run-state.schema.json](schemas/run-state.schema.json). Use [schemas/protocol-cases.json](schemas/protocol-cases.json) as the gate and outcome examples.
+Conform artifacts to [schemas/run-state.schema.json](schemas/run-state.schema.json), [schemas/evidence-packet.schema.json](schemas/evidence-packet.schema.json), [schemas/findings.schema.json](schemas/findings.schema.json), and [schemas/validation-ledger.schema.json](schemas/validation-ledger.schema.json). Use [schemas/protocol-cases.json](schemas/protocol-cases.json) as gate and terminal-state examples.
+
+Do not use one body hash for two phases. `remote_body_hash` names the last fetched remote body. `proposed_body_hash` names the local body proposed for review and delivery. Set `delivered_body_hash` only after fetching the edited remote body and confirming it. For a branch without a PR, body hashes and artifacts are null; cold spec review binds to immutable `scope.md` instead.
 
 ## State machine
 
-### 0. Preflight
+### 0. Preflight and packet
 
-Resolve the target identifier, user inputs, authority limits, and run directory. With `orchestrator_only=true`, stop there and delegate target inspection to the round coordinator. Otherwise, fetch current PR metadata and read applicable repository instructions.
+Resolve target, authority, inputs, run directory, and dirty state. Start a fresh outer coordinator. It reads applicable repository and domain rules, fetches PR metadata, captures immutable intent, pins `base_oid`, `head_oid`, `candidate_tree_oid`, and `remote_body_hash`, and creates one `evidence.json` packet. Workers read their packet slice and the listed repository or domain rules. They do not reread the full skill reference set or reconstruct the entire diff independently.
 
-### 1. Start a fresh outer round
+Build change-contract and caller rows for every changed behavior or exported interface. Include consumer, operation, authority, readiness, fallback, validator, test, caller mode, and whether the caller is direct.
 
-Spawn one new coordinator from [templates/round-coordinator.md](templates/round-coordinator.md). The coordinator fetches current PR metadata, description, comments, review threads, checks, labels, draft state, mergeability, head OID, and base OID. It reads applicable repository instructions and domain docs, discovers validation/generation/autofix commands, snapshots original intent before any PR-body edit, and records `base_oid`, `candidate_tree_oid`, `head_oid`, `pr_body_hash`, and diff metrics.
+### 1. Budget and review the pinned tree
 
-Before review, the coordinator builds a change-contract matrix. For each changed behavior it records consumer, operation, authority, read/write/display path, readiness, fallback, validator, and test. It records all changed exported interfaces and production callers. When `orchestrator_only=true`, the main agent delegates all remaining work in the round to the coordinator.
+Use a small fixed pool with explicit lifecycle states. Reserve one slot for independent triage and one for cold confirmation. Reviewers receive the packet, exact immutable tree, proposed body when present, assigned lens, coverage checklist, timebox, and early-claim milestone. They stop when the lens checklist is exhausted or the timebox expires. They report uncovered checklist rows instead of continuing open-ended review.
 
-The coordinator counts against `num_agents`. Keep enough capacity for verification, both triagers, fixers, cleanup, and a cold reviewer. Safe recipes:
+Always cover correctness, tests, compatibility, security, maintainability, and repository conformance. Add risk-triggered specialists. Reviewers do not edit and do not receive prior findings or verdicts.
 
-- 4 background slots: coordinator, 2 reviewers, 1 rotating verifier/triager/fixer
-- 6 background slots: coordinator, 3 reviewers, 2 rotating gate/fix slots
-- 8 background slots: coordinator, 5 reviewers, 2 rotating gate/fix slots
+### 2. Verify, attribute, and triage in batches
 
-### 2. Review the pinned tree
+Normalize and deduplicate claims by root cause. Persist every verified, refuted, duplicate, and routed fingerprint. Attribute responsibility before deciding disposition.
 
-Choose reviewer lenses by risk, not line count alone. Always cover correctness, tests, compatibility, security, maintainability, and repository conformance. Add concurrency/lifecycle, time semantics, reactive dependencies, shared-interface callers, native lifecycle, red-team, or coverage specialists when the change contract triggers them.
+Batch findings tied to one tree through one primary triager and one independent triager in exhaustive mode. In quick mode, independent triage remains mandatory for P0/P1, scope expansion, low-confidence verification, disputed claims, and any finding that changes the responsibility envelope. Start a resolver only when the two verdicts genuinely disagree.
 
-Reviewers receive the base, exact candidate tree, original intent, current PR body, rules, and assigned lens. They do not receive prior findings or verdicts. They may not edit. Every finding must name a concrete failure mode and the invariant it violates.
+No fixer starts on a finding until its required gates are complete. Late findings enter the same batch gate.
 
-### 3. Verify and triage
+### 3. Fix at the responsible seam
 
-Deduplicate reviewer output by root cause after reviewers finish. Persist every fingerprint. Reopen a rejected fingerprint only when relevant lines changed or new evidence exists.
+Partition accepted findings by disjoint file ownership. One worker owns any shared seam; other workers report dependencies instead of editing overlapping files. Reuse workers for compatible tasks inside the outer round, but never reuse a primary triager as the independent triager or an informed reviewer as the cold confirmer.
 
-No fixer may start until all accepted findings pass these gates in order:
+Every bug fix needs failing evidence before the fix and green evidence after it. If a conventional test is impractical, require mutation or runtime evidence that fails when the fix is removed.
 
-1. verification against the pinned candidate tree
-2. primary triage
-3. independent second triage in exhaustive mode
-4. disagreement resolution
+The second accepted finding for the same invariant triggers root-cause consolidation. Stop adding narrow patches. Replace the patch set with the smallest deep fix at the responsible seam, update caller rows, and re-triage any real product or compatibility expansion.
 
-The second triager sees the pinned diff and normalized findings, not the first verdict or reviewer rationales. It ignores the dirty worktree. Apply the same gates to findings discovered during fixes, validation, cleanup, or re-review.
+### 4. Stabilize narrowly
 
-### 4. Fix accepted findings
+Run autofix and affected checks, cleanup to a zero-edit pass, and a narrow re-review. Use the validation ledger to invalidate only entries whose declared inputs or affected surfaces changed. Reuse evidence only by creating a final-tree ledger row that links to the prior entry and proves its dependencies did not intersect the change. Unknown impact invalidates conservatively.
 
-Partition work by disjoint file ownership. Each bug fix needs failing evidence before the fix and green evidence after it. When a conventional test cannot be written, require an equivalent mutation check that fails when the fix is reverted. Update caller inventory for any interface change.
+If a qualifying issue appears, repeat attribution, triage, root-cause repair, and narrow stabilization up to `max_fix_rounds`.
 
-Prefer the smallest deep fix at the responsible seam. If one invariant creates three findings, survives two rounds, or spreads patches across callers, pause local patching and run a bounded design/refactor pass. Make the invalid state harder to express, then re-triage the proposed scope.
+### 5. Cold confirmation before root validation
 
-### 5. Validate the resulting tree
+On the post-cleanup candidate, run a cold code and proposed-body review before expensive root validation. The confirmer sees the exact packet, candidate tree, `remote_body_hash`, `proposed_body_hash`, responsibility envelope, and assigned full-coverage checklist, but no prior findings or fixes.
 
-Run autofix, targeted checks, canonical lint/test/typecheck/build gates, generation when inputs changed, and the appropriate live-check level. Record exact command, environment, result, and resulting tree.
+Only a zero-claim result for qualifying in-envelope findings unlocks canonical root validation. A deferred or routed out-of-envelope issue does not inflate the PR, but it remains in the ledger and changes the eventual terminal state to `scope-routed`.
 
-Any code edit invalidates validation and review for the old tree. A behavior-relevant PR body edit invalidates cold spec review. A commit with an unchanged `HEAD^{tree}` preserves tree-bound code evidence, but record the new commit OID.
+### 6. Validate once, then check the cleanup delta
 
-### 6. Cleanup to convergence
+Run canonical root lint, test, typecheck, build, generation, and live checks once per zero-claim candidate, as repository rules and risk require. Do not repeatedly run the full repository suite during speculative review or on an unchanged tree.
 
-Cleanup may edit behavior-preserving code, tests, comments, and docs. Revalidate after edits. A cleanup pass with edits does not satisfy cleanup. Run the next pass; the first zero-edit pass satisfies cleanup. Route any behavior change back through verification and both triage gates.
+After root validation, run one narrow post-cleanup review and the affected checks recorded by the ledger. If they expose a qualifying issue or require an edit, return to triage. The next root run requires a new zero-claim candidate. Reuse unaffected validation entries; rerun any command whose inputs or dependency mapping changed.
 
-### 7. Inner stabilization
+### 7. Growth response
 
-Run a narrow re-review of the current candidate tree, with temporal and caller checks for touched invariants. If it finds accepted issues, repeat phases 3-7 up to `max_fix_rounds`. The inner cycle is stabilized when fixes, validation, cleanup, and narrow re-review are green on one exact tree.
+Measure files, changed lines, subsystems, public interfaces, and finding origins after each repair batch. Thresholds are escalation triggers, not rejection rules. When the diff doubles, a fix adds a subsystem, review-fix lines exceed the original diff, or the second finding hits one invariant:
 
-### 8. Deliver the round
+1. stop adding narrow patches at that seam
+2. consolidate root cause or replace the patch set
+3. re-check responsibility and caller rows
+4. ask only for genuine product, authority, or compatibility expansion
 
-The round coordinator creates focused commits, pushes normally, fetches the latest PR body before editing, folds final behavior and stable validation commands into existing sections, and updates `run.json`. Do not put volatile commit SHAs, intermediate diff counts, or intermediate test totals in the PR body.
+Record the trigger and response. Do not route a qualifying issue merely to make metrics smaller.
 
-After every outer round, the main agent gives the user a cumulative summary: unique findings fixed, newly deferred/rejected findings, validation status, pushed commits, PR body status, current tree, growth guard status, and next stop condition.
+### 8. Deliver and cross the freshness boundary
 
-### 9. Confirm or stop
+Create focused commits, push normally, fetch the latest remote body, rebase the proposed body on it, and preserve separate hashes. After editing, fetch again and record `delivered_body_hash`. Compare local and remote tree identity.
 
-- `stop_policy=stabilized`: stop after an inner cycle stabilizes.
-- `stop_policy=fresh-zero`: spawn a new coordinator in fresh context. Stop only after `required_clean_outer_rounds` consecutive outer rounds produce zero accepted findings inside approved scope, no earlier accepted finding remains unresolved, and required validation remains valid on the delivered tree.
+Close or release the outer pool after its artifacts are durable. A fresh-zero policy starts a new coordinator and blind pool at the next outer boundary. The prior pool may not provide the fresh zero.
 
-Classify the outcome exactly:
+## Stop semantics
 
-- `clean`: required fresh zero rounds completed and final validation is green
-- `stabilized`: inner cycle is green and the selected policy does not require another fresh zero
-- `capped-stabilized`: cap reached after fixes are green, but no required fresh zero remains available
-- `capped-with-residuals`: cap reached with actionable findings or failed required validation
+Fresh-zero remains strict for qualifying in-envelope findings. A round that finds and fixes one does not count as zero. Stop only after the required consecutive fresh rounds find zero, final validation is valid for the delivered tree, and no accepted in-envelope finding remains unresolved.
 
-If external state or missing authority blocks delivery, report `blocked` separately from these quality outcomes.
+Use one terminal state:
 
-## Growth and convergence guard
+- `clean`: fresh-zero and validation gates pass, and no verified known issue remains routed
+- `scope-routed`: in-envelope gates pass, but one or more verified out-of-envelope issues are durably deferred or have follow-up, user-authority, or external-owner routes
+- `stabilized`: quick policy ended after a green inner cycle without a required fresh zero
+- `blocked`: missing authority, credentials, platform capacity, or external state prevents required in-envelope work or delivery
+- `capped-in-envelope-green`: repairs and validation are green, but the cap prevents required fresh-zero confirmation
+- `capped-with-residuals`: a qualifying finding, required cleanup, or required validation remains at the cap
 
-At each delivered round compare initial and current files, changed lines, subsystems, and finding origins. Pause for a split/design decision when any condition holds:
+Never describe `scope-routed`, `blocked`, or either capped state as cleanly fixed.
 
-- diff size doubles
-- a fix adds a new subsystem
-- review-fix changes exceed the original diff size
-- two consecutive rounds introduce more accepted review-fix findings than they close
+## Progress and alarms
 
-Classify each finding origin as `original-pr`, `review-fix`, `pre-existing`, `cleanup-only`, or `reopened`. Count unique root causes, not repeated reports.
-
-## Progress
-
-Report milestones and changed counters only. Do not narrate unchanged waits. With `progress=heartbeat`, send a compact update every 3-5 minutes while work is active. Format:
+Report changed counters only. Include the critical path, elapsed phase time, worker capacity, and alarms for repeated work or avoidable serialization. With `progress=heartbeat`, report every 3-5 minutes while work is active.
 
 ```text
-outer 2/8 | inner 1/8 | review 5/5 | verify 3/3 | triage 2/2 | fixes 1/2 | validation running
-unique fixed 12 | deferred 2 | rejected 7 | candidate tree <short oid>
+outer 2/6 | inner 1/6 | phase cold-review 6m | critical path cold confirmer
+pool 4 active/6 max, 2 reserved | findings fixed 9, routed 2, rejected 4
+tree <short oid> | body remote <hash> proposed <hash> | alarms root-validation-repeat=0 overlap-waits=1
 ```
 
 ## Final report
 
-Lead with target, outcome, outer/inner counts, final tree, validation, push status, and PR body status. Then include:
+Lead with target, terminal state, final tree, body hashes, validation, push, and PR body status. Include:
 
-- cumulative unique findings ledger with origin and verification evidence
-- validation summary bound to the final tree
-- cleanup convergence result
-- diff growth and convergence result
-- generated artifacts and deployment ledger
-- deferred follow-ups and rejected fingerprints
-- residual-risk inventory of anything not checked
-- history rewrite and post-rewrite validation, if any
+- cumulative findings by attribution, responsibility, disposition, and route
+- evidence and validation ledger summary bound or explicitly reused onto the final tree
+- outer and inner counts, cold-zero result, cleanup convergence, and growth responses
+- critical-path time and repeated-work or serialization alarms
+- generated artifacts, deployments, and authority sources
+- routed follow-ups and user decisions needed
+- residual risks and anything not checked

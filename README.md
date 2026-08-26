@@ -13,11 +13,11 @@ If you only want to install a skill, use the commands below and ignore the inter
 
 ## Available Skills
 
-| Skill               | Category | What it does                                                                                                                            |
-| ------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `commit-guidelines` | Coding   | Creates focused Conventional Commits while preserving unrelated work and never attributing authorship or co-authorship to AI            |
-| `fix-all-issues`    | Coding   | Runs fresh-context PR review and fix rounds with durable state, tree-bound evidence, gated triage, delivery, and explicit stop outcomes |
-| `safe-refactor`     | Coding   | Finds the highest-value behavior-preserving refactor that can be safely bounded, protected with evidence, and validated                 |
+| Skill               | Category | What it does                                                                                                                        |
+| ------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `commit-guidelines` | Coding   | Creates focused Conventional Commits while preserving unrelated work and never attributing authorship or co-authorship to AI        |
+| `fix-all-issues`    | Coding   | Runs bounded PR review and fix rounds with exact-tree evidence, finding attribution, durable issue routes, and explicit stop states |
+| `safe-refactor`     | Coding   | Finds the highest-value behavior-preserving refactor that can be safely bounded, protected with evidence, and validated             |
 
 See each plugin README for prompts, workflow details, and source paths:
 

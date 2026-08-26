@@ -1,112 +1,111 @@
 # Reviewer lenses
 
-Build review coverage from the change contract and risk signals. Diff size controls fanout only after risk decides which lenses are mandatory.
+Build finite review assignments from the evidence packet. Risk decides mandatory coverage. Diff size only changes how many rows one reviewer receives.
 
-## Change-contract matrix
+## Change-contract and caller rows
 
-Before reviewer fanout, map every changed behavior:
+Map each changed behavior before review:
 
-| Field     | Question                                                                                     |
-| --------- | -------------------------------------------------------------------------------------------- |
-| consumer  | Which screen, job, endpoint, hook, or external caller uses it?                               |
-| operation | What read, write, display, transition, or side effect occurs?                                |
-| authority | Which principal, tenant, clock, currency, locale, flag, or lifecycle state is authoritative? |
-| readiness | What must exist before the operation is valid?                                               |
-| fallback  | What happens while authority is unavailable or stale?                                        |
-| validator | Which runtime and type checks enforce the contract?                                          |
-| test      | Which test or live check covers each mode?                                                   |
+| Field       | Required question                                                                  |
+| ----------- | ---------------------------------------------------------------------------------- |
+| behavior    | What observable result or invariant changes?                                       |
+| attribution | Which responsibility-envelope category caused this row?                            |
+| consumer    | Which screen, job, endpoint, hook, or external caller uses it?                     |
+| operation   | What read, write, display, transition, or side effect occurs?                      |
+| authority   | Which principal, tenant, clock, currency, locale, flag, or state is authoritative? |
+| readiness   | What must exist before the operation is valid?                                     |
+| fallback    | What happens while authority is unavailable or stale?                              |
+| validator   | Which runtime and type checks enforce the contract?                                |
+| test        | Which test or live check covers each semantic mode?                                |
+| caller      | Which production caller and semantic mode depend on the row?                       |
+| direct      | Does that caller directly consume or implement the changed contract?               |
 
-Treat auth principal, tenant, currency, locale, feature flag, lifecycle state, request generation, optimistic owner, device clock, and server clock as authority candidates. Many multi-round bugs come from choosing different authority at different callers.
+The evidence packet stores these rows once. Reviewers receive relevant row IDs and read the listed repository or domain rules. They do not rebuild the entire matrix unless they find a missing direct caller.
 
-## Baseline lenses
+## Baseline coverage rows
 
-Always cover:
+Every outer round assigns all of these:
 
-- correctness and error paths
-- compatibility and public behavior
+- correctness, error paths, and state transitions
+- compatibility, public behavior, and direct callers
 - tests and missing input classes
-- security, auth, validation, secrets, and data integrity
+- security, authorization, validation, secrets, and data integrity
 - maintainability, dead code, performance, and repository conformance
+- spec and proposed PR-body accuracy
 
-Exhaustive mode also includes an adversarial reviewer and a coverage reviewer. The adversarial reviewer must stay inside the changed trust surface. It may not assume leaked credentials, forged signatures, full database access, or an already-broken primary auth gate unless the diff weakens that gate.
+Exhaustive mode also assigns adversarial and coverage rows. Adversarial work stays inside the changed trust boundary. Do not assume compromised credentials, forged signatures, full database access, or a broken primary auth gate unless the candidate weakens that gate.
 
-## Risk-triggered specialists
+## Risk-triggered rows
 
-Add a specialist when any trigger appears:
+| Trigger                                                  | Required coverage                                        |
+| -------------------------------------------------------- | -------------------------------------------------------- |
+| React hook, provider, effect, callback, async state      | concurrency and lifecycle                                |
+| date, timezone, UTC, local day, server time, device time | time-authority matrix                                    |
+| debounce, optimistic state, cancellation, request token  | generation ownership and stale completion                |
+| reactive query, subscription, Convex early return        | dependency tracking and reactivity                       |
+| exported hook, helper, prop, default, validator          | production caller inventory and propagation              |
+| native API, app state, permissions, device event         | overlapping request and native lifecycle                 |
+| schema, route, event, public function                    | compatibility, migration, and missing input classes      |
+| endpoint, callback, webhook, parser before auth          | focused red-team                                         |
+| accepted fix changes a second caller                     | accepted-fix correctness and responsible-seam review     |
+| second finding names the same invariant                  | mandatory root-cause consolidation and patch replacement |
 
-| Trigger                                                  | Required lens                             |
-| -------------------------------------------------------- | ----------------------------------------- |
-| React hook, provider, effect, callback, async state      | concurrency and lifecycle                 |
-| date, timezone, UTC, local day, server time, device time | time-authority matrix                     |
-| debounce, optimistic state, cancellation, request token  | generation ownership and stale completion |
-| reactive query, subscription, Convex early return        | dependency tracking and reactivity        |
-| exported hook, helper, prop, default, validator          | caller inventory and propagation          |
-| native API, app state, permissions, device event         | overlapping request and native lifecycle  |
-| schema, route, event, public function                    | compatibility and missing input classes   |
-| new endpoint, callback, webhook, parser before auth      | focused red-team                          |
+## Temporal coverage
 
-Risk score should consider subsystems, public interfaces, shared callers, async state, lifecycle, native APIs, trust boundaries, and data migrations. Line count alone cannot lower required coverage.
+For async UI and native work, assign applicable transitions as explicit rows:
 
-## Temporal state-machine review
+1. render and abandoned render
+2. commit, layout effect, and passive effect
+3. background, inactive, and active
+4. authority, scope, date, or tenant change
+5. debounce start and replacement
+6. request resolve or reject
+7. unmount
 
-For async UI and native work, enumerate applicable transitions:
+For stale completion, identify whether it can write older state, revert optimistic state, clear loading owned by a newer request, overwrite a newer token, or show feedback after ownership changed. Name the owner check that prevents the mutation.
 
-1. render
-2. abandoned render
-3. commit
-4. layout effect
-5. passive effect
-6. background or inactive
-7. active
-8. authority, scope, or date change
-9. debounce start and replacement
-10. request resolve or reject
-11. unmount
+## Interface and caller coverage
 
-For every stale completion ask:
+For every changed exported hook, provider, prop, default, validator, route, event, or helper:
 
-- can it write state for an older scope?
-- can it revert newer optimistic state?
-- can it clear loading owned by a newer request?
-- can it delete or overwrite a newer token?
-- can it show feedback after ownership changed or the module unmounted?
-
-Require the reviewer to state who owns each state transition and how stale work proves ownership before mutating.
-
-## Caller inventory
-
-For every changed exported hook, provider, optional prop, default, validator, route, or helper:
-
-1. search all production callers
-2. group them by semantic mode, not just file
-3. record which authority and fallback each caller expects
+1. search all production callers once while building the packet
+2. group callers by semantic mode
+3. record authority, readiness, and fallback per mode
 4. verify tests cover each mode
 5. flag silent defaults that preserve type compatibility but change behavior
 
-A changed interface is not reviewed until its caller inventory is complete. Test-only callers do not prove production propagation.
+Test-only callers do not prove production propagation. A direct caller issue is in the responsibility envelope even when its file was not in the original diff.
 
-## Invariant and root-cause review
+## Finding attribution
 
-Every finding names the invariant it violates. The orchestrator fingerprints root cause from invariant, responsible seam, and failure mode. Do not create separate findings for every caller when one module should enforce the rule.
+Every finding names:
 
-Escalate to a bounded design/refactor pass when:
+- violated invariant
+- responsible seam
+- exact failure mode
+- attribution category
+- `in-envelope` or `out-of-envelope` responsibility with evidence
+- whether a fix changes product behavior, compatibility, or authority
 
-- one invariant creates three accepted findings
-- the same fingerprint survives two rounds
-- multiple callers need the same guard or normalization
-- a new optional input relies on every caller remembering a fallback
+Do not use file distance or patch size to label something out of scope. An adjacent pre-existing issue must be independently reproducible without the candidate. A candidate-exposed issue is in-envelope even if the defective code predates the branch.
 
-The goal is the smallest deep fix at the responsible seam. A fix is deep when callers gain the behavior without learning more rules and tests can prove it through one interface.
+## Root-cause review
 
-## Blind review
+Fingerprint invariant, seam, and failure mode. The second accepted finding for the same invariant ends narrow caller patching. Review the existing patch set as one design and recommend consolidation or replacement at the responsible seam.
 
-Fresh reviewers receive:
+A deep fix removes rules from callers and can be proved through one stable interface. It does not need to be large. Growth thresholds cannot justify rejecting a qualifying finding.
 
-- base and candidate tree OIDs
-- exact diff or checked-out immutable tree
-- immutable original intent
-- current PR body and its hash
-- repository rules and assigned lens
-- change-contract rows relevant to the lens
+## Finite assignments
 
-They do not receive prior findings, accepted/rejected verdicts, fix rationales, or the desired answer. The coordinator deduplicates after outputs arrive.
+Each reviewer receives:
+
+- packet ID, base OID, candidate tree OID, and body hashes
+- exact assigned coverage row IDs
+- relevant contract and caller row IDs
+- applicable repository and domain rule paths
+- timebox and early-claim milestone
+- no-edit and blind-context rules
+
+At the early milestone, report a first claim or `no-claim-yet` with completed row IDs. Stop when every assigned row is checked or the timebox expires. Return unchecked row IDs and why they remain uncovered. Do not continue searching after the assigned lens is exhausted.
+
+Fresh reviewers do not receive prior findings, verdicts, fix rationales, or desired outcomes. The coordinator deduplicates only after output arrives.

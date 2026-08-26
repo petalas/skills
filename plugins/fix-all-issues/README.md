@@ -1,17 +1,19 @@
 # Fix all issues
 
-`fix-all-issues` runs a stateful PR review and remediation loop through fresh background agents. Version 0.7.0 makes orchestration-only operation the default and separates fresh outer review rounds from inner fix stabilization.
+`fix-all-issues` runs a bounded PR review and remediation loop through background agents. Version 0.8.0 keeps strict fresh-zero proof for work the PR owns while routing verified adjacent issues instead of silently dropping them or letting them inflate the current PR forever.
 
-The skill now:
+The skill:
 
-- creates untracked run state with immutable original intent, root-cause fingerprints, tree-bound validation, and round summaries
-- spawns a new round coordinator for every outer iteration while the main agent stays available
-- selects specialist reviewers from risk signals such as async lifecycle, time authority, reactive dependencies, native APIs, and changed shared interfaces
-- blocks fixes until verification, primary triage, independent second triage, and disagreement resolution finish
-- requires caller inventories, temporal state-machine review, and root-cause escalation to the responsible seam
-- invalidates review and validation when the candidate tree or behavior-relevant PR body changes
-- stops with explicit `clean`, `stabilized`, `capped-stabilized`, or `capped-with-residuals` outcomes
-- guards against runaway PR growth and records finding origin, deployment authority, and residual risk
+- attributes findings to the originating change, candidate behavior, direct contracts and callers, accepted-fix correctness, adjacent pre-existing code, or product decisions
+- fixes verified in-envelope issues and records durable defer, follow-up, user-authority, or external-owner routes for verified out-of-envelope issues
+- treats growth thresholds and a second same-invariant finding as root-cause consolidation or patch-replacement triggers
+- creates one exact-tree evidence packet with caller rows so workers share facts without rereading the whole diff and protocol
+- refreshes context at outer-round boundaries, then reuses a small fixed worker pool with reserved independent slots inside the round
+- batches findings through primary and independent triage, using a resolver only for real disagreement
+- runs cold code and proposed-body review before expensive root validation, then performs a narrow post-cleanup check
+- keeps tree-keyed validation rows with affected-surface invalidation and explicit reuse proof
+- reports lifecycle, critical path, phase time, repeated validation, and avoidable serialization
+- stops as `clean`, `scope-routed`, `stabilized`, `blocked`, `capped-in-envelope-green`, or `capped-with-residuals`
 
 ## Examples
 
@@ -20,25 +22,27 @@ Use $fix-all-issues on this PR
 Use $fix-all-issues pr=123
 Use $fix-all-issues pr=123 review_mode=quick stop_policy=stabilized
 Use $fix-all-issues pr=123 orchestrator_only=true fresh_round_context=true
-Use $fix-all-issues pr=123 max_outer_rounds=8 max_fix_rounds=8 cap_strategy=reserve-confirmation
-Use $fix-all-issues pr=123 required_clean_outer_rounds=2 progress=heartbeat
+Use $fix-all-issues pr=123 max_outer_rounds=6 max_fix_rounds=6 cap_strategy=reserve-confirmation
+Use $fix-all-issues pr=123 reviewer_timebox_minutes=10 early_claim_minutes=3 progress=heartbeat
 ```
 
 ## Inputs
 
 - `review_mode`: `exhaustive` by default, or `quick`
-- `num_agents`: concurrent background-agent ceiling, including the coordinator
+- `num_agents`: concurrent ceiling including the coordinator, default `6` or `4` by mode
 - `orchestrator_only`: keeps target work out of the main agent, default `true`
-- `fresh_round_context`: requires new coordinators and reviewers, default `true`
+- `fresh_round_context`: creates a fresh coordinator and blind pool at each outer boundary, default `true`
 - `stop_policy`: `fresh-zero` or `stabilized`
-- `required_clean_outer_rounds`: fresh zero rounds needed for `clean`, default `1`
-- `max_outer_rounds`: fresh review cap, default `8` or `5` by mode
-- `max_fix_rounds`: inner stabilization cap, default `8` or `5` by mode
+- `required_clean_outer_rounds`: fresh zero rounds needed for in-envelope proof, default `1`
+- `max_outer_rounds`: fresh review cap, default `6` or `4` by mode
+- `max_fix_rounds`: repair-cycle cap, default `6` or `4` by mode
 - `max_rounds`: legacy alias for `max_outer_rounds`
 - `cap_strategy`: `reserve-confirmation`, `hard`, or `ask`
+- `reviewer_timebox_minutes`: per-reviewer timebox, default `12` or `8` by mode
+- `early_claim_minutes`: first-claim or no-claim checkpoint, default `4` or `3` by mode
 - `progress`: `milestones` or `heartbeat`
 
-Invocation covers local review/fix work, validation, focused commits, normal pushes, and PR description updates. Deployment, production mutation, force-push, history rewrite, destructive cleanup, external communication, and scope expansion need separate authority.
+Invocation covers local review and repair, validation, focused commits, normal pushes, and PR description updates. Deployment, production mutation, force-push, history rewrite, destructive cleanup, external communication, tracker mutation, and product expansion need separate authority.
 
 ## Source map
 
@@ -54,6 +58,6 @@ plugins/fix-all-issues/
     schemas/*.json
 ```
 
-The installed skill includes the references, templates, and schemas. Repository maintainers can run `bun run validate:fix-all-issues` to check version parity, required files, shared inputs, protocol cases, JSON syntax, and ASCII compliance.
+The installed skill includes references, prompts, and JSON schemas for run state, evidence packets, findings, validation, and protocol cases. Repository maintainers can run `bun run validate:fix-all-issues` to check version parity, required files, shared inputs, schema structure, protocol cases, JSON syntax, and ASCII compliance.
 
-See [../../LEARNINGS.md](../../LEARNINGS.md) for the design history and v0.7.0 run evidence.
+See [../../LEARNINGS.md](../../LEARNINGS.md) for the v0.8.0 convergence and responsibility rationale.

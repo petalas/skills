@@ -1,82 +1,88 @@
 # PR delivery
 
-Delivery aligns Git history, remote branch state, PR metadata, and the durable run ledger with the validated tree.
+Delivery aligns the validated tree, remote branch, body phases, routes, and run ledger.
 
 ## Metadata preflight
 
-At the start and before final delivery, inspect:
+At outer-round start and final delivery, inspect:
 
 - target and base branches
 - draft state and mergeability
-- required labels and reviewers from repository policy
-- current checks and review threads
+- current checks, review threads, labels, and requested reviewers
 - unresolved comments
 - current title and body
-- stale claims about scope, generated files, tests, file counts, or deployment
+- stale scope, validation, generated-file, or deployment claims
 
-Do not change labels, reviewers, or thread state unless the user or repository workflow authorizes it. Report required metadata that remains missing.
+Do not change labels, reviewers, or thread state without user or repository authority. Report missing metadata.
 
-## Original intent and current body
+## Body phases
 
-Capture original intent before review-driven edits in `scope.md`. Keep approved scope changes separate. The PR body is a current delivery document, not the historical source of intent.
+Keep original intent immutable in `scope.md`. Keep the remote and proposed bodies separate:
 
-Always fetch the latest body immediately before editing:
+1. fetch remote body into `pr-body.md`; record `remote_body_hash`
+2. create `proposed-pr-body.md`; record `proposed_body_hash`
+3. cold-review the proposal with the exact candidate tree
+4. immediately before editing, fetch remote body again
+5. if `remote_body_hash` changed, merge the new remote content into the proposal, rehash, and repeat body review
+6. edit with the reviewed proposal
+7. fetch the delivered remote body and record `delivered_body_hash`
+
+Adapt commands to repository instructions. A typical flow is:
 
 ```bash
 gh pr view <pr> --json body --jq .body > <run-dir>/pr-body.md
-gh pr edit <pr> --body-file <run-dir>/pr-body.md
+gh pr edit <pr> --body-file <run-dir>/proposed-pr-body.md
+gh pr view <pr> --json body --jq .body > <run-dir>/delivered-pr-body.md
 ```
 
-Adapt commands to repository instructions. Never compose a replacement body without reading the current one.
-
-Fold review fixes into existing sections so the body describes the final result as one coherent change. Remove claims that became false. Do not append a running "additional fixes" diary.
+Never overwrite the current remote body from a stale local copy. Never label a proposed hash as remote evidence.
 
 ## Stable PR body facts
 
-Include:
+Fold fixes into existing sections so the body describes one coherent final change. Include final behavior, compatibility notes, stable validation commands, live paths checked, and true residual risks or follow-ups.
 
-- final behavior and scope
-- important compatibility notes
-- stable validation commands
-- live paths checked
-- true residual risks and follow-ups
+Keep volatile details in run artifacts and the final report. Do not put commit OIDs, tree OIDs, intermediate diff counts, round finding counts, or transient check status in the PR body.
 
-Keep volatile evidence in the run ledger and final report. Do not put these in the body:
-
-- commit SHA or tree OID
-- intermediate file or line counts
-- intermediate exact test totals
-- round-by-round findings counts
-- transient check status
-
-Exact totals may be included only when they are a durable repository contract, not a snapshot likely to change before merge.
+For routed findings, include only user-relevant follow-up when repository convention supports it. Keep full evidence in `findings.json`.
 
 ## Commit and push
 
-Use repository commit guidance. Inspect the exact diff, stage only intended work, run required validation, and create focused conventional commits. Never add AI authorship or co-authorship.
+Follow repository commit guidance. Inspect the exact diff, stage intended files only, run required validation, and create focused Conventional Commits without AI attribution.
 
-Push normally. A successful push must contain the validated tree. Compare local and remote tree identity after push when practical.
+Push normally. Compare local and remote tree identity. A successful push must contain the candidate supported by the validation ledger.
 
-History rewrite requires separate authority and safety checks. Use `--force-with-lease`, never plain `--force`. After rewrite:
+History rewrite requires separate authority. Use `--force-with-lease`, never plain `--force`. A changed rewritten tree invalidates evidence and requires a new packet, cold zero, and validation. An unchanged tree preserves tree evidence while head OIDs change.
 
-1. compare `HEAD^{tree}` with the previously validated tree
-2. invalidate evidence if it changed
-3. rerun the full required validation
-4. push and record the remote OID
+## Route delivery
+
+Before terminal state, confirm every verified out-of-envelope finding has:
+
+- route kind, including `deferred` when no external route is ready
+- title and evidence
+- acceptance condition
+- owner or explicit `unknown`
+- next action
+- external artifact URL or `not-created` reason
+
+Do not create an issue, message a person, or mutate another tracker unless invocation or repository workflow authorizes it. A ready-to-file route is still durable. It is not a completed fix.
 
 ## Round delivery report
 
 Return to the main orchestrator:
 
-- round number and coordinator identity
+- round number, coordinator, pool lifecycle, and elapsed phases
 - start and delivered tree OIDs
-- unique accepted/fixed/deferred/rejected fingerprints
-- origin of every accepted finding
+- `remote_body_hash`, `proposed_body_hash`, and `delivered_body_hash`
+- findings by attribution, responsibility, disposition, and route
+- root-cause consolidations and patch replacements
 - red-green or mutation evidence
-- validation and cleanup results bound to delivered tree
-- commits and remote push state
-- PR body fetch/edit result and new body hash
-- metadata gaps
-- growth thresholds
-- residual risks
-- recommended next state: confirm, continue inner repair, ask, or stop with named outcome
+- executed, reused, invalidated, failed, and blocked validation rows
+- cold-zero and post-cleanup narrow-review results
+- commits, remote push state, and PR body result
+- growth triggers and responses
+- capacity, repeated-work, and serialization alarms
+- residual risks and recommended next state
+
+## Final delivery state
+
+Use `clean` only when fresh-zero, final-tree validation, delivery, and no-route requirements pass. Use `scope-routed` when in-envelope proof passes but verified adjacent or product issues remain routed. Use `blocked` or a capped state when their conditions apply. Do not present routed or capped work as cleanly fixed.

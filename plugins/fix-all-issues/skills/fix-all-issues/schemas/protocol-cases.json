@@ -1,45 +1,151 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "cases": [
     {
-      "name": "fix waits for exhaustive triage gates",
-      "given": ["verified", "primary-accepted"],
+      "name": "exhaustive fix waits for independent triage",
+      "given": ["exhaustive", "verified", "in-envelope", "primary-accepted"],
       "expected": "fix-forbidden"
     },
     {
-      "name": "fix allowed after disagreement resolution",
-      "given": ["verified", "primary-accepted", "second-accepted", "disagreement-resolved"],
+      "name": "exhaustive fix starts after matching batch verdicts",
+      "given": [
+        "exhaustive",
+        "verified",
+        "in-envelope",
+        "primary-accepted",
+        "independent-accepted"
+      ],
       "expected": "fix-allowed"
     },
     {
-      "name": "code edit invalidates old evidence",
-      "given": ["candidate-tree-changed"],
-      "expected": "review-and-validation-invalid"
+      "name": "resolver starts only for real disagreement",
+      "given": ["primary-accepted", "independent-routed", "verdict-disagreement"],
+      "expected": "resolver-required"
     },
     {
-      "name": "behavior body edit invalidates cold spec review",
-      "given": ["pr-body-behavior-hash-changed"],
-      "expected": "cold-review-invalid"
+      "name": "matching triage skips resolver",
+      "given": ["primary-accepted", "independent-accepted"],
+      "expected": "resolver-forbidden"
     },
     {
-      "name": "third same-invariant finding escalates design",
-      "given": ["same-invariant-accepted-count-3"],
-      "expected": "design-pass-required"
+      "name": "quick ordinary P2 uses proportional gate",
+      "given": ["quick", "P2", "verified", "in-envelope", "primary-accepted", "ordinary-risk"],
+      "expected": "fix-allowed"
     },
     {
-      "name": "fresh zero reaches clean",
-      "given": ["required-fresh-zero-complete", "final-validation-green"],
+      "name": "quick P1 preserves independence",
+      "given": ["quick", "P1", "verified", "in-envelope", "primary-accepted"],
+      "expected": "fix-forbidden"
+    },
+    {
+      "name": "verified adjacent issue gets durable route",
+      "given": ["verified", "out-of-envelope", "adjacent-pre-existing", "primary-deferred"],
+      "expected": "route-required"
+    },
+    {
+      "name": "growth cannot route qualifying issue",
+      "given": ["verified", "in-envelope", "growth-triggered"],
+      "expected": "consolidation-required"
+    },
+    {
+      "name": "second same-invariant finding consolidates early",
+      "given": ["same-invariant-accepted-count-2"],
+      "expected": "consolidation-required"
+    },
+    {
+      "name": "root validation waits for cold code and body zero",
+      "given": ["cleanup-zero", "cold-code-zero"],
+      "expected": "root-validation-forbidden"
+    },
+    {
+      "name": "cold code and body zero unlock root validation",
+      "given": ["cleanup-zero", "cold-code-zero", "cold-body-zero"],
+      "expected": "root-validation-allowed"
+    },
+    {
+      "name": "same tree root repeat raises alarm",
+      "given": ["root-command-already-passed", "same-tree", "same-environment"],
+      "expected": "root-validation-repeat-alarm"
+    },
+    {
+      "name": "unaffected ledger entry can be reused onto new tree",
+      "given": ["prior-entry-passed", "dependencies-unchanged", "surfaces-disjoint"],
+      "expected": "validation-reuse-row-required"
+    },
+    {
+      "name": "changed proposed body invalidates body review",
+      "given": ["proposed-body-hash-changed"],
+      "expected": "body-review-invalid"
+    },
+    {
+      "name": "remote body drift does not overwrite proposal",
+      "given": ["remote-body-hash-changed", "proposal-exists"],
+      "expected": "rebase-proposal-and-rereview"
+    },
+    {
+      "name": "round that fixes finding is not fresh zero",
+      "given": ["qualifying-finding-seen", "finding-fixed", "final-validation-green"],
+      "expected": "fresh-zero-not-earned"
+    },
+    {
+      "name": "fresh zero with no routes reaches clean",
+      "given": ["required-fresh-zero-complete", "final-validation-green", "no-routed-issues"],
       "expected": "clean"
     },
     {
-      "name": "cap after green fixes without confirmation",
-      "given": ["outer-cap-reached", "inner-stable", "fresh-zero-incomplete"],
-      "expected": "capped-stabilized"
+      "name": "fresh zero with durable routes is scope routed",
+      "given": ["required-fresh-zero-complete", "final-validation-green", "routed-issues-exist"],
+      "expected": "scope-routed"
     },
     {
-      "name": "cap with actionable findings",
-      "given": ["outer-cap-reached", "actionable-residuals"],
+      "name": "cap after green repairs names missing confirmation",
+      "given": ["outer-cap-reached", "in-envelope-green", "fresh-zero-incomplete"],
+      "expected": "capped-in-envelope-green"
+    },
+    {
+      "name": "cap with qualifying residuals",
+      "given": ["outer-cap-reached", "qualifying-residuals"],
       "expected": "capped-with-residuals"
+    },
+    {
+      "name": "missing authority blocks in-envelope work",
+      "given": ["in-envelope", "required-authority-missing"],
+      "expected": "blocked"
+    },
+    {
+      "name": "small gate reuses compatible outer worker",
+      "given": ["same-outer-round", "small-gate", "compatible-idle-worker"],
+      "expected": "reuse-worker"
+    },
+    {
+      "name": "new outer round requires fresh pool",
+      "given": ["next-outer-round", "fresh-round-context"],
+      "expected": "fresh-pool-required"
+    },
+    {
+      "name": "fresh zero rejects reused outer context",
+      "given": ["stop-policy-fresh-zero", "fresh-round-context-false"],
+      "expected": "fresh-zero-config-invalid"
+    },
+    {
+      "name": "early deadline requires claim checkpoint",
+      "given": ["early-claim-deadline", "no-actionable-claim-yet"],
+      "expected": "claim-checkpoint-required"
+    },
+    {
+      "name": "lens exhaustion stops reviewer",
+      "given": ["assigned-lens-exhausted"],
+      "expected": "review-stop"
+    },
+    {
+      "name": "disjoint owners may fix in parallel",
+      "given": ["fix-batches-ready", "file-ownership-disjoint"],
+      "expected": "parallel-fix-allowed"
+    },
+    {
+      "name": "shared seam has one owner",
+      "given": ["fix-batches-ready", "file-ownership-overlap"],
+      "expected": "single-owner-required"
     },
     {
       "name": "deployment needs separate authority",

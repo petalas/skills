@@ -1,78 +1,107 @@
 # Validation protocol
 
-Validation proves one exact candidate tree. A command that passed on an older tree is history, not current evidence.
+Validation proves the final candidate without paying full-repository cost on every speculative patch.
 
 ## Command discovery and classification
 
-Discover commands from repository instructions, package scripts, CI, Makefiles, task runners, and domain docs. Record each command class:
+Discover commands from repository instructions, package scripts, CI, task runners, and domain docs. Record each command as:
 
-- `read-only`: inspection, lint, tests, typecheck, build that does not persist target changes
-- `local-write`: formatter, autofix, code generation, local fixture update
-- `development-mutation`: preview database write, local migration, simulator state change
-- `production-mutation`: deploy, production database write, release, external send
+- `read-only`: inspection, lint, tests, typecheck, or build that does not persist target changes
+- `local-write`: formatter, autofix, code generation, or fixture update
+- `development-mutation`: preview data, local migration, simulator state, or sandbox effect
+- `production-mutation`: deploy, production data, release, or external send
 
-Invocation authorizes the first two when repository rules allow them. Development mutation needs explicit repository or user authority. Production mutation always needs explicit user authority.
+Invocation authorizes the first two when repository rules allow them. Development mutation needs repository or user authority. Production mutation always needs explicit user authority.
 
-## Validation record
+## Tree-keyed ledger
 
-For every command record:
+Append one row to `validation.json` for every command, code review, body review, cleanup pass, or live check. Record:
 
-- candidate tree OID before command
-- exact command and working directory
-- relevant runtime/tool versions
-- environment or service target without secrets
-- command class
-- cache mode or cache hit when known
-- start/end time and exit code
-- concise result
-- files modified
-- candidate tree OID after command
+- entry ID, kind, packet ID, candidate tree, and applicable body hash
+- exact command and working directory when applicable
+- command fingerprint, tool versions, environment, and cache state
+- declared input paths, dependency fingerprint, and affected surfaces
+- start, end, exit code, result, and modified files
+- status: `passed`, `failed`, `blocked`, `invalidated`, or `reused`
+- invalidation reason or source entry when reused
 
-If a local-write command changes files, snapshot the new tree and invalidate checks on the old tree.
+Never overwrite failure history.
 
-## Required order
+## Affected-surface invalidation and reuse
 
-1. repository autofix/formatter
-2. smallest affected tests or checks
-3. direct affected-workspace check, uncached when the repository supports it
-4. canonical lint and test suite
-5. required typecheck and build
-6. generation only when source inputs changed
-7. live validation level selected from risk
+After an edit, map changed files and contracts to affected surfaces. Invalidate an entry when its declared inputs, dependency graph, generated inputs, runtime configuration, public contract, or tested behavior intersects the change.
 
-Run validation again after any fix, cleanup edit, generated change, conflict resolution, or history rewrite that changes `HEAD^{tree}`.
+Evidence may be reused onto a new tree only when:
 
-## Cache evidence
+1. the prior entry passed
+2. the dependency fingerprint is still valid
+3. changed surfaces do not intersect its inputs or outputs
+4. repository rules do not require a rerun
+5. a new final-tree row records `status=reused`, the source entry, and the proof
 
-Record cache hits. A cached root command can supplement, but not replace, one direct affected-workspace or uncached check when the repository exposes such a command. Do not invent an uncached flag.
+Unknown impact invalidates conservatively. A reused row is not described as a command executed on the new tree.
+
+Body-only edits do not invalidate code checks. Code-only edits do not invalidate body review unless they change promised behavior. A metadata-only commit with unchanged tree preserves tree evidence.
+
+## Phase order
+
+Use this order:
+
+1. fixer red-green or mutation evidence
+2. formatter or autofix on owned files
+3. smallest affected tests and direct workspace checks
+4. cleanup until one zero-edit pass
+5. narrow re-review of touched invariants and callers
+6. cold code and proposed-body confirmation on the post-cleanup candidate
+7. canonical root lint, tests, typecheck, build, generation, and live checks once after the zero claim
+8. one post-cleanup narrow review and affected check set
+
+Do not run expensive root validation before cold confirmation. Do not repeat the same unchanged-tree root command. If a post-root check finds a qualifying issue and a repair changes the candidate, return to gates and require a new cold zero before another root run.
+
+The root suite may contain several repository-mandated commands. "Once" means one canonical pass per zero-claim candidate, not one shell command.
+
+## Cold code and body confirmation
+
+Cold confirmation binds two independent claims:
+
+- code claim against `candidate_tree_oid`
+- spec claim against `proposed_body_hash`, while retaining `remote_body_hash` as the fetched source
+
+The confirmer receives no prior findings or fix rationale. A zero claim must cover every mandatory responsibility-envelope and risk row. Uncovered mandatory rows do not unlock root validation.
+
+A deferred or routed out-of-envelope issue does not fail the in-envelope zero claim. It must be written to `findings.json`, and the terminal state becomes `scope-routed` if all in-envelope gates later pass.
+
+## Cache and repeated-work alarms
+
+Record cache hits. A cached root command may supplement but not replace one direct affected-workspace or uncached check when the repository provides a documented command. Do not invent flags.
+
+Raise `root-validation-repeat` when the same command fingerprint runs twice on the same tree and environment. Raise `avoidable-serialization` when disjoint checks waited despite free capacity. Repetition required by changed inputs is not an alarm, but record the invalidating change.
 
 ## Environment failures
 
-Fingerprint known environment failures from command, stable error signature, runner, and environment. Investigate the first occurrence during the overall run. If confirmed environmental:
+Fingerprint a failure from command, stable error, runner, and environment. Investigate the first occurrence. If environmental:
 
 1. record the fingerprint and workaround
-2. reuse the workaround in later rounds when runner and environment are unchanged
-3. do not spend a full investigation each round
-4. reconfirm the failure or workaround once during final validation
+2. reuse it while runner and environment stay unchanged
+3. do not repeat the full investigation each round
+4. reconfirm once in final validation
 
-If the signature, runner, dependency graph, or environment changes, investigate again.
+Changed signatures, runners, dependency graphs, or environments require a new investigation.
 
 ## Generated artifacts
 
-Run generation only when its source inputs changed or repository rules require it. Record input paths, command, and outputs. Review generated diffs with the candidate tree. Never regenerate repeatedly merely because another outer round started.
+Run generation only when source inputs changed or repository rules require it. Record input paths, command, outputs, and affected surfaces. Generated changes create a new tree and packet, then re-enter review and validation gates.
 
-## Live validation levels
+## Live validation
 
-Choose the strongest practical level required by the change:
+Choose the strongest practical level required by risk:
 
-- `smoke`: boot or load the changed module and confirm no immediate failure
-- `affected-path`: exercise the changed UI, endpoint, command, native screen, or state transition end to end
-- `external-effect`: confirm the intended result reached a real sandbox or external system
+- `smoke`: boot or load the changed module
+- `affected-path`: exercise the changed UI, endpoint, command, native screen, or transition end to end
+- `external-effect`: confirm the intended result in an authorized sandbox or external system
 
-Do not repeat an identical smoke check when relevant runtime inputs and candidate tree are unchanged. A changed implementation, configuration, generated artifact, dependency, or environment invalidates the prior live result.
-
-If credentials, a device, a build, or external access prevent the required level, record the missing evidence in residual risks. Green unit tests do not substitute for it.
+Do not repeat an identical live check when tree, relevant runtime inputs, and environment are unchanged. Missing credentials, device state, build, or access becomes a residual risk or `blocked` when the evidence is mandatory.
 
 ## Deployment ledger
 
-Keep a deployment ledger even when empty. Record environment, command/tool, actor, authority source, candidate tree, result, and rollback notes. Do not deploy because a validation document mentions a preview command. Deployment remains a separate authority decision.
+Keep a deployment ledger even when empty. Record environment, command or tool, actor, authority source, candidate tree, result, and rollback notes. Validation documentation never grants deployment authority.

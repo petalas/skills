@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/petalas/skills/fix-all-issues/evidence-packet.schema.json",
+  "title": "Fix all issues exact-tree evidence packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "packet_id",
+    "created_at",
+    "producer",
+    "base_oid",
+    "head_oid",
+    "candidate_tree_oid",
+    "remote_body_hash",
+    "proposed_body_hash",
+    "artifacts",
+    "repository_rules",
+    "responsibility_envelope",
+    "affected_surfaces",
+    "change_contracts",
+    "validation_map"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "packet_id": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "producer": { "type": "string", "minLength": 1 },
+    "base_oid": { "$ref": "#/$defs/oid" },
+    "head_oid": { "$ref": "#/$defs/oid" },
+    "candidate_tree_oid": { "$ref": "#/$defs/oid" },
+    "remote_body_hash": { "$ref": "#/$defs/body_hash" },
+    "proposed_body_hash": { "$ref": "#/$defs/body_hash" },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "diff", "remote_body", "proposed_body"],
+      "properties": {
+        "scope": { "$ref": "#/$defs/artifact" },
+        "diff": { "$ref": "#/$defs/artifact" },
+        "remote_body": {
+          "oneOf": [{ "$ref": "#/$defs/artifact" }, { "type": "null" }]
+        },
+        "proposed_body": {
+          "oneOf": [{ "$ref": "#/$defs/artifact" }, { "type": "null" }]
+        }
+      }
+    },
+    "repository_rules": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "responsibility_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["in_envelope", "out_of_envelope"],
+      "properties": {
+        "in_envelope": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/attribution" }
+        },
+        "out_of_envelope": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/attribution" }
+        }
+      }
+    },
+    "affected_surfaces": { "type": "array", "items": { "type": "string" } },
+    "change_contracts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/change_contract" }
+    },
+    "validation_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["surface", "commands", "input_paths"],
+        "properties": {
+          "surface": { "type": "string", "minLength": 1 },
+          "commands": { "type": "array", "items": { "type": "string" } },
+          "input_paths": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "oid": { "type": "string", "pattern": "^[0-9a-f]{40,64}$" },
+    "body_hash": {
+      "oneOf": [{ "type": "string", "pattern": "^[0-9a-f]{64}$" }, { "type": "null" }]
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "attribution": {
+      "enum": [
+        "originating-spec-diff",
+        "candidate-changed",
+        "candidate-exposed",
+        "direct-contract-caller",
+        "accepted-fix-correctness",
+        "adjacent-pre-existing",
+        "product-decision"
+      ]
+    },
+    "caller": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "symbol", "mode", "direct", "authority", "readiness", "fallback"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "symbol": { "type": "string", "minLength": 1 },
+        "mode": { "type": "string", "minLength": 1 },
+        "direct": { "type": "boolean" },
+        "authority": { "type": "string" },
+        "readiness": { "type": "string" },
+        "fallback": { "type": "string" }
+      }
+    },
+    "change_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "behavior",
+        "attribution",
+        "consumer",
+        "operation",
+        "authority",
+        "readiness",
+        "fallback",
+        "validator",
+        "test",
+        "callers"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "behavior": { "type": "string", "minLength": 1 },
+        "attribution": { "$ref": "#/$defs/attribution" },
+        "consumer": { "type": "string" },
+        "operation": { "type": "string" },
+        "authority": { "type": "string" },
+        "readiness": { "type": "string" },
+        "fallback": { "type": "string" },
+        "validator": { "type": "string" },
+        "test": { "type": "string" },
+        "callers": { "type": "array", "items": { "$ref": "#/$defs/caller" } }
+      }
+    }
+  }
+}

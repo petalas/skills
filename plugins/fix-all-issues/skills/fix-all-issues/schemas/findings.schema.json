@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/petalas/skills/fix-all-issues/findings.schema.json",
+  "title": "Fix all issues finding ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "findings"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } }
+  },
+  "$defs": {
+    "oid": { "type": "string", "pattern": "^[0-9a-f]{40,64}$" },
+    "verdict": {
+      "enum": ["pending", "accept", "reject", "route", "not-required"]
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "title",
+        "evidence",
+        "acceptance_condition",
+        "owner",
+        "next_action",
+        "artifact"
+      ],
+      "properties": {
+        "kind": {
+          "enum": ["deferred", "routed-follow-up", "routed-user-authority", "routed-external-owner"]
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "string", "minLength": 1 },
+        "acceptance_condition": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string", "minLength": 1 },
+        "next_action": { "type": "string", "minLength": 1 },
+        "artifact": { "type": "string", "minLength": 1 }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "fingerprint",
+        "packet_id",
+        "candidate_tree_oid",
+        "origin",
+        "attribution",
+        "responsibility",
+        "responsibility_evidence",
+        "severity",
+        "confidence",
+        "category",
+        "invariant",
+        "responsible_seam",
+        "locations",
+        "failure_mode",
+        "evidence",
+        "verification",
+        "independent_verification_reason",
+        "primary_verdict",
+        "independent_verdict",
+        "resolver_result",
+        "consolidation_required",
+        "disposition",
+        "route",
+        "fix_evidence",
+        "reopen_evidence"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "fingerprint": { "type": "string", "minLength": 1 },
+        "packet_id": { "type": "string", "minLength": 1 },
+        "candidate_tree_oid": { "$ref": "#/$defs/oid" },
+        "origin": {
+          "enum": ["original-pr", "review-fix", "pre-existing", "cleanup-only", "reopened"]
+        },
+        "attribution": {
+          "enum": [
+            "originating-spec-diff",
+            "candidate-changed",
+            "candidate-exposed",
+            "direct-contract-caller",
+            "accepted-fix-correctness",
+            "adjacent-pre-existing",
+            "product-decision"
+          ]
+        },
+        "responsibility": { "enum": ["in-envelope", "out-of-envelope"] },
+        "responsibility_evidence": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["P0", "P1", "P2", "P3"] },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "category": { "type": "string", "minLength": 1 },
+        "invariant": { "type": "string", "minLength": 1 },
+        "responsible_seam": { "type": "string", "minLength": 1 },
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "line"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "line": { "type": "integer", "minimum": 1 }
+            }
+          }
+        },
+        "failure_mode": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "string", "minLength": 1 },
+        "verification": { "enum": ["pending", "confirmed", "refuted", "needs-runtime-check"] },
+        "independent_verification_reason": {
+          "type": ["string", "null"],
+          "enum": [
+            null,
+            "P0-P1",
+            "low-confidence",
+            "disputed",
+            "security",
+            "data-loss",
+            "migration",
+            "public-contract",
+            "responsibility-boundary"
+          ]
+        },
+        "primary_verdict": { "$ref": "#/$defs/verdict" },
+        "independent_verdict": { "$ref": "#/$defs/verdict" },
+        "resolver_result": {
+          "type": ["string", "null"],
+          "enum": [null, "accept", "reject", "route"]
+        },
+        "consolidation_required": { "type": "boolean" },
+        "disposition": {
+          "enum": [
+            "pending",
+            "accepted",
+            "fixed",
+            "refuted",
+            "duplicate",
+            "deferred",
+            "routed-follow-up",
+            "routed-user-authority",
+            "routed-external-owner",
+            "blocked"
+          ]
+        },
+        "route": {
+          "oneOf": [{ "$ref": "#/$defs/route" }, { "type": "null" }]
+        },
+        "fix_evidence": { "type": ["string", "null"] },
+        "reopen_evidence": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "verification": { "const": "confirmed" },
+              "responsibility": { "const": "out-of-envelope" }
+            },
+            "required": ["verification", "responsibility"]
+          },
+          "then": {
+            "properties": {
+              "disposition": {
+                "enum": [
+                  "deferred",
+                  "routed-follow-up",
+                  "routed-user-authority",
+                  "routed-external-owner"
+                ]
+              },
+              "route": { "$ref": "#/$defs/route" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "enum": [
+                  "deferred",
+                  "routed-follow-up",
+                  "routed-user-authority",
+                  "routed-external-owner"
+                ]
+              }
+            },
+            "required": ["disposition"]
+          },
+          "then": { "properties": { "route": { "$ref": "#/$defs/route" } } }
+        }
+      ]
+    }
+  }
+}

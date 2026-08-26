@@ -1,34 +1,38 @@
 # Reviewer prompt
 
 ```text
-Review only the immutable diff from <base_oid> to candidate tree <candidate_tree_oid>.
-PR body hash: <pr_body_hash>
-Lens: <lens>
-Original intent: <original_intent>
-Current PR description: <pr_body>
-Repository rules: <conformance_rules>
-Relevant change-contract rows: <change_contract>
+Review immutable evidence packet <packet_id> for candidate tree <candidate_tree_oid> against base <base_oid>.
 
-You have no prior-round context. Do not ask for or infer earlier findings. Do not edit files. Confirm every cited line on the pinned tree.
+Remote body hash: <remote_body_hash>
+Proposed body hash: <proposed_body_hash_or_null>
+Evidence packet or assigned slice: <evidence_packet>
+Assigned lens and coverage rows: <lens_and_rows>
+Relevant contract and caller rows: <contract_rows>
+Repository and domain rule paths to read: <rule_paths>
+Timebox: <reviewer_timebox_minutes> minutes
+Early claim milestone: <early_claim_minutes> minutes
 
-For changed interfaces, inventory all production callers and semantic modes. For async or lifecycle work, enumerate relevant temporal transitions and stale completions. Name the violated invariant and responsible seam for every finding.
+Read the listed repository and domain rules. Do not reread the full fix-all-issues protocol, refetch PR metadata, or reconstruct unrelated parts of the diff. You have no prior findings or fix context. Do not edit files.
 
-Return each actionable finding with:
-- local reviewer id
-- severity and confidence
-- category and lens
-- candidate tree OID
+At the early milestone, return the first actionable claim or `no-claim-yet` with completed coverage row IDs. Continue only until all assigned rows are exhausted or the timebox expires. There is no finding-count cap. At stop, return unchecked row IDs and the reason.
+
+Confirm cited code on the pinned tree. For each actionable finding return:
+- local reviewer ID
+- severity P0, P1, P2, or P3 and confidence
+- category, lens, packet ID, and candidate tree OID
 - file and line
-- violated invariant
-- responsible seam
-- concrete failure mode
-- observed evidence
-- smallest safe fix
-- breaking and scope-expansion risk
-- validation that would prove the fix
-- verification: verified or speculative
+- violated invariant and responsible seam
+- concrete failure mode and observed evidence
+- attribution category
+- in-envelope or out-of-envelope responsibility with evidence
+- product, compatibility, authority, or growth implications
+- smallest responsible fix or route
+- validation that would prove the result
+- verification: confirmed or speculative
 
-At the end list categories and risk transitions checked but ruled out. If no actionable findings exist, say so and name the candidate tree you approved.
+If the same invariant already appears in your output, state that root-cause relationship instead of proposing another caller patch. If this is the second independent failure under one invariant, require consolidation or patch replacement.
 
-For red-team work, stay inside the changed trust surface. Do not assume leaked credentials, forged signatures, full database access, or an already-compromised primary auth gate unless this diff weakens that gate.
+At the end list checked rows, ruled-out risks, and unchecked rows. If no actionable findings exist, state `zero qualifying claims` only when every mandatory assigned row is checked, and name the candidate tree and proposed body hash.
+
+For red-team work, stay inside the changed trust boundary. Do not assume leaked credentials, forged signatures, full database access, or compromised primary auth unless the candidate weakens that gate.
 ```

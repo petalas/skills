@@ -1,91 +1,106 @@
 # Verification and triage
 
-Triage converts reviewer claims into fix authority. Treat it as a hard phase gate.
+Triage decides fix or route authority. It cannot make a verified known issue disappear.
 
 ## Finding record
 
-Normalize each reviewer report to:
+Normalize every claim into `findings.json` with:
 
-- `id`
-- `fingerprint`
-- `candidate_tree_oid`
-- `origin`
-- `severity`
-- `confidence`
-- `category`
-- `invariant`
-- `responsible_seam`
-- `locations`
-- `failure_mode`
-- `evidence`
-- `verification`
-- `primary_verdict`
-- `second_verdict`
-- `disagreement_resolution`
-- `disposition`
-- `fix_evidence`
-- `reopen_evidence`
+- stable ID and root-cause fingerprint
+- candidate tree and packet ID
+- origin, attribution, and responsibility
+- severity, confidence, category, invariant, and responsible seam
+- locations, concrete failure mode, and evidence
+- verification status and independent-check reason
+- primary and independent verdicts
+- disagreement and resolver result only when needed
+- disposition, route, fix evidence, and reopen evidence
 
-Allowed origins are `original-pr`, `review-fix`, `pre-existing`, `cleanup-only`, and `reopened`.
+Origin describes when the issue entered the run: `original-pr`, `review-fix`, `pre-existing`, `cleanup-only`, or `reopened`. Attribution describes why the current PR does or does not own it. Keep the fields separate.
 
-## Fingerprints
+## Fingerprints and deduplication
 
-Fingerprint the root cause, not wording or line number. Build it from the violated invariant, responsible seam, and failure mode. One bug with five callers is one finding unless the callers fail for independent reasons.
+Fingerprint invariant, responsible seam, and failure mode. One bug with five callers is one finding unless callers violate independent contracts.
 
-Persist accepted, rejected, and deferred fingerprints across outer rounds. Reviewers remain blind to them. After review, the coordinator:
+After blind review:
 
-1. normalizes new reports
-2. maps them to prior fingerprints
-3. merges new evidence
-4. reopens a rejected fingerprint only if relevant lines changed or new runtime/code evidence exists
+1. normalize reports
+2. merge duplicate evidence
+3. compare fingerprints with prior rounds
+4. reopen a refuted or rejected fingerprint only when relevant code changed or new evidence exists
+5. count unique root causes, not reports
 
-Do not inflate cumulative counts when reviewers rediscover the same root cause.
+The second accepted finding for one invariant sets `consolidation_required=true`. Do not authorize another narrow patch until the coordinator records patch replacement or a responsible-seam design.
 
 ## Verification
 
-A reviewer may mark a claim `verified` only after opening the cited code on the pinned candidate tree and proving the failure mode. Otherwise mark it `speculative`.
+A reviewer may mark evidence sufficient only after opening cited code on the pinned candidate and proving the failure mode. Send speculative claims to a verifier with the packet slice, claim, and exact requested check.
 
-Send every speculative claim to a verifier with only the pinned tree, claim, and requested check. The verifier returns:
+The verifier returns:
 
-- `confirmed`, with cited evidence
+- `confirmed`, with cited code or runtime evidence
 - `refuted`, with cited evidence
-- `needs-runtime-check`, with the exact check and required access
+- `needs-runtime-check`, with the exact check and access needed
 
-Verification must ignore later dirty worktree edits. If the candidate tree is no longer available, recreate it from Git objects or rerun review on the current tree.
+P0/P1, low-confidence, disputed, security, data-loss, migration, public-contract, and responsibility-boundary claims receive an independent verification check even if the reviewer marked them confirmed.
 
-## Primary triage
+Verification ignores later worktree edits. If the pinned candidate cannot be recreated, build a new packet and rerun the claim.
 
-Accept when the claim is verified and has a concrete failure mode inside original or approved scope.
+## Responsibility decision
 
-Reject when it is refuted, duplicate, cosmetic without a repository rule, based on an unstated product choice, or depends on compromise outside the changed trust surface.
+Classify a confirmed claim before triage:
 
-Defer when it is concrete but needs external access, cross-team action, a larger approved refactor, or scope expansion. Use a reason such as `needs-runtime-check`, `scope-expansion`, `cross-team`, or `larger-refactor`.
+- `in-envelope`: originating spec or diff, candidate-changed, candidate-exposed, direct contract or production caller, or accepted-fix correctness
+- `out-of-envelope`: independently reproducible adjacent pre-existing defect or a new product decision
 
-Backward compatibility does not authorize new behavior, UX, analytics, or side effects. Ask or defer.
+Record evidence for the classification. A file outside the original diff can still be a direct caller. A defect in old code can still be candidate-exposed. Patch size and growth do not make a finding out-of-envelope.
 
-## Independent second triage
+## Batch triage
 
-In exhaustive mode, the second triager receives:
+Wait for the review batch, then send normalized verified findings for one packet to one primary triager. In exhaustive mode, send the same normalized batch to one independent triager without the primary verdict, reviewer identities, fix plan, or desired outcome.
 
-- base OID and candidate tree OID
-- normalized findings with evidence
-- immutable original intent and approved scope changes
-- current diff
+Quick mode may skip independent triage only for confirmed ordinary P2/P3 findings that do not affect security, data integrity, public contracts, migrations, scope, responsibility, or disputed evidence. P0/P1, scope expansion, low confidence, disputed claims, and envelope changes always require both.
 
-It does not receive reviewer identities, reviewer rationales beyond normalized evidence, the primary verdict, desired batch plan, or dirty worktree state.
+Triage verdicts are:
 
-It independently returns accept/reject/defer and a reason for every finding. The coordinator investigates every disagreement against the pinned tree and records resolution. No fixer starts until all accepted findings have both verdicts and resolved disagreements.
+- `accept`: confirmed, concrete, and in-envelope
+- `route`: confirmed and out-of-envelope, with a named route
+- `reject`: refuted, duplicate, not actionable, or based only on an unsupported product assumption
 
-## Late findings
+Do not use `reject` for real but inconvenient work. Do not use `route` for a qualifying issue because metrics grew or a deep fix takes longer.
 
-Findings from fixers, validators, cleanup workers, or re-reviewers enter the same ledger. They require verification and both triage gates before a behavior edit. Do not let a late finding bypass review because a worker is already editing nearby files.
+Run a resolver only when verdicts differ. It receives both verdicts and the exact disputed evidence. Agreement does not need a ceremonial resolution step.
 
-## Root-cause escalation
+## Routes
 
-Trigger a bounded design/refactor proposal when the same invariant:
+A `route` verdict must select:
 
-- causes three accepted findings
-- survives two rounds
-- requires the same defensive rule in multiple callers
+- `deferred`, with the reason and reconsideration condition
+- `routed-follow-up`
+- `routed-user-authority`
+- `routed-external-owner`
 
-The proposal must name the module, current interface, responsible seam, caller complexity that would disappear, smallest compatible migration, and tests through the new interface. Treat it as scope expansion unless original intent already requires it. After approval, add it to `scope.md` and triage it like any other fix.
+Include title, evidence, acceptance condition, next action, and owner when known. If the run cannot create an external issue, put a ready-to-file record in the ledger and final report. A deferred or routed issue remains known and unfixed.
+
+Scope expansion is not one category. A direct-caller compatibility repair is in-envelope. New UX, analytics, behavior, or side effects are product decisions and require user authority. If the user approves, append the approval to `scope.md`, reclassify the finding, and triage it against the new scope.
+
+## Fix gate
+
+A fixer may start only when:
+
+1. verification is sufficient
+2. attribution and responsibility are recorded
+3. primary triage accepted the finding
+4. independent triage accepted when required
+5. any real disagreement is resolved
+6. root-cause consolidation is complete when triggered
+
+Route records use the same verification and required triage gates before they close.
+
+Late findings from fixers, validation, cleanup, narrow review, or cold confirmation enter the same batch gate. A worker may report a nearby issue but may not fix it without authorization.
+
+## Growth and correctness
+
+When growth thresholds trip, triage does not rerun to find an excuse to reject claims. The coordinator groups findings by invariant, pauses overlapping fixes, and asks the primary and independent triagers to assess one consolidated repair or patch replacement.
+
+Only a real product, compatibility, external-system, or authority change needs user approval. Work required to make an accepted fix correct remains in-envelope.

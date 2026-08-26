@@ -1,7 +1,7 @@
 {
   "name": "fix-all-issues",
-  "version": "0.7.0",
-  "description": "Stateful PR review and remediation through fresh background-agent rounds. Keeps the main agent available, binds evidence to exact Git trees, gates fixes through independent triage, publishes repaired rounds, and stops with an explicit clean or capped outcome.",
+  "version": "0.8.0",
+  "description": "Bounded PR review and remediation through fresh outer-round worker pools. Attributes every verified finding, fixes responsibility owned by the candidate, routes adjacent issues durably, consolidates repeated root causes, and binds review and validation to exact Git trees and body phases.",
   "author": {
     "name": "Nick Petalas",
     "email": "webmasternikos@gmail.com",
@@ -15,8 +15,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Fix All Issues",
-    "shortDescription": "Fresh-context PR review rounds with tree-bound evidence and gated fixes",
-    "longDescription": "Orchestrate a stateful PR review and fix loop while the main agent stays available. Each outer round gets a fresh coordinator, risk-selected reviewers, verification, independent triage, red-green fixes, validation tied to an exact Git tree, cleanup convergence, normal push, and a fetch-before-edit PR description update. Durable run state tracks original intent, root-cause fingerprints, growth, deployments, and residual risk. Explicit stop outcomes distinguish a clean fresh confirmation from stabilization or a capped run.",
+    "shortDescription": "Bounded PR review with exact-tree evidence and durable issue routes",
+    "longDescription": "Orchestrate a bounded PR review and repair loop while the main agent stays available. Each outer round gets a fresh coordinator and blind pool, then reuses a small fixed worker set for batched verification, independent triage, disjoint fixes, root-cause consolidation, cold confirmation, tree-keyed validation, and delivery. A responsibility envelope keeps candidate-caused and direct-caller fixes in the PR while verified adjacent and product issues receive durable routes. Terminal states distinguish clean, scope-routed, blocked, stabilized, and capped runs.",
     "developerName": "Nick Petalas",
     "category": "Coding",
     "capabilities": ["Interactive", "Write"],
@@ -24,7 +24,8 @@
       "Run $fix-all-issues on this PR",
       "Review my current branch against main and fix every issue you find",
       "Use $fix-all-issues pr=123 orchestrator_only=true fresh_round_context=true",
-      "Use $fix-all-issues pr=123 max_outer_rounds=8 max_fix_rounds=8"
+      "Use $fix-all-issues pr=123 max_outer_rounds=6 max_fix_rounds=6",
+      "Use $fix-all-issues pr=123 reviewer_timebox_minutes=10 early_claim_minutes=3"
     ],
     "brandColor": "#2563EB",
     "screenshots": []

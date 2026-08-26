@@ -10,16 +10,23 @@
     "target",
     "inputs",
     "phase",
+    "phase_started_at",
     "initial",
     "current",
+    "responsibility_envelope",
+    "artifacts",
     "rounds",
+    "capacity",
     "growth",
+    "routes",
+    "status",
+    "terminal_state",
     "operational_status",
     "deployments",
     "residual_risks"
   ],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "2.0.0" },
     "run_id": { "type": "string", "minLength": 1 },
     "target": {
       "type": "object",
@@ -27,10 +34,10 @@
       "required": ["kind", "repository", "base_ref", "head_ref"],
       "properties": {
         "kind": { "enum": ["pr", "branch"] },
-        "repository": { "type": "string" },
+        "repository": { "type": "string", "minLength": 1 },
         "pr": { "type": ["integer", "null"], "minimum": 1 },
-        "base_ref": { "type": "string" },
-        "head_ref": { "type": "string" }
+        "base_ref": { "type": "string", "minLength": 1 },
+        "head_ref": { "type": "string", "minLength": 1 }
       }
     },
     "inputs": {
@@ -46,11 +53,13 @@
         "max_outer_rounds",
         "max_fix_rounds",
         "cap_strategy",
+        "reviewer_timebox_minutes",
+        "early_claim_minutes",
         "progress"
       ],
       "properties": {
         "review_mode": { "enum": ["exhaustive", "quick"] },
-        "num_agents": { "type": "integer", "minimum": 2 },
+        "num_agents": { "type": "integer", "minimum": 4 },
         "orchestrator_only": { "type": "boolean" },
         "fresh_round_context": { "type": "boolean" },
         "stop_policy": { "enum": ["stabilized", "fresh-zero"] },
@@ -58,48 +67,119 @@
         "max_outer_rounds": { "type": "integer", "minimum": 1 },
         "max_fix_rounds": { "type": "integer", "minimum": 1 },
         "cap_strategy": { "enum": ["hard", "ask", "reserve-confirmation"] },
+        "reviewer_timebox_minutes": { "type": "integer", "minimum": 1 },
+        "early_claim_minutes": { "type": "integer", "minimum": 1 },
         "progress": { "enum": ["milestones", "heartbeat"] }
       }
     },
     "phase": {
       "enum": [
         "preflight",
+        "evidence-packet",
         "review",
         "verification",
-        "primary-triage",
-        "second-triage",
+        "triage",
         "fix",
-        "validation",
+        "affected-validation",
         "cleanup",
-        "re-review",
+        "narrow-review",
+        "cold-review",
+        "root-validation",
+        "post-cleanup-review",
         "delivery",
         "confirmation",
         "complete",
         "blocked"
       ]
     },
+    "phase_started_at": { "type": "string", "format": "date-time" },
     "initial": { "$ref": "#/$defs/snapshot" },
     "current": { "$ref": "#/$defs/snapshot" },
+    "responsibility_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["in_envelope", "out_of_envelope"],
+      "properties": {
+        "in_envelope": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/attribution" },
+          "contains": { "const": "accepted-fix-correctness" }
+        },
+        "out_of_envelope": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/attribution" },
+          "contains": { "const": "adjacent-pre-existing" }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "evidence", "findings", "validation", "remote_body", "proposed_body"],
+      "properties": {
+        "scope": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "string", "minLength": 1 },
+        "findings": { "type": "string", "minLength": 1 },
+        "validation": { "type": "string", "minLength": 1 },
+        "remote_body": {
+          "oneOf": [{ "type": "string", "minLength": 1 }, { "type": "null" }]
+        },
+        "proposed_body": {
+          "oneOf": [{ "type": "string", "minLength": 1 }, { "type": "null" }]
+        }
+      }
+    },
     "rounds": {
       "type": "array",
       "items": { "$ref": "#/$defs/round" }
     },
-    "growth": {
+    "capacity": { "$ref": "#/$defs/capacity" },
+    "growth": { "$ref": "#/$defs/growth" },
+    "routes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/route" }
+    },
+    "status": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["files_ratio", "lines_ratio", "new_subsystems", "review_fix_lines"],
+      "required": ["critical_path", "phase_elapsed_seconds", "alarms"],
       "properties": {
-        "files_ratio": { "type": "number", "minimum": 0 },
-        "lines_ratio": { "type": "number", "minimum": 0 },
-        "new_subsystems": { "type": "array", "items": { "type": "string" } },
-        "review_fix_lines": { "type": "integer", "minimum": 0 },
-        "guard_triggered": { "type": "boolean" },
-        "decision": { "type": ["string", "null"] }
+        "critical_path": { "type": ["string", "null"] },
+        "phase_elapsed_seconds": { "type": "integer", "minimum": 0 },
+        "alarms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "count", "detail"],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "root-validation-repeat",
+                  "review-repeat",
+                  "avoidable-serialization",
+                  "overlapping-ownership",
+                  "independent-slot-starved"
+                ]
+              },
+              "count": { "type": "integer", "minimum": 1 },
+              "detail": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
       }
     },
-    "outcome": {
+    "terminal_state": {
       "type": ["string", "null"],
-      "enum": [null, "clean", "stabilized", "capped-stabilized", "capped-with-residuals"]
+      "enum": [
+        null,
+        "clean",
+        "scope-routed",
+        "stabilized",
+        "blocked",
+        "capped-in-envelope-green",
+        "capped-with-residuals"
+      ]
     },
     "operational_status": { "enum": ["active", "complete", "blocked"] },
     "deployments": {
@@ -122,6 +202,20 @@
   },
   "$defs": {
     "oid": { "type": "string", "pattern": "^[0-9a-f]{40,64}$" },
+    "body_hash": {
+      "oneOf": [{ "type": "string", "pattern": "^[0-9a-f]{64}$" }, { "type": "null" }]
+    },
+    "attribution": {
+      "enum": [
+        "originating-spec-diff",
+        "candidate-changed",
+        "candidate-exposed",
+        "direct-contract-caller",
+        "accepted-fix-correctness",
+        "adjacent-pre-existing",
+        "product-decision"
+      ]
+    },
     "snapshot": {
       "type": "object",
       "additionalProperties": false,
@@ -129,19 +223,143 @@
         "base_oid",
         "head_oid",
         "candidate_tree_oid",
-        "pr_body_hash",
+        "remote_body_hash",
+        "proposed_body_hash",
+        "delivered_body_hash",
         "files",
         "changed_lines",
-        "subsystems"
+        "subsystems",
+        "public_interfaces"
       ],
       "properties": {
         "base_oid": { "$ref": "#/$defs/oid" },
         "head_oid": { "$ref": "#/$defs/oid" },
         "candidate_tree_oid": { "$ref": "#/$defs/oid" },
-        "pr_body_hash": { "type": "string", "minLength": 1 },
+        "remote_body_hash": { "$ref": "#/$defs/body_hash" },
+        "proposed_body_hash": { "$ref": "#/$defs/body_hash" },
+        "delivered_body_hash": { "$ref": "#/$defs/body_hash" },
         "files": { "type": "integer", "minimum": 0 },
         "changed_lines": { "type": "integer", "minimum": 0 },
-        "subsystems": { "type": "array", "items": { "type": "string" } }
+        "subsystems": { "type": "array", "items": { "type": "string" } },
+        "public_interfaces": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "worker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "lifecycle",
+        "independence_group",
+        "owned_files",
+        "started_at",
+        "deadline_at",
+        "last_milestone_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "lifecycle": {
+          "enum": [
+            "reserved",
+            "starting",
+            "active",
+            "idle",
+            "closing",
+            "closed",
+            "timed-out",
+            "failed"
+          ]
+        },
+        "independence_group": { "type": ["string", "null"] },
+        "owned_files": { "type": "array", "items": { "type": "string" } },
+        "started_at": { "type": ["string", "null"], "format": "date-time" },
+        "deadline_at": { "type": ["string", "null"], "format": "date-time" },
+        "last_milestone_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "capacity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_agents", "reserved_independent_slots", "workers"],
+      "properties": {
+        "max_agents": { "type": "integer", "minimum": 4 },
+        "reserved_independent_slots": { "type": "integer", "minimum": 2 },
+        "workers": { "type": "array", "items": { "$ref": "#/$defs/worker" } }
+      }
+    },
+    "growth_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["at", "trigger", "response", "detail"],
+      "properties": {
+        "at": { "type": "string", "format": "date-time" },
+        "trigger": {
+          "enum": [
+            "files-doubled",
+            "lines-doubled",
+            "new-subsystem",
+            "review-fix-exceeds-original",
+            "negative-convergence",
+            "second-same-invariant"
+          ]
+        },
+        "response": {
+          "enum": [
+            "consolidate-root-cause",
+            "replace-patch-set",
+            "responsibility-audit",
+            "request-product-authority"
+          ]
+        },
+        "detail": { "type": "string", "minLength": 1 }
+      }
+    },
+    "growth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "files_ratio",
+        "lines_ratio",
+        "new_subsystems",
+        "review_fix_lines",
+        "events",
+        "qualifying_finding_routed_for_growth"
+      ],
+      "properties": {
+        "files_ratio": { "type": "number", "minimum": 0 },
+        "lines_ratio": { "type": "number", "minimum": 0 },
+        "new_subsystems": { "type": "array", "items": { "type": "string" } },
+        "review_fix_lines": { "type": "integer", "minimum": 0 },
+        "events": { "type": "array", "items": { "$ref": "#/$defs/growth_event" } },
+        "qualifying_finding_routed_for_growth": { "const": false }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_id",
+        "kind",
+        "title",
+        "evidence",
+        "acceptance_condition",
+        "owner",
+        "next_action",
+        "artifact"
+      ],
+      "properties": {
+        "finding_id": { "type": "string", "minLength": 1 },
+        "kind": {
+          "enum": ["deferred", "routed-follow-up", "routed-user-authority", "routed-external-owner"]
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "string", "minLength": 1 },
+        "acceptance_condition": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string", "minLength": 1 },
+        "next_action": { "type": "string", "minLength": 1 },
+        "artifact": { "type": "string", "minLength": 1 }
       }
     },
     "round": {
@@ -149,32 +367,43 @@
       "additionalProperties": false,
       "required": [
         "outer",
+        "freshness_boundary_id",
         "coordinator",
+        "packet_id",
         "start_tree_oid",
         "end_tree_oid",
         "accepted",
         "fixed",
-        "deferred",
+        "routed",
         "rejected",
-        "validation",
         "cleanup_zero",
-        "delivered"
+        "cold_qualifying_zero",
+        "root_validation",
+        "post_cleanup_review",
+        "delivered",
+        "phase_elapsed_seconds"
       ],
       "properties": {
         "outer": { "type": "integer", "minimum": 1 },
-        "coordinator": { "type": "string" },
+        "freshness_boundary_id": { "type": "string", "minLength": 1 },
+        "coordinator": { "type": "string", "minLength": 1 },
+        "packet_id": { "type": "string", "minLength": 1 },
         "start_tree_oid": { "$ref": "#/$defs/oid" },
         "end_tree_oid": { "$ref": "#/$defs/oid" },
         "accepted": { "type": "array", "items": { "type": "string" } },
         "fixed": { "type": "array", "items": { "type": "string" } },
-        "deferred": { "type": "array", "items": { "type": "string" } },
+        "routed": { "type": "array", "items": { "type": "string" } },
         "rejected": { "type": "array", "items": { "type": "string" } },
-        "validation": { "enum": ["pending", "green", "failed", "invalidated", "blocked"] },
         "cleanup_zero": { "type": "boolean" },
-        "cold_review_zero": { "type": "boolean" },
+        "cold_qualifying_zero": { "type": "boolean" },
+        "root_validation": { "enum": ["not-run", "green", "failed", "blocked", "invalidated"] },
+        "post_cleanup_review": { "enum": ["not-run", "green", "findings", "blocked"] },
         "delivered": { "type": "boolean" },
         "commits": { "type": "array", "items": { "$ref": "#/$defs/oid" } },
-        "pr_body_hash": { "type": ["string", "null"] },
+        "phase_elapsed_seconds": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
         "summary": { "type": "string" }
       }
     }

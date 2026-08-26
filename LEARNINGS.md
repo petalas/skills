@@ -2,6 +2,8 @@
 
 Notes from building and running skills in this repo, especially `fix-all-issues`.
 
+The current protocol lives in `plugins/fix-all-issues/skills/fix-all-issues/SKILL.md`. Version sections below preserve design history. Later versions supersede older advice about main-agent triage, direct edits, worker fanout, and final-review width.
+
 ## Core Lesson
 
 Parallel review skills usually fail operationally before they fail intellectually.
@@ -629,3 +631,76 @@ Validation classifies commands as read-only, local write, development mutation, 
 The PR body should explain final behavior and stable validation commands. Commit SHAs, intermediate line counts, intermediate exact test totals, and round transcripts belong in the run ledger or final report. Original intent stays immutable even while the body changes.
 
 The protocol now inspects metadata before and after work, fetches the body immediately before editing, pushes the validated tree normally, and reports any labels, threads, checks, or mergeability state that still need attention.
+
+## Bounded responsibility revision (v0.8.0)
+
+Version 0.7.0 made long runs auditable, but auditability did not guarantee convergence. A run could keep finding real defects in neighboring code and face a bad choice: grow the PR again or stop mentioning known issues. Growth thresholds also behaved too much like reasons to pause. They did not force the current patch design to improve.
+
+Version 0.8.0 separates issue truth from current-PR responsibility.
+
+### Attribute before deciding scope
+
+Every verified finding now has two independent labels:
+
+- origin records when it entered the run, such as original PR, review fix, cleanup, or reopened work
+- attribution records why the candidate owns it or why it belongs elsewhere
+
+The responsibility envelope includes the originating spec and diff, behavior changed or exposed by the candidate, direct contracts and production callers, and repairs needed to make an accepted fix correct. Those findings stay in the current PR even when they cross a file boundary.
+
+An adjacent pre-existing defect must be reproducible independently of the candidate. New product behavior also sits outside the envelope until the user approves it. Both remain in the finding ledger with a follow-up, user-authority, or external-owner route. A route is a known unfixed issue, not a clean result.
+
+This fixes the scope-creep problem without turning scope into a hiding place.
+
+### Make growth change the design
+
+Growth thresholds now trigger action at the responsible seam. They cannot reject or route a qualifying finding.
+
+When the diff doubles, repairs add a subsystem, review fixes exceed the original change, or the second accepted finding hits one invariant, the coordinator stops adding narrow patches. It consolidates enforcement in the responsible module or replaces the patch set.
+
+The second-finding trigger is intentionally early. By the third caller patch, the run has usually paid for a bad abstraction twice already.
+
+### Spend root validation after review converges
+
+Earlier runs paid full-repository lint, tests, and typecheck while reviewers were still likely to request edits. Any later patch invalidated some or all of that work.
+
+The new order is:
+
+1. red-green repair and affected checks
+2. cleanup to a zero-edit pass
+3. cold code and proposed-body review
+4. canonical root validation once for that zero-claim candidate
+5. one narrow post-cleanup check
+
+If the last check finds a qualifying issue, the run returns to triage. A new root pass needs a new cold zero. An unchanged tree does not earn another expensive run.
+
+### Reuse evidence with declared dependencies
+
+Validation remains tied to Git trees, but a new tree no longer erases unrelated proof automatically. Each validation row declares inputs, dependency fingerprint, and affected surfaces. A later tree may reuse that row only through a new ledger entry that names the source and proves the changes are disjoint.
+
+Unknown impact invalidates the row. Reuse is explicit evidence, not a claim that the old command ran on the new tree.
+
+### Move freshness to the outer boundary
+
+Independent evidence does not require a new worker for every gate. Version 0.8.0 starts a fresh coordinator and blind reviewer pool at each outer boundary, then reuses a small fixed pool inside the round.
+
+The pool reserves independent triage and cold-confirmation slots. It records lifecycle, deadlines, file ownership, and independence restrictions. One worker owns a shared seam. Disjoint fix batches may run in parallel.
+
+This cuts repeated context loading while preserving the boundaries that matter.
+
+### Give reviewers finite work
+
+Reviewers now receive coverage rows, a timebox, and an early claim milestone. They report a finding or explicit no-claim checkpoint early, then stop when their assigned lens is exhausted or the timebox ends.
+
+There is no finding-count cap. Mandatory uncovered rows may be reassigned once. Lower-risk uncovered rows become residual risk instead of an open-ended search.
+
+### Keep body phases honest
+
+The old `pr_body_hash` field could mean fetched remote text, a local proposal, or the body after editing. Version 0.8.0 records `remote_body_hash`, `proposed_body_hash`, and `delivered_body_hash` separately.
+
+Cold review binds to the proposed body. If the remote body changes before delivery, the coordinator merges that new text into the proposal and repeats body review. A stale proposal never overwrites remote edits silently.
+
+### Name how the run ended
+
+`clean` now means fresh-zero proof, final validation, and no known routed issue. If current-PR responsibility is green but verified adjacent or product work remains, the terminal state is `scope-routed`.
+
+Blocked and capped states remain separate. `capped-in-envelope-green` says repairs pass but the required fresh confirmation did not fit. `capped-with-residuals` says qualifying work or required evidence remains. None of these states is reported as cleanly fixed.

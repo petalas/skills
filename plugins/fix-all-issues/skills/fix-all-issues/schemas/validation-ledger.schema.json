@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/petalas/skills/fix-all-issues/validation-ledger.schema.json",
+  "title": "Fix all issues validation ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "entries"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "entries": { "type": "array", "items": { "$ref": "#/$defs/entry" } }
+  },
+  "$defs": {
+    "oid": { "type": "string", "pattern": "^[0-9a-f]{40,64}$" },
+    "body_hash": {
+      "oneOf": [{ "type": "string", "pattern": "^[0-9a-f]{64}$" }, { "type": "null" }]
+    },
+    "invalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["new_tree_oid", "changed_surfaces", "reason"],
+      "properties": {
+        "new_tree_oid": { "$ref": "#/$defs/oid" },
+        "changed_surfaces": { "type": "array", "items": { "type": "string" } },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "packet_id",
+        "candidate_tree_oid",
+        "body_hash",
+        "command",
+        "working_directory",
+        "command_fingerprint",
+        "tool_versions",
+        "environment",
+        "command_class",
+        "cache_state",
+        "input_paths",
+        "dependency_fingerprint",
+        "affected_surfaces",
+        "started_at",
+        "ended_at",
+        "exit_code",
+        "result",
+        "modified_files",
+        "status",
+        "source_entry_id",
+        "reuse_proof",
+        "invalidation"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": {
+          "enum": ["command", "code-review", "body-review", "cleanup-pass", "live-check"]
+        },
+        "packet_id": { "type": "string", "minLength": 1 },
+        "candidate_tree_oid": { "$ref": "#/$defs/oid" },
+        "body_hash": { "$ref": "#/$defs/body_hash" },
+        "command": { "type": ["string", "null"] },
+        "working_directory": { "type": ["string", "null"] },
+        "command_fingerprint": { "type": ["string", "null"] },
+        "tool_versions": { "type": "object", "additionalProperties": { "type": "string" } },
+        "environment": { "type": "string" },
+        "command_class": {
+          "type": ["string", "null"],
+          "enum": [null, "read-only", "local-write", "development-mutation", "production-mutation"]
+        },
+        "cache_state": {
+          "type": ["string", "null"],
+          "enum": [null, "hit", "miss", "disabled", "unknown"]
+        },
+        "input_paths": { "type": "array", "items": { "type": "string" } },
+        "dependency_fingerprint": { "type": "string", "minLength": 1 },
+        "affected_surfaces": { "type": "array", "items": { "type": "string" } },
+        "started_at": { "type": "string", "format": "date-time" },
+        "ended_at": { "type": ["string", "null"], "format": "date-time" },
+        "exit_code": { "type": ["integer", "null"] },
+        "result": { "type": "string" },
+        "modified_files": { "type": "array", "items": { "type": "string" } },
+        "status": { "enum": ["passed", "failed", "blocked", "invalidated", "reused"] },
+        "source_entry_id": { "type": ["string", "null"] },
+        "reuse_proof": { "type": ["string", "null"] },
+        "invalidation": {
+          "oneOf": [{ "$ref": "#/$defs/invalidation" }, { "type": "null" }]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "reused" } },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "source_entry_id": { "type": "string", "minLength": 1 },
+              "reuse_proof": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "status": { "const": "invalidated" } },
+            "required": ["status"]
+          },
+          "then": { "properties": { "invalidation": { "$ref": "#/$defs/invalidation" } } }
+        }
+      ]
+    }
+  }
+}

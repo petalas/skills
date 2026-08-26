@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/petalas/skills/fix-all-issues/run-state.schema.json",
+  "title": "Fix all issues run state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "target",
+    "inputs",
+    "phase",
+    "initial",
+    "current",
+    "rounds",
+    "growth",
+    "operational_status",
+    "deployments",
+    "residual_risks"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "repository", "base_ref", "head_ref"],
+      "properties": {
+        "kind": { "enum": ["pr", "branch"] },
+        "repository": { "type": "string" },
+        "pr": { "type": ["integer", "null"], "minimum": 1 },
+        "base_ref": { "type": "string" },
+        "head_ref": { "type": "string" }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_mode",
+        "num_agents",
+        "orchestrator_only",
+        "fresh_round_context",
+        "stop_policy",
+        "required_clean_outer_rounds",
+        "max_outer_rounds",
+        "max_fix_rounds",
+        "cap_strategy",
+        "progress"
+      ],
+      "properties": {
+        "review_mode": { "enum": ["exhaustive", "quick"] },
+        "num_agents": { "type": "integer", "minimum": 2 },
+        "orchestrator_only": { "type": "boolean" },
+        "fresh_round_context": { "type": "boolean" },
+        "stop_policy": { "enum": ["stabilized", "fresh-zero"] },
+        "required_clean_outer_rounds": { "type": "integer", "minimum": 1 },
+        "max_outer_rounds": { "type": "integer", "minimum": 1 },
+        "max_fix_rounds": { "type": "integer", "minimum": 1 },
+        "cap_strategy": { "enum": ["hard", "ask", "reserve-confirmation"] },
+        "progress": { "enum": ["milestones", "heartbeat"] }
+      }
+    },
+    "phase": {
+      "enum": [
+        "preflight",
+        "review",
+        "verification",
+        "primary-triage",
+        "second-triage",
+        "fix",
+        "validation",
+        "cleanup",
+        "re-review",
+        "delivery",
+        "confirmation",
+        "complete",
+        "blocked"
+      ]
+    },
+    "initial": { "$ref": "#/$defs/snapshot" },
+    "current": { "$ref": "#/$defs/snapshot" },
+    "rounds": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/round" }
+    },
+    "growth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["files_ratio", "lines_ratio", "new_subsystems", "review_fix_lines"],
+      "properties": {
+        "files_ratio": { "type": "number", "minimum": 0 },
+        "lines_ratio": { "type": "number", "minimum": 0 },
+        "new_subsystems": { "type": "array", "items": { "type": "string" } },
+        "review_fix_lines": { "type": "integer", "minimum": 0 },
+        "guard_triggered": { "type": "boolean" },
+        "decision": { "type": ["string", "null"] }
+      }
+    },
+    "outcome": {
+      "type": ["string", "null"],
+      "enum": [null, "clean", "stabilized", "capped-stabilized", "capped-with-residuals"]
+    },
+    "operational_status": { "enum": ["active", "complete", "blocked"] },
+    "deployments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["environment", "tree_oid", "authority", "result"],
+        "properties": {
+          "environment": { "type": "string" },
+          "tree_oid": { "$ref": "#/$defs/oid" },
+          "authority": { "type": "string" },
+          "command": { "type": ["string", "null"] },
+          "result": { "type": "string" },
+          "rollback": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "residual_risks": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "oid": { "type": "string", "pattern": "^[0-9a-f]{40,64}$" },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base_oid",
+        "head_oid",
+        "candidate_tree_oid",
+        "pr_body_hash",
+        "files",
+        "changed_lines",
+        "subsystems"
+      ],
+      "properties": {
+        "base_oid": { "$ref": "#/$defs/oid" },
+        "head_oid": { "$ref": "#/$defs/oid" },
+        "candidate_tree_oid": { "$ref": "#/$defs/oid" },
+        "pr_body_hash": { "type": "string", "minLength": 1 },
+        "files": { "type": "integer", "minimum": 0 },
+        "changed_lines": { "type": "integer", "minimum": 0 },
+        "subsystems": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "round": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outer",
+        "coordinator",
+        "start_tree_oid",
+        "end_tree_oid",
+        "accepted",
+        "fixed",
+        "deferred",
+        "rejected",
+        "validation",
+        "cleanup_zero",
+        "delivered"
+      ],
+      "properties": {
+        "outer": { "type": "integer", "minimum": 1 },
+        "coordinator": { "type": "string" },
+        "start_tree_oid": { "$ref": "#/$defs/oid" },
+        "end_tree_oid": { "$ref": "#/$defs/oid" },
+        "accepted": { "type": "array", "items": { "type": "string" } },
+        "fixed": { "type": "array", "items": { "type": "string" } },
+        "deferred": { "type": "array", "items": { "type": "string" } },
+        "rejected": { "type": "array", "items": { "type": "string" } },
+        "validation": { "enum": ["pending", "green", "failed", "invalidated", "blocked"] },
+        "cleanup_zero": { "type": "boolean" },
+        "cold_review_zero": { "type": "boolean" },
+        "delivered": { "type": "boolean" },
+        "commits": { "type": "array", "items": { "$ref": "#/$defs/oid" } },
+        "pr_body_hash": { "type": ["string", "null"] },
+        "summary": { "type": "string" }
+      }
+    }
+  }
+}

@@ -541,3 +541,91 @@ The 0.4.x pipeline optimized for a lean review/fix loop on bug-finding. Real-wor
 ### Tradeoffs
 
 The revision is roughly 2–3x the elapsed time and token cost of the 0.4.x pipeline on a typical medium PR. The expected return is a substantially lower residual-issue rate at ship: speculative findings get refuted instead of accepted-then-rejected later; cleanup happens in the same PR instead of accumulating; live-exercise catches "tests green, feature broken" cases that previously slipped to production. Use `quick` when the elapsed-time bound matters more than residual coverage.
+
+## Stateful orchestration revision (v0.7.0)
+
+Repeated DailyGoal PR #222 runs exposed a different failure class. The quality pipeline kept finding real issues, but the protocol did not converge cheaply. Four earlier review tasks each found another layer of caller, date-authority, provider recovery, or validator defects. A later eight-round run fixed 52 accepted findings. During that work the PR grew from 32 files and about 777 additions to 86 files and 3,939 additions.
+
+That is useful evidence and a warning. More reviewer effort was still producing value, but the skill could not answer several basic questions reliably:
+
+- Was a clean claim made against the exact tree that was pushed?
+- Did a fresh reviewer confirm the result, or did a prior agent recheck its own work?
+- Did a late finding pass both triage gates before a nearby worker fixed it?
+- Was the same invariant being patched at callers instead of fixed once at its responsible seam?
+- Did PR-body edits preserve original intent or redefine it after the fact?
+- Was growth caused by the original PR, a review fix, cleanup, or a reopened bug?
+- Did the round cap mean clean, merely stable, or unfinished?
+
+Version 0.7.0 treats those as state and interface problems.
+
+### Separate outer review from inner stabilization
+
+The old `max_rounds` mixed fresh review with fix retries. The new protocol has:
+
+- outer rounds, each with a new coordinator and fresh reviewer context
+- inner fix rounds for repair, validation, cleanup, and narrow re-review
+- `stop_policy=fresh-zero` for proof from a new context
+- `stop_policy=stabilized` when a green inner cycle is enough
+- named cap outcomes so a budget limit cannot masquerade as clean
+
+`reserve-confirmation` keeps the final outer slot for independent confirmation. If that confirmation finds and fixes something, the honest outcome is `capped-stabilized` until another fresh zero becomes available.
+
+### Make orchestration-only a real mode
+
+Telling the main agent to "orchestrate" was not enough. The old skill still encouraged direct trivial edits and local integration work. That made the main agent unavailable and blurred independence.
+
+With `orchestrator_only=true`, the main agent owns run state, capacity, progress, and summaries only. A new round coordinator owns review through push and PR-body delivery. If delegation cannot perform a required action, the run reports the limitation. The main agent does not quietly take the code back.
+
+### Bind evidence to Git objects
+
+Branch names and "current diff" are too weak during concurrent edits. Review, triage, tests, live checks, and approvals now name `base_oid`, `head_oid`, `candidate_tree_oid`, and `pr_body_hash`.
+
+Any code edit invalidates code evidence for the old tree. A behavior-relevant PR-body edit invalidates cold spec review. A metadata-only commit can preserve code evidence only when `HEAD^{tree}` is unchanged.
+
+### Persist root causes, not transcripts
+
+The run keeps untracked state under `.git/fix-all-issues/<run-id>/`. It stores immutable original intent, approved scope changes, root-cause fingerprints, append-only validation, PR-body working state, growth, deployments, and residual risks.
+
+Fresh reviewers stay blind to history. The coordinator deduplicates after their reports arrive. Rejected fingerprints reopen only when relevant code changed or new evidence exists. This preserves independence without rediscovering the same bug as a new cumulative count.
+
+### Put triage before every fix
+
+The independent second triager was good policy but not a hard gate. Late findings could arrive during cleanup or validation and get fixed immediately.
+
+The new gate is explicit:
+
+```text
+verify -> primary triage -> second triage -> resolve disagreement -> fix
+```
+
+It applies to initial and late findings. The second triager reads the pinned tree and normalized evidence, not the first verdict or a dirty worktree.
+
+### Review invariants across time and callers
+
+PR #222 repeatedly failed at the same classes of seam:
+
+- server date versus device date
+- provider readiness and recovery
+- stale async completions
+- callers that inherited a default but needed explicit authority
+- reactive queries whose early return hid a dependency
+
+The new change-contract matrix records consumer, operation, authority, readiness, fallback, validator, and test. Risk signals select temporal, time-authority, reactivity, caller-propagation, or native-lifecycle specialists. Changed interfaces require a production caller inventory. Async reviewers enumerate render, commit, effects, lifecycle changes, scope changes, request completion, and unmount.
+
+### Escalate root-cause clusters
+
+"Smallest fix" can produce a shallow patch in every caller. If one invariant causes three findings, survives two rounds, or needs repeated caller guards, the protocol pauses local patching. It proposes the smallest deep fix at the responsible seam and re-triages the scope.
+
+This is the key design correction from the DailyGoal runs. A central date or lifecycle module should remove caller knowledge. It should not add another helper that every caller must remember to use.
+
+### Guard convergence and external effects
+
+Each round now measures file count, changed lines, subsystems, public interfaces, and finding origin. Doubling the diff, adding a subsystem, exceeding the original diff with review fixes, or creating more issues for two rounds triggers a split/design decision.
+
+Validation classifies commands as read-only, local write, development mutation, or production mutation. Skill invocation does not authorize deployment. Known environment failures get one fingerprinted investigation and one final reconfirmation instead of consuming every round. Cache hits, affected-workspace checks, generation inputs, live-check level, and deployment authority are recorded.
+
+### Keep delivery stable
+
+The PR body should explain final behavior and stable validation commands. Commit SHAs, intermediate line counts, intermediate exact test totals, and round transcripts belong in the run ledger or final report. Original intent stays immutable even while the body changes.
+
+The protocol now inspects metadata before and after work, fetches the body immediately before editing, pushes the validated tree normally, and reports any labels, threads, checks, or mergeability state that still need attention.

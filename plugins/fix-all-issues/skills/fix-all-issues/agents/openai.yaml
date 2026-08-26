@@ -1,4 +1,4 @@
 interface:
   display_name: "Fix All Issues"
-  short_description: "Quality-first parallel PR review with verification, cleanup, and residual-risk reporting."
-  default_prompt: "Use $fix-all-issues to review a PR end-to-end: fan out lens + red-team + coverage + conformance reviewers, verify every finding, triage with a second independent agent, fix with mutation-style evidence, run a dedicated cleanup round, validate with a live feature exercise, and report a residual-risk inventory. Default to exhaustive mode unless the user asks for quick."
+  short_description: "Fresh-context PR review rounds with tree-bound evidence and gated fixes."
+  default_prompt: "Use $fix-all-issues in exhaustive mode. Keep the main agent orchestration-only, create durable run state, spawn a fresh coordinator for each outer round, bind review and validation to exact Git trees, gate fixes through verification and independent triage, publish each repaired round, and stop only after a fresh zero-finding confirmation or an explicit capped outcome."

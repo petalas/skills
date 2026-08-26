@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "cases": [
+    {
+      "name": "fix waits for exhaustive triage gates",
+      "given": ["verified", "primary-accepted"],
+      "expected": "fix-forbidden"
+    },
+    {
+      "name": "fix allowed after disagreement resolution",
+      "given": ["verified", "primary-accepted", "second-accepted", "disagreement-resolved"],
+      "expected": "fix-allowed"
+    },
+    {
+      "name": "code edit invalidates old evidence",
+      "given": ["candidate-tree-changed"],
+      "expected": "review-and-validation-invalid"
+    },
+    {
+      "name": "behavior body edit invalidates cold spec review",
+      "given": ["pr-body-behavior-hash-changed"],
+      "expected": "cold-review-invalid"
+    },
+    {
+      "name": "third same-invariant finding escalates design",
+      "given": ["same-invariant-accepted-count-3"],
+      "expected": "design-pass-required"
+    },
+    {
+      "name": "fresh zero reaches clean",
+      "given": ["required-fresh-zero-complete", "final-validation-green"],
+      "expected": "clean"
+    },
+    {
+      "name": "cap after green fixes without confirmation",
+      "given": ["outer-cap-reached", "inner-stable", "fresh-zero-incomplete"],
+      "expected": "capped-stabilized"
+    },
+    {
+      "name": "cap with actionable findings",
+      "given": ["outer-cap-reached", "actionable-residuals"],
+      "expected": "capped-with-residuals"
+    },
+    {
+      "name": "deployment needs separate authority",
+      "given": ["skill-invoked", "no-explicit-deploy-authority"],
+      "expected": "deployment-forbidden"
+    }
+  ]
+}

@@ -13,11 +13,11 @@ If you only want to install a skill, use the commands below and ignore the inter
 
 ## Available Skills
 
-| Skill               | Category | What it does                                                                                                                                    |
-| ------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `commit-guidelines` | Coding   | Creates focused Conventional Commits while preserving unrelated work and never attributing authorship or co-authorship to AI                    |
-| `fix-all-issues`    | Coding   | Reviews a PR or branch in parallel, deduplicates findings, delegates fixes, validates the result, and runs a fresh final review before stopping |
-| `safe-refactor`     | Coding   | Finds the highest-value behavior-preserving refactor that can be safely bounded, protected with evidence, and validated                         |
+| Skill               | Category | What it does                                                                                                                            |
+| ------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `commit-guidelines` | Coding   | Creates focused Conventional Commits while preserving unrelated work and never attributing authorship or co-authorship to AI            |
+| `fix-all-issues`    | Coding   | Runs fresh-context PR review and fix rounds with durable state, tree-bound evidence, gated triage, delivery, and explicit stop outcomes |
+| `safe-refactor`     | Coding   | Finds the highest-value behavior-preserving refactor that can be safely bounded, protected with evidence, and validated                 |
 
 See each plugin README for prompts, workflow details, and source paths:
 
@@ -97,8 +97,12 @@ plugins/
     .codex-plugin/plugin.json
     README.md
     commands/fix-all-issues.md
-    skills/fix-all-issues/SKILL.md
-    skills/fix-all-issues/agents/openai.yaml
+    skills/fix-all-issues/
+      SKILL.md
+      agents/openai.yaml
+      references/*.md
+      templates/*.md
+      schemas/*.json
   safe-refactor/
     .codex-plugin/plugin.json
     README.md

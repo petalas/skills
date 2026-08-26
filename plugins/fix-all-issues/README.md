@@ -1,55 +1,59 @@
-# Fix All Issues
+# Fix all issues
 
-`fix-all-issues` is a quality-first review-and-remediation skill for pull requests and active branches.
+`fix-all-issues` runs a stateful PR review and remediation loop through fresh background agents. Version 0.7.0 makes orchestration-only operation the default and separates fresh outer review rounds from inner fix stabilization.
 
-It is designed for workflows where the agent should:
+The skill now:
 
-- fan out independent review passes in parallel (lens + red-team + coverage + conformance)
-- verify every speculative finding against the actual code before triage
-- triage with an independent second agent so the main agent does not rubber-stamp itself
-- fix accepted findings with delegated workers that produce failing-test-first then green evidence
-- run a dedicated cleanup round after bug fixes are green
-- validate with autofix + lint + tests + typecheck **and** a live feature exercise
-- run a "would I block this PR?" cold reviewer on the final diff
-- report a residual-risk inventory of what was NOT checked
+- creates untracked run state with immutable original intent, root-cause fingerprints, tree-bound validation, and round summaries
+- spawns a new round coordinator for every outer iteration while the main agent stays available
+- selects specialist reviewers from risk signals such as async lifecycle, time authority, reactive dependencies, native APIs, and changed shared interfaces
+- blocks fixes until verification, primary triage, independent second triage, and disagreement resolution finish
+- requires caller inventories, temporal state-machine review, and root-cause escalation to the responsible seam
+- invalidates review and validation when the candidate tree or behavior-relevant PR body changes
+- stops with explicit `clean`, `stabilized`, `capped-stabilized`, or `capped-with-residuals` outcomes
+- guards against runaway PR growth and records finding origin, deployment authority, and residual risk
 
-## Example Prompts
+## Examples
 
 ```text
 Use $fix-all-issues on this PR
 Use $fix-all-issues pr=123
-Review my current branch against main and fix every issue you find
-Use $fix-all-issues pr=123 review_mode=quick
-Use $fix-all-issues pr=123 num_agents=8 max_rounds=8
+Use $fix-all-issues pr=123 review_mode=quick stop_policy=stabilized
+Use $fix-all-issues pr=123 orchestrator_only=true fresh_round_context=true
+Use $fix-all-issues pr=123 max_outer_rounds=8 max_fix_rounds=8 cap_strategy=reserve-confirmation
+Use $fix-all-issues pr=123 required_clean_outer_rounds=2 progress=heartbeat
 ```
 
-## Modes
+## Inputs
 
-- `exhaustive` (default): full quality pipeline. Defaults to `num_agents=8`, `max_rounds=8`. Adds red-team / coverage / conformance reviewer lenses, per-finding verification gate, independent second triager, mutation-style fix evidence, dedicated cleanup round, live-feature validation, cold final reviewer, residual-risk inventory.
-- `quick`: leaner prior pipeline. Defaults to `num_agents=5`, `max_rounds=5`. 4 lens reviewers, no second triager, no red-team or coverage agent, no separate cleanup round, lint/test/typecheck only for validation.
+- `review_mode`: `exhaustive` by default, or `quick`
+- `num_agents`: concurrent background-agent ceiling, including the coordinator
+- `orchestrator_only`: keeps target work out of the main agent, default `true`
+- `fresh_round_context`: requires new coordinators and reviewers, default `true`
+- `stop_policy`: `fresh-zero` or `stabilized`
+- `required_clean_outer_rounds`: fresh zero rounds needed for `clean`, default `1`
+- `max_outer_rounds`: fresh review cap, default `8` or `5` by mode
+- `max_fix_rounds`: inner stabilization cap, default `8` or `5` by mode
+- `max_rounds`: legacy alias for `max_outer_rounds`
+- `cap_strategy`: `reserve-confirmation`, `hard`, or `ask`
+- `progress`: `milestones` or `heartbeat`
 
-## Source Map
+Invocation covers local review/fix work, validation, focused commits, normal pushes, and PR description updates. Deployment, production mutation, force-push, history rewrite, destructive cleanup, external communication, and scope expansion need separate authority.
+
+## Source map
 
 ```text
 plugins/fix-all-issues/
   .codex-plugin/plugin.json
   commands/fix-all-issues.md
-  skills/fix-all-issues/SKILL.md
-  skills/fix-all-issues/agents/openai.yaml
+  skills/fix-all-issues/
+    SKILL.md
+    agents/openai.yaml
+    references/*.md
+    templates/*.md
+    schemas/*.json
 ```
 
-## Notes
+The installed skill includes the references, templates, and schemas. Repository maintainers can run `bun run validate:fix-all-issues` to check version parity, required files, shared inputs, protocol cases, JSON syntax, and ASCII compliance.
 
-- repository instructions (`CLAUDE.md`, `AGENTS.md`) override the skill's defaults
-- the skill auto-extracts a per-repo conformance checklist before reviewer fanout and injects it into every reviewer prompt
-- every reviewer finding is tagged `verified ✓` or `speculative ⚠`; the verification pass refutes or upgrades each `⚠` before triage
-- reviewer count scales with PR size (4 small, 6 medium, up to 8 large/multi-subsystem in exhaustive; capped at 4 in quick)
-- validation runs autofix before strict lint and tests, so the canonical pass always runs against already-formatted code
-- exhaustive mode requires live-feature exercise where applicable (boot dev server, hit endpoint, run CLI); skips are logged in the residual-risk report
-- the cleanup round runs separately from bug-fix rounds and forbids behavior changes
-- the scope-expansion rule prevents the skill from silently landing behavior, UX, or analytics changes the PR body did not promise — it confirms with the user or defers as a follow-up
-- after any history rewrite (squash, amend, force-push-with-lease) the skill reruns the full validation suite against the new tip
-- when editing a PR body via `gh`, the skill always fetches the existing body first instead of clobbering
-- review fixes are folded into existing PR-body sections, not appended as "Additional fixes" blocks (which go stale on squash)
-- use `$fix-all-issues` consistently in prompts and examples
-- see [../../LEARNINGS.md](../../LEARNINGS.md) for design notes including the v0.5.0 quality-first revision rationale
+See [../../LEARNINGS.md](../../LEARNINGS.md) for the design history and v0.7.0 run evidence.

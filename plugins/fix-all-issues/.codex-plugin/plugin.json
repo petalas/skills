@@ -1,7 +1,7 @@
 {
   "name": "fix-all-issues",
-  "version": "0.6.1",
-  "description": "Quality-first parallel PR review and remediation workflow. Finds issues with lens reviewers plus a red-team and coverage agent, verifies every finding, triages with an independent second pass, fixes with mutation-style evidence, runs a dedicated cleanup round, validates with a live feature exercise, and reports residual risks.",
+  "version": "0.7.0",
+  "description": "Stateful PR review and remediation through fresh background-agent rounds. Keeps the main agent available, binds evidence to exact Git trees, gates fixes through independent triage, publishes repaired rounds, and stops with an explicit clean or capped outcome.",
   "author": {
     "name": "Nick Petalas",
     "email": "webmasternikos@gmail.com",
@@ -15,16 +15,16 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Fix All Issues",
-    "shortDescription": "Quality-first parallel PR review with verification, cleanup, and residual-risk reporting",
-    "longDescription": "Orchestrate a multi-round PR review and fix workflow optimized for catching every real issue and shipping a clean diff. Default exhaustive mode adds red-team and coverage reviewer lenses, a per-finding verification gate, an independent second triager, mutation-style fix evidence, a dedicated cleanup round, live-feature validation, a cold 'would I block this PR?' reviewer, and a residual-risk inventory. Quick mode preserves the leaner prior pipeline for elapsed-time-sensitive runs.",
+    "shortDescription": "Fresh-context PR review rounds with tree-bound evidence and gated fixes",
+    "longDescription": "Orchestrate a stateful PR review and fix loop while the main agent stays available. Each outer round gets a fresh coordinator, risk-selected reviewers, verification, independent triage, red-green fixes, validation tied to an exact Git tree, cleanup convergence, normal push, and a fetch-before-edit PR description update. Durable run state tracks original intent, root-cause fingerprints, growth, deployments, and residual risk. Explicit stop outcomes distinguish a clean fresh confirmation from stabilization or a capped run.",
     "developerName": "Nick Petalas",
     "category": "Coding",
     "capabilities": ["Interactive", "Write"],
     "defaultPrompt": [
       "Run $fix-all-issues on this PR",
       "Review my current branch against main and fix every issue you find",
-      "Use $fix-all-issues pr=123 review_mode=quick num_agents=5",
-      "Use $fix-all-issues pr=123 num_agents=8 max_rounds=8"
+      "Use $fix-all-issues pr=123 orchestrator_only=true fresh_round_context=true",
+      "Use $fix-all-issues pr=123 max_outer_rounds=8 max_fix_rounds=8"
     ],
     "brandColor": "#2563EB",
     "screenshots": []

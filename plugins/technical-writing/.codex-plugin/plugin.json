@@ -1,0 +1,27 @@
+{
+  "name": "technical-writing",
+  "version": "0.1.0",
+  "description": "Layered technical-writing standard: Diataxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for $technical-writing or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "technical-writing"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "technical-writing",
+    "shortDescription": "Layered technical-writing standard: Diataxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for $technical-writing or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages.",
+    "longDescription": "Layered technical-writing standard: Diataxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for $technical-writing or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $technical-writing for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

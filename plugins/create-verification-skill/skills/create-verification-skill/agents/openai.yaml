@@ -1,0 +1,4 @@
+interface:
+  display_name: "create-verification-skill"
+  short_description: "Create a project-local skill that drives an app through its real user surface and captures proof."
+  default_prompt: "Use $create-verification-skill for this task."

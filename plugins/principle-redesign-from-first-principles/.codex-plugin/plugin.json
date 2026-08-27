@@ -1,0 +1,27 @@
+{
+  "name": "principle-redesign-from-first-principles",
+  "version": "0.1.0",
+  "description": "Apply when integrating a new requirement into an existing design. Redesign as if the requirement had been a foundational assumption from day one, instead of bolting it on.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "principle-redesign-from-first-principles"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "principle-redesign-from-first-principles",
+    "shortDescription": "Apply when integrating a new requirement into an existing design. Redesign as if the requirement had been a foundational assumption from day one, instead of bolting it on.",
+    "longDescription": "Apply when integrating a new requirement into an existing design. Redesign as if the requirement had been a foundational assumption from day one, instead of bolting it on.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $principle-redesign-from-first-principles for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

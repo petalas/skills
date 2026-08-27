@@ -1,0 +1,31 @@
+{
+  "name": "principle-separate-before-serializing-shared-state",
+  "version": "0.1.0",
+  "description": "Apply when concurrent actors might write to the same file, branch, key, or state object. Eliminate the sharing first; serialize structurally only when one shared writer is a real invariant.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": [
+    "agent-skill",
+    "solo-developer",
+    "principle-separate-before-serializing-shared-state"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "principle-separate-before-serializing-shared-state",
+    "shortDescription": "Apply when concurrent actors might write to the same file, branch, key, or state object. Eliminate the sharing first; serialize structurally only when one shared writer is a real invariant.",
+    "longDescription": "Apply when concurrent actors might write to the same file, branch, key, or state object. Eliminate the sharing first; serialize structurally only when one shared writer is a real invariant.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $principle-separate-before-serializing-shared-state for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

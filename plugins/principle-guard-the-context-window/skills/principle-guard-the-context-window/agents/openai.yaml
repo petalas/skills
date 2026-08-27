@@ -1,0 +1,4 @@
+interface:
+  display_name: "principle-guard-the-context-window"
+  short_description: "Apply when context is filling up: large outputs, long files, repeated reads, fan-out planning. Route bulk to subagents; keep summaries in the main thread, not raw payloads."
+  default_prompt: "Use $principle-guard-the-context-window for this task."

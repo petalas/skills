@@ -1,0 +1,27 @@
+{
+  "name": "how",
+  "version": "0.1.0",
+  "description": "Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Optionally add a read-only architectural critique. Use why for historical motivation.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "how"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "how",
+    "shortDescription": "Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Optionally add a read-only architectural critique. Use why for historical motivation.",
+    "longDescription": "Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Optionally add a read-only architectural critique. Use why for historical motivation.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $how for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

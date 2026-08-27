@@ -1,0 +1,4 @@
+interface:
+  display_name: "auditable-run"
+  short_description: "Design and execute an evidence-driven local workflow for a large task when no focused playbook fits."
+  default_prompt: "Use $auditable-run for this task."

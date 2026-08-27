@@ -1,0 +1,27 @@
+{
+  "name": "show-me-your-work",
+  "version": "0.1.0",
+  "description": "Keep a local, reviewable TSV decision trail for long-running, unattended, or multi-phase work.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "show-me-your-work"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "show-me-your-work",
+    "shortDescription": "Keep a local, reviewable TSV decision trail for long-running, unattended, or multi-phase work.",
+    "longDescription": "Keep a local, reviewable TSV decision trail for long-running, unattended, or multi-phase work.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $show-me-your-work for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

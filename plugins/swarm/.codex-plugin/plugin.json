@@ -1,0 +1,27 @@
+{
+  "name": "swarm",
+  "version": "0.1.0",
+  "description": "Fan out independent subagents across parallel slices or races, drain every required result, and return one consolidated local report.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "swarm"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "swarm",
+    "shortDescription": "Fan out subagents, drain every required result, and consolidate the report.",
+    "longDescription": "Fan out independent subagents across parallel slices or races, drain every required result, and return one consolidated local report.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $swarm for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

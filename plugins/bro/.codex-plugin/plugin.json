@@ -1,0 +1,27 @@
+{
+  "name": "bro",
+  "version": "0.1.0",
+  "description": "Restate the last message in plain human language, with no jargon.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "bro"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "bro",
+    "shortDescription": "Restate the last message in plain human language, with no jargon.",
+    "longDescription": "Restate the last message in plain human language, with no jargon.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $bro for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

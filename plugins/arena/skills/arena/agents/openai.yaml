@@ -1,0 +1,4 @@
+interface:
+  display_name: "arena"
+  short_description: "Generate, judge, and synthesize independent candidates."
+  default_prompt: "Use $arena for this task."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "principle-local-autonomy"
+  short_description: "Apply when reversible local work can proceed without a permission pause. Keep agents autonomous inside the workspace while reserving external communication and consequential actions for the user."
+  default_prompt: "Use $principle-local-autonomy for this task."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "principle-make-operations-idempotent"
+  short_description: "Apply when designing commands, lifecycle steps, or processing loops that run amid crashes, restarts, and retries. Converge to the same end state regardless of partial prior runs."
+  default_prompt: "Use $principle-make-operations-idempotent for this task."

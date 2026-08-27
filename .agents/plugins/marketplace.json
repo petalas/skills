@@ -1,43 +1,368 @@
 {
   "name": "petalas-skills",
-  "interface": {
-    "displayName": "Petalas Skills"
-  },
+  "interface": { "displayName": "Petalas Skills" },
   "plugins": [
     {
+      "name": "adversarial-review",
+      "source": { "source": "local", "path": "./plugins/adversarial-review" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "architect",
+      "source": { "source": "local", "path": "./plugins/architect" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "arena",
+      "source": { "source": "local", "path": "./plugins/arena" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "auditable-run",
+      "source": { "source": "local", "path": "./plugins/auditable-run" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "automate-me",
+      "source": { "source": "local", "path": "./plugins/automate-me" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "blast-radius",
+      "source": { "source": "local", "path": "./plugins/blast-radius" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "bro",
+      "source": { "source": "local", "path": "./plugins/bro" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
       "name": "commit-guidelines",
+      "source": { "source": "local", "path": "./plugins/commit-guidelines" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "configure-agent-models",
       "source": {
         "source": "local",
-        "path": "./plugins/commit-guidelines"
+        "path": "./plugins/configure-agent-models"
       },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "create-verification-skill",
+      "source": {
+        "source": "local",
+        "path": "./plugins/create-verification-skill"
       },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "engineering-mode",
+      "source": { "source": "local", "path": "./plugins/engineering-mode" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "explain-code",
+      "source": { "source": "local", "path": "./plugins/explain-code" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Coding"
     },
     {
       "name": "fix-all-issues",
+      "source": { "source": "local", "path": "./plugins/fix-all-issues" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "how",
+      "source": { "source": "local", "path": "./plugins/how" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "maintain-verification-skill",
       "source": {
         "source": "local",
-        "path": "./plugins/fix-all-issues"
+        "path": "./plugins/maintain-verification-skill"
       },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-boundary-discipline",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-boundary-discipline"
       },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-build-the-lever",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-build-the-lever"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-encode-lessons-in-structure",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-encode-lessons-in-structure"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-exhaust-the-design-space",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-exhaust-the-design-space"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-experience-first",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-experience-first"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-fix-root-causes",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-fix-root-causes"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-foundational-thinking",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-foundational-thinking"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-guard-the-context-window",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-guard-the-context-window"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-laziness-protocol",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-laziness-protocol"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-local-autonomy",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-local-autonomy"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-make-operations-idempotent",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-make-operations-idempotent"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-minimize-reader-load",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-minimize-reader-load"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-model-domain-in-code",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-model-domain-in-code"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-outcome-oriented-execution",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-outcome-oriented-execution"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-prove-it-works",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-prove-it-works"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-redesign-from-first-principles",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-redesign-from-first-principles"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-replace-internal-apis-atomically",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-replace-internal-apis-atomically"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-separate-before-serializing-shared-state",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-separate-before-serializing-shared-state"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-sequence-verifiable-units",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-sequence-verifiable-units"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-subtract-before-you-add",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-subtract-before-you-add"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "principle-type-system-discipline",
+      "source": {
+        "source": "local",
+        "path": "./plugins/principle-type-system-discipline"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "recall",
+      "source": { "source": "local", "path": "./plugins/recall" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "reflect",
+      "source": { "source": "local", "path": "./plugins/reflect" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "regression-test",
+      "source": { "source": "local", "path": "./plugins/regression-test" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "review-code-comments",
+      "source": { "source": "local", "path": "./plugins/review-code-comments" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Coding"
     },
     {
       "name": "safe-refactor",
+      "source": { "source": "local", "path": "./plugins/safe-refactor" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "show-me-your-work",
+      "source": { "source": "local", "path": "./plugins/show-me-your-work" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "swarm",
+      "source": { "source": "local", "path": "./plugins/swarm" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "technical-writing",
+      "source": { "source": "local", "path": "./plugins/technical-writing" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "typescript-best-practices",
       "source": {
         "source": "local",
-        "path": "./plugins/safe-refactor"
+        "path": "./plugins/typescript-best-practices"
       },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "unslop",
+      "source": { "source": "local", "path": "./plugins/unslop" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "why",
+      "source": { "source": "local", "path": "./plugins/why" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Coding"
+    },
+    {
+      "name": "worktree-cleanup",
+      "source": { "source": "local", "path": "./plugins/worktree-cleanup" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Coding"
     }
   ]

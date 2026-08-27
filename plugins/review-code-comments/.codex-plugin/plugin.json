@@ -1,0 +1,27 @@
+{
+  "name": "review-code-comments",
+  "version": "0.1.0",
+  "description": "Review source-code comments for noise, stale explanations, suppressions, and constraints that should be encoded in code, then apply only authorized local cleanups.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "review-code-comments"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "review-code-comments",
+    "shortDescription": "Review source-code comments and apply only authorized local cleanups.",
+    "longDescription": "Review source-code comments for noise, stale explanations, suppressions, and constraints that should be encoded in code, then apply only authorized local cleanups.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $review-code-comments for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

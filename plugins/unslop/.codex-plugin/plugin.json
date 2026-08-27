@@ -1,0 +1,27 @@
+{
+  "name": "unslop",
+  "version": "0.1.0",
+  "description": "Cut AI tells from any writing. Must always apply.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "unslop"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "unslop",
+    "shortDescription": "Cut AI tells from any writing. Must always apply.",
+    "longDescription": "Cut AI tells from any writing. Must always apply.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $unslop for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

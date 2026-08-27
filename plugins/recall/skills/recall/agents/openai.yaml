@@ -1,0 +1,4 @@
+interface:
+  display_name: "recall"
+  short_description: "Reconstruct recent solo-development context and current workspace state."
+  default_prompt: "Use $recall for this task."

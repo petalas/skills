@@ -1,0 +1,27 @@
+{
+  "name": "create-verification-skill",
+  "version": "0.1.0",
+  "description": "Create a project-local skill that drives an app through its real user surface and captures proof.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "create-verification-skill"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "create-verification-skill",
+    "shortDescription": "Create a project-local skill that drives an app through its real user surface and captures proof.",
+    "longDescription": "Create a project-local skill that drives an app through its real user surface and captures proof.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $create-verification-skill for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

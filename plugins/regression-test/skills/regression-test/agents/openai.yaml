@@ -1,0 +1,4 @@
+interface:
+  display_name: "regression-test"
+  short_description: "Use when the user asks for a regression test, or when a bug has an obvious cheap local test seam. Do not use for general TDD or test-first feature development."
+  default_prompt: "Use $regression-test for this task."

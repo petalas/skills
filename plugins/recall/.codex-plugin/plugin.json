@@ -1,0 +1,27 @@
+{
+  "name": "recall",
+  "version": "0.1.0",
+  "description": "Reconstruct recent solo-development context from the current host's accessible task history, repository history, local docs, and live workspace state, then return a concise current-state brief.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "recall"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "recall",
+    "shortDescription": "Reconstruct recent solo-development context and return a concise current-state brief.",
+    "longDescription": "Reconstruct recent solo-development context from the current host's accessible task history, repository history, local docs, and live workspace state, then return a concise current-state brief.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $recall for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

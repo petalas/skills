@@ -1,0 +1,27 @@
+{
+  "name": "explain-code",
+  "version": "0.1.0",
+  "description": "Explain code plainly by combining how it works with the evidence for why it has that shape. Use for teaching a change, subsystem, or unfamiliar code path.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "explain-code"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "explain-code",
+    "shortDescription": "Explain code by combining how it works with evidence for why it has that shape.",
+    "longDescription": "Explain code plainly by combining how it works with the evidence for why it has that shape. Use for teaching a change, subsystem, or unfamiliar code path.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $explain-code for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

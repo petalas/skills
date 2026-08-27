@@ -1,0 +1,4 @@
+interface:
+  display_name: "principle-foundational-thinking"
+  short_description: "Apply before writing logic: choosing core types and data structures, sequencing scaffold-vs-feature work, asking what concurrent actors share. Get the data structures right so downstream code becomes obvious."
+  default_prompt: "Use $principle-foundational-thinking for this task."

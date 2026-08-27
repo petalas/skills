@@ -1,0 +1,27 @@
+{
+  "name": "principle-exhaust-the-design-space",
+  "version": "0.1.0",
+  "description": "Apply when facing a novel UI interaction or architectural decision with no precedent in the codebase. Build 2-3 competing prototypes and compare side by side before choosing.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "principle-exhaust-the-design-space"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "principle-exhaust-the-design-space",
+    "shortDescription": "Apply when facing a novel UI interaction or architectural decision with no precedent in the codebase. Build 2-3 competing prototypes and compare side by side before choosing.",
+    "longDescription": "Apply when facing a novel UI interaction or architectural decision with no precedent in the codebase. Build 2-3 competing prototypes and compare side by side before choosing.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $principle-exhaust-the-design-space for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "principle-replace-internal-apis-atomically"
+  short_description: "Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserving compatibility layers."
+  default_prompt: "Use $principle-replace-internal-apis-atomically for this task."

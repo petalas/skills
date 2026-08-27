@@ -1,0 +1,27 @@
+{
+  "name": "regression-test",
+  "version": "0.1.0",
+  "description": "Use when the user asks for a regression test, or when a bug has an obvious cheap local test seam. Do not use for general TDD or test-first feature development.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "regression-test"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "regression-test",
+    "shortDescription": "Use when the user asks for a regression test, or when a bug has an obvious cheap local test seam. Do not use for general TDD or test-first feature development.",
+    "longDescription": "Use when the user asks for a regression test, or when a bug has an obvious cheap local test seam. Do not use for general TDD or test-first feature development.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $regression-test for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

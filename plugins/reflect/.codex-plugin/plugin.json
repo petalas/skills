@@ -1,0 +1,27 @@
+{
+  "name": "reflect",
+  "version": "0.1.0",
+  "description": "Review the active session through independent lenses and propose durable skill improvements for user approval.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "reflect"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "reflect",
+    "shortDescription": "Review the active session through independent lenses and propose durable skill improvements for user approval.",
+    "longDescription": "Review the active session through independent lenses and propose durable skill improvements for user approval.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $reflect for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

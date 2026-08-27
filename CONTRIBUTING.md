@@ -12,6 +12,7 @@ bun run hooks:install
 ```bash
 bun run format
 bun run format:check
+bun run check
 ```
 
 Formatting is the main repository quality gate right now:
@@ -28,8 +29,20 @@ Formatting is the main repository quality gate right now:
    - `.codex-plugin/plugin.json`
    - plugin-level `README.md`
    - root `README.md` if install or discovery guidance changed
-4. Run `bun run format`.
-5. Run `bun run format:check`.
+4. Run `bun run catalog:sync` after adding, removing, renaming, or changing the
+   public metadata of a plugin.
+5. Run `bun run format`.
+6. Run `bun run check`.
+
+For a pstack-derived plugin, start with:
+
+```bash
+bun scripts/scaffold-pstack-plugin.mjs <name> <pstack-source-directory>
+```
+
+Then adapt the generated skill to the solo agent policy. Update
+`docs/pstack-imports.json`, keep the nested `THIRD_PARTY_NOTICES.md` path table
+exact, and run `bun run validate:pstack-imports`.
 
 ## Repository Conventions
 

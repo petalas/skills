@@ -1,0 +1,27 @@
+{
+  "name": "architect",
+  "version": "0.1.0",
+  "description": "Design non-trivial code from caller usage, types, signatures, and module boundaries before implementation, then implement against the chosen sketch when requested.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "architect"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "architect",
+    "shortDescription": "Design non-trivial code from usage and module boundaries before implementation.",
+    "longDescription": "Design non-trivial code from caller usage, types, signatures, and module boundaries before implementation, then implement against the chosen sketch when requested.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $architect for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

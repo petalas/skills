@@ -1,0 +1,4 @@
+interface:
+  display_name: "worktree-cleanup"
+  short_description: "Audit git worktrees and local development caches, then remove only targets proven unused and recoverable."
+  default_prompt: "Use $worktree-cleanup for this task."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "principle-fix-root-causes"
+  short_description: "Apply when debugging. Trace each symptom to its root cause and fix it there; reproduce first, ask why until you reach it, resist nil-check guards that silence crashes."
+  default_prompt: "Use $principle-fix-root-causes for this task."

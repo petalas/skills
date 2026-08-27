@@ -1,0 +1,4 @@
+interface:
+  display_name: "explain-code"
+  short_description: "Explain code by combining mechanics with evidence-backed rationale."
+  default_prompt: "Use $explain-code for this task."

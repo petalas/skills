@@ -1,0 +1,27 @@
+{
+  "name": "principle-replace-internal-apis-atomically",
+  "version": "0.1.0",
+  "description": "Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserving compatibility layers.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "principle-replace-internal-apis-atomically"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "principle-replace-internal-apis-atomically",
+    "shortDescription": "Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserving compatibility layers.",
+    "longDescription": "Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserving compatibility layers.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $principle-replace-internal-apis-atomically for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

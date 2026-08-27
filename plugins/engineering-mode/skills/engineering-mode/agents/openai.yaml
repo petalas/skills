@@ -1,0 +1,4 @@
+interface:
+  display_name: "engineering-mode"
+  short_description: "Route solo software work through focused, evidence-driven playbooks without assuming a specific agent host."
+  default_prompt: "Use $engineering-mode for this task."

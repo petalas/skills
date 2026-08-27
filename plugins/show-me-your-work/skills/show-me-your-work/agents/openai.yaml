@@ -1,0 +1,4 @@
+interface:
+  display_name: "show-me-your-work"
+  short_description: "Keep a local, reviewable TSV decision trail for long-running, unattended, or multi-phase work."
+  default_prompt: "Use $show-me-your-work for this task."

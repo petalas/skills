@@ -1,0 +1,4 @@
+interface:
+  display_name: "configure-agent-models"
+  short_description: "Record host-neutral model preferences for internal agent roles using only models available in the current environment."
+  default_prompt: "Use $configure-agent-models for this task."

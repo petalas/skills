@@ -1,0 +1,4 @@
+interface:
+  display_name: "swarm"
+  short_description: "Fan out subagents, drain results, and consolidate the report."
+  default_prompt: "Use $swarm for this task."

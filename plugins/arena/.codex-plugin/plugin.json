@@ -1,0 +1,27 @@
+{
+  "name": "arena",
+  "version": "0.1.0",
+  "description": "Generate several independent candidates for the same non-trivial artifact, judge them against a concrete rubric, and synthesize one verified result.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "arena"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "arena",
+    "shortDescription": "Generate, judge, and synthesize independent candidates for one artifact.",
+    "longDescription": "Generate several independent candidates for the same non-trivial artifact, judge them against a concrete rubric, and synthesize one verified result.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $arena for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

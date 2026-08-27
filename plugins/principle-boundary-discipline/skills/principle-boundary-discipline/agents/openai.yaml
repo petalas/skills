@@ -1,0 +1,4 @@
+interface:
+  display_name: "principle-boundary-discipline"
+  short_description: "Apply when wiring validation, error handling, or framework adapters. Concentrate guards at system boundaries (CLI, config, network, external APIs); trust internal types and keep business logic in pure functions."
+  default_prompt: "Use $principle-boundary-discipline for this task."

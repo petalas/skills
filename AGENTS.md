@@ -25,6 +25,7 @@ Monorepo of public Claude Code / Codex agent skills distributed as plugins.
 - **ASCII only** unless a file already requires otherwise.
 - **Do not hand-format.** Let prettier do it.
 - **Keep prompt instructions concrete and operational.** No aspirational language.
+- **Pstack-derived skills must follow [docs/SOLO_AGENT_POLICY.md](docs/SOLO_AGENT_POLICY.md).** Internal agents may coordinate. No agent may communicate with another person, even through an available authenticated service. Keep read-only evidence access separate from external writes.
 
 ## Quick Commands
 
@@ -33,7 +34,8 @@ bun install              # one-time
 bun run hooks:install    # one-time, installs pre-commit hook
 bun run format           # apply prettier --write to all supported files
 bun run format:check     # verify prettier clean (CI gate)
-bun run check            # alias for format:check
+bun run catalog:sync     # regenerate marketplace and public skill catalog
+bun run check            # formatting, catalog, and skill validators
 ```
 
 First time in a fresh clone: prettier lives in `node_modules/.bin` only after `bun install`. If `bun run format` errors with `prettier: command not found`, run `bun install`.
@@ -43,8 +45,9 @@ First time in a fresh clone: prettier lives in `node_modules/.bin` only after `b
 1. Edit the relevant `SKILL.md` / `commands/<name>.md` / `README.md` / `plugin.json`.
 2. If a skill's behavior or guidance changed, bump both version locations (see Hard Rules).
 3. Run `bun run format`.
-4. Run `bun run format:check`. Must be clean.
-5. Commit + push. (Pre-commit hook also runs `format:check` — the hook is a safety net, not a replacement for step 3.)
+4. Run `bun run catalog:sync` when plugin metadata or membership changed.
+5. Run `bun run check`. Must be clean.
+6. Commit + push. (Pre-commit hook also runs `format:check` — the hook is a safety net, not a replacement for step 3.)
 
 ## Routing Table
 
@@ -55,6 +58,7 @@ First time in a fresh clone: prettier lives in `node_modules/.bin` only after `b
 | `plugins/<name>/commands/*.md`                                               | [CONTRIBUTING.md](CONTRIBUTING.md)                                |
 | `plugins/<name>/README.md` or root `README.md`                               | [CONTRIBUTING.md](CONTRIBUTING.md) — install/discovery guidance   |
 | Release-related changes (version bumps, distribution behavior, install flow) | [docs/RELEASING.md](docs/RELEASING.md)                            |
+| Pstack-derived skills or agent coordination                                  | [docs/SOLO_AGENT_POLICY.md](docs/SOLO_AGENT_POLICY.md)            |
 | Something broke and it wasn't obvious                                        | [LEARNINGS.md](LEARNINGS.md)                                      |
 
 ## When You Struggle

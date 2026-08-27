@@ -1,0 +1,27 @@
+{
+  "name": "blast-radius",
+  "version": "0.1.0",
+  "description": "Find what a change could break outside its diff, identify the safety facts it depends on, and prove those facts with executable evidence when practical.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "blast-radius"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "blast-radius",
+    "shortDescription": "Find breakage outside a diff and prove its load-bearing safety facts.",
+    "longDescription": "Find what a change could break outside its diff, identify the safety facts it depends on, and prove those facts with executable evidence when practical.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $blast-radius for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

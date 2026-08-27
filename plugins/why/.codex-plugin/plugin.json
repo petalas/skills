@@ -1,0 +1,27 @@
+{
+  "name": "why",
+  "version": "0.1.0",
+  "description": "Investigate why code has its current shape using read-only repository history, issue tracking, user-scoped documents, observability, error tracking, and product data.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "why"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "why",
+    "shortDescription": "Investigate why code has its current shape from read-only evidence.",
+    "longDescription": "Investigate why code has its current shape using read-only repository history, issue tracking, user-scoped documents, observability, error tracking, and product data.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $why for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

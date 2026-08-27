@@ -1,0 +1,4 @@
+interface:
+  display_name: "principle-experience-first"
+  short_description: "Apply when product, UX, or feature-scope tradeoffs come up. Choose user delight over implementation convenience; ship fewer polished features over more rough ones."
+  default_prompt: "Use $principle-experience-first for this task."

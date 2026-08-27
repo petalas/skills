@@ -1,0 +1,27 @@
+{
+  "name": "configure-agent-models",
+  "version": "0.1.0",
+  "description": "Record host-neutral model preferences for internal agent roles using only models available in the current environment.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "configure-agent-models"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "configure-agent-models",
+    "shortDescription": "Record host-neutral model preferences for internal agent roles using only models available in the current environment.",
+    "longDescription": "Record host-neutral model preferences for internal agent roles using only models available in the current environment.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $configure-agent-models for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

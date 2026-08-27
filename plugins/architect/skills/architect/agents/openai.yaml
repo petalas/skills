@@ -1,0 +1,4 @@
+interface:
+  display_name: "architect"
+  short_description: "Design non-trivial code from usage and module boundaries."
+  default_prompt: "Use $architect for this task."

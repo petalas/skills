@@ -1,0 +1,27 @@
+{
+  "name": "adversarial-review",
+  "version": "0.1.0",
+  "description": "Run independent read-only reviewers against the same code and intent, then apply lead judgment to surface high-confidence blind spots without changing the code.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "adversarial-review"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "adversarial-review",
+    "shortDescription": "Run independent read-only reviewers and apply lead judgment to their findings.",
+    "longDescription": "Run independent read-only reviewers against the same code and intent, then apply lead judgment to surface high-confidence blind spots without changing the code.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $adversarial-review for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

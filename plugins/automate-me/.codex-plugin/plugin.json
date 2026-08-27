@@ -1,0 +1,27 @@
+{
+  "name": "automate-me",
+  "version": "0.1.0",
+  "description": "Create or update a personal mode skill from the user's stated preferences and workspace-scoped conversation history.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "automate-me"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "automate-me",
+    "shortDescription": "Create or update a personal mode skill from the user's stated preferences and workspace-scoped conversation history.",
+    "longDescription": "Create or update a personal mode skill from the user's stated preferences and workspace-scoped conversation history.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $automate-me for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

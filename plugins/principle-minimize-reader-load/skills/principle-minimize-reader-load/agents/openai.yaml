@@ -1,0 +1,4 @@
+interface:
+  display_name: "principle-minimize-reader-load"
+  short_description: "Apply when reviewing or shaping code that's hard to trace. Count layers between question and answer, and hidden state in the reader's head; collapse one-caller wrappers and shrink mutable scope."
+  default_prompt: "Use $principle-minimize-reader-load for this task."

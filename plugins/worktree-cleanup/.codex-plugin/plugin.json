@@ -1,0 +1,27 @@
+{
+  "name": "worktree-cleanup",
+  "version": "0.1.0",
+  "description": "Audit git worktrees and local development caches, then remove only targets proven unused and recoverable.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "worktree-cleanup"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "worktree-cleanup",
+    "shortDescription": "Audit git worktrees and local development caches, then remove only targets proven unused and recoverable.",
+    "longDescription": "Audit git worktrees and local development caches, then remove only targets proven unused and recoverable.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $worktree-cleanup for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

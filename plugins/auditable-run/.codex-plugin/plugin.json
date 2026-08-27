@@ -1,0 +1,27 @@
+{
+  "name": "auditable-run",
+  "version": "0.1.0",
+  "description": "Design and execute an evidence-driven local workflow for a large task when no focused playbook fits.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "auditable-run"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "auditable-run",
+    "shortDescription": "Design and execute an evidence-driven local workflow for a large task when no focused playbook fits.",
+    "longDescription": "Design and execute an evidence-driven local workflow for a large task when no focused playbook fits.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use $auditable-run for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

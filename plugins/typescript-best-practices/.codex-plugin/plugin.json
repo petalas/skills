@@ -1,0 +1,27 @@
+{
+  "name": "typescript-best-practices",
+  "version": "0.1.0",
+  "description": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "typescript-best-practices"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "typescript-best-practices",
+    "shortDescription": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
+    "longDescription": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $typescript-best-practices for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

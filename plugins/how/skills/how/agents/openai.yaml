@@ -1,0 +1,4 @@
+interface:
+  display_name: "how"
+  short_description: "Explain how code works, including architecture, runtime flow, ownership, and layering."
+  default_prompt: "Use $how for this task."

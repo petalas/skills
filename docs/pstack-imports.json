@@ -1,0 +1,351 @@
+{
+  "sourceRepository": "https://github.com/cursor/plugins",
+  "sourceCommit": "799151d91b6e12ee7dbd09f708eec108d7de9b3b",
+  "sourcePluginVersion": "0.14.4",
+  "license": "MIT",
+  "copyright": "Copyright (c) 2026 Lauren Tan",
+  "imports": [
+    {
+      "name": "principle-boundary-discipline",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-boundary-discipline/SKILL.md"]
+    },
+    {
+      "name": "principle-build-the-lever",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/principle-build-the-lever/SKILL.md"]
+    },
+    {
+      "name": "principle-encode-lessons-in-structure",
+      "disposition": "adapt",
+      "sourcePaths": ["skills/principle-encode-lessons-in-structure/SKILL.md"]
+    },
+    {
+      "name": "principle-exhaust-the-design-space",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-exhaust-the-design-space/SKILL.md"]
+    },
+    {
+      "name": "principle-experience-first",
+      "disposition": "adapt",
+      "sourcePaths": ["skills/principle-experience-first/SKILL.md"]
+    },
+    {
+      "name": "principle-fix-root-causes",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-fix-root-causes/SKILL.md"]
+    },
+    {
+      "name": "principle-foundational-thinking",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-foundational-thinking/SKILL.md"]
+    },
+    {
+      "name": "principle-guard-the-context-window",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/principle-guard-the-context-window/SKILL.md"]
+    },
+    {
+      "name": "principle-laziness-protocol",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-laziness-protocol/SKILL.md"]
+    },
+    {
+      "name": "principle-make-operations-idempotent",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-make-operations-idempotent/SKILL.md"]
+    },
+    {
+      "name": "principle-replace-internal-apis-atomically",
+      "disposition": "adapt",
+      "sourcePaths": ["skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md"]
+    },
+    {
+      "name": "principle-minimize-reader-load",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-minimize-reader-load/SKILL.md"]
+    },
+    {
+      "name": "principle-model-domain-in-code",
+      "disposition": "adapt",
+      "sourcePaths": ["skills/principle-model-the-domain/SKILL.md"]
+    },
+    {
+      "name": "principle-local-autonomy",
+      "disposition": "adapt",
+      "sourcePaths": ["skills/principle-never-block-on-the-human/SKILL.md"]
+    },
+    {
+      "name": "principle-outcome-oriented-execution",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-outcome-oriented-execution/SKILL.md"]
+    },
+    {
+      "name": "principle-prove-it-works",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/principle-prove-it-works/SKILL.md"]
+    },
+    {
+      "name": "principle-redesign-from-first-principles",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-redesign-from-first-principles/SKILL.md"]
+    },
+    {
+      "name": "principle-separate-before-serializing-shared-state",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-separate-before-serializing-shared-state/SKILL.md"]
+    },
+    {
+      "name": "principle-sequence-verifiable-units",
+      "disposition": "adapt",
+      "sourcePaths": ["skills/principle-sequence-verifiable-units/SKILL.md"]
+    },
+    {
+      "name": "principle-subtract-before-you-add",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-subtract-before-you-add/SKILL.md"]
+    },
+    {
+      "name": "principle-type-system-discipline",
+      "disposition": "copy",
+      "sourcePaths": ["skills/principle-type-system-discipline/SKILL.md"]
+    },
+    {
+      "name": "unslop",
+      "disposition": "copy",
+      "automaticInvocation": true,
+      "sourcePaths": ["skills/unslop/SKILL.md"]
+    },
+    {
+      "name": "bro",
+      "disposition": "copy",
+      "sourcePaths": ["skills/bro/SKILL.md"]
+    },
+    {
+      "name": "technical-writing",
+      "disposition": "adapt",
+      "sourcePaths": ["skills/technical-writing/SKILL.md"]
+    },
+    {
+      "name": "typescript-best-practices",
+      "disposition": "copy",
+      "automaticInvocation": true,
+      "sourcePaths": [
+        "skills/typescript-best-practices/SKILL.md",
+        "skills/typescript-best-practices/references/patterns.md"
+      ]
+    },
+    {
+      "name": "regression-test",
+      "disposition": "adapt",
+      "sourcePaths": ["skills/tdd/SKILL.md"]
+    },
+    {
+      "name": "how",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": [
+        "skills/how/SKILL.md",
+        "skills/how/references/critic-prompt.md",
+        "skills/how/references/critique-rubric.md",
+        "skills/how/references/explainer-prompt.md",
+        "skills/how/references/explorer-prompt.md"
+      ]
+    },
+    {
+      "name": "why",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": [
+        "skills/why/SKILL.md",
+        "skills/why/references/epistemics.md",
+        "skills/why/references/investigator-prompt.md",
+        "skills/why/references/source-playbook.md",
+        "skills/why/references/synthesizer-prompt.md",
+        "skills/why/references/sources/code-archaeology.md",
+        "skills/why/references/sources/databricks.md",
+        "skills/why/references/sources/datadog.md",
+        "skills/why/references/sources/incident-postmortem.md",
+        "skills/why/references/sources/linear.md",
+        "skills/why/references/sources/notion.md",
+        "skills/why/references/sources/sentry.md"
+      ]
+    },
+    {
+      "name": "explain-code",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/teach/SKILL.md"]
+    },
+    {
+      "name": "recall",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/recall/SKILL.md"]
+    },
+    {
+      "name": "blast-radius",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/blast-radius/SKILL.md"]
+    },
+    {
+      "name": "architect",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": [
+        "skills/architect/SKILL.md",
+        "skills/architect/references/design-red-flags.md",
+        "skills/architect/references/rationale-template.md",
+        "skills/architect/references/runner-prompt.md"
+      ]
+    },
+    {
+      "name": "arena",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/arena/SKILL.md"]
+    },
+    {
+      "name": "adversarial-review",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": [
+        "skills/interrogate/SKILL.md",
+        "skills/interrogate/references/code-quality-review.md",
+        "skills/interrogate/references/lead-judgment.md",
+        "skills/interrogate/references/reviewer-prompt.md",
+        "skills/interrogate/references/rubric.md"
+      ]
+    },
+    {
+      "name": "swarm",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/swarm/SKILL.md"]
+    },
+    {
+      "name": "review-code-comments",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/no-comments/SKILL.md", "agents/comment-sicko.md"]
+    },
+    {
+      "name": "show-me-your-work",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": [
+        "skills/show-me-your-work/SKILL.md",
+        "skills/show-me-your-work/references/decision-log-template.tsv",
+        "skills/show-me-your-work/scripts/log.sh"
+      ]
+    },
+    {
+      "name": "create-verification-skill",
+      "disposition": "adapt",
+      "sourcePaths": [
+        "skills/create-verification-skill/SKILL.md",
+        "skills/create-verification-skill/references/feature-map-example/README.md",
+        "skills/create-verification-skill/references/feature-map-example/create-note.md",
+        "skills/create-verification-skill/references/feature-map-example/search.md"
+      ]
+    },
+    {
+      "name": "maintain-verification-skill",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/maintain-verification-skill/SKILL.md"]
+    },
+    {
+      "name": "automate-me",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/automate-me/SKILL.md"]
+    },
+    {
+      "name": "reflect",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": [
+        "skills/reflect/SKILL.md",
+        "skills/reflect/references/divergent-reviewer.md",
+        "skills/reflect/references/judgment-reviewer.md",
+        "skills/reflect/references/synthesizer.md",
+        "skills/reflect/references/tooling-reviewer.md"
+      ]
+    },
+    {
+      "name": "auditable-run",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": ["skills/figure-it-out/SKILL.md"]
+    },
+    {
+      "name": "configure-agent-models",
+      "disposition": "adapt",
+      "sourcePaths": ["skills/setup-pstack/SKILL.md"]
+    },
+    {
+      "name": "engineering-mode",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": [
+        "skills/poteto-mode/SKILL.md",
+        "skills/poteto-mode/playbooks/authoring-a-skill.md",
+        "skills/poteto-mode/playbooks/autonomous-run.md",
+        "skills/poteto-mode/playbooks/bug-fix.md",
+        "skills/poteto-mode/playbooks/eval.md",
+        "skills/poteto-mode/playbooks/feature.md",
+        "skills/poteto-mode/playbooks/hillclimb.md",
+        "skills/poteto-mode/playbooks/investigation.md",
+        "skills/poteto-mode/playbooks/pause-safely.md",
+        "skills/poteto-mode/playbooks/perf-issue.md",
+        "skills/poteto-mode/playbooks/prototype.md",
+        "skills/poteto-mode/playbooks/refactoring.md",
+        "skills/poteto-mode/playbooks/runtime-forensics.md",
+        "skills/poteto-mode/playbooks/session-pickup.md",
+        "skills/poteto-mode/playbooks/trace-forensics.md",
+        "skills/poteto-mode/playbooks/visual-parity.md",
+        "skills/poteto-mode/playbooks/worktree-cleanup.md"
+      ]
+    },
+    {
+      "name": "worktree-cleanup",
+      "disposition": "adapt",
+      "coordinatesSubagents": true,
+      "sourcePaths": [
+        "skills/poteto-mode/playbooks/worktree-cleanup.md",
+        "skills/poteto-mode/scripts/worktree-audit.sh"
+      ]
+    }
+  ],
+  "exclusions": [
+    {
+      "source": "automations/benny/**",
+      "reason": "workplace communication and automated issue or pull-request routing"
+    },
+    {
+      "source": "skills/grokbot/**",
+      "reason": "external bot messaging and Cursor-specific webhook behavior"
+    },
+    {
+      "source": "agents/poteto-agent.md",
+      "reason": "Cursor-specific custom-agent wrapper"
+    },
+    {
+      "source": "skills/why/references/sources/slack.md",
+      "reason": "workplace chat archaeology"
+    },
+    {
+      "source": "skills/poteto-mode/playbooks/{autopilot-full,autopilot-stack,babysit,opening-a-pr,shipping}.md",
+      "reason": "automated pull-request, review-thread, Graphite, or merge operations"
+    },
+    {
+      "source": "skills/poteto-mode/scripts/watch-pr/**",
+      "reason": "pull-request and review-thread automation"
+    }
+  ]
+}

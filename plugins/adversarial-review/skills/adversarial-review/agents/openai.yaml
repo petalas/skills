@@ -1,0 +1,4 @@
+interface:
+  display_name: "adversarial-review"
+  short_description: "Run independent read-only reviewers and apply lead judgment."
+  default_prompt: "Use $adversarial-review for this task."

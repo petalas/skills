@@ -1,9 +1,8 @@
-import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { dirname, extname, join, posix, relative, resolve } from "node:path";
+import { dirname, join, posix, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import prettier from "prettier";
+import { normalizePstackSemanticBytes, sha256 } from "./lib/pstack-normalization.mjs";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "..");
@@ -38,23 +37,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.`;
-const prettierOptions = {
-  printWidth: 100,
-  proseWrap: "preserve",
-  tabWidth: 2,
-  useTabs: false,
-  singleQuote: false,
-  trailingComma: "none"
-};
-
 const failures = [];
 
 function fail(message) {
   failures.push(message);
-}
-
-function sha256(bytes) {
-  return createHash("sha256").update(bytes).digest("hex");
 }
 
 function readRequired(path) {
@@ -105,23 +91,6 @@ function isSafeRelativePath(path) {
     path !== "." &&
     !path.startsWith("../")
   );
-}
-
-async function normalizeSemanticBytes(bytes, sourcePath) {
-  let text = bytes.toString("utf8").replace(/\r\n?/g, "\n");
-  if (extname(sourcePath) === ".md") {
-    const frontmatter = text.match(/^(---\n)([\s\S]*?)(\n---\n)([\s\S]*)$/);
-    if (frontmatter) {
-      const fields = frontmatter[2]
-        .split("\n")
-        .filter((line) => !/^version:\s*/.test(line))
-        .sort()
-        .join("\n");
-      text = `${frontmatter[1]}${fields}${frontmatter[3]}${frontmatter[4]}`;
-    }
-    text = await prettier.format(text, { ...prettierOptions, parser: "markdown" });
-  }
-  return Buffer.from(text.replace(/\r\n?/g, "\n"));
 }
 
 function inventoryEntries() {
@@ -270,7 +239,7 @@ async function validateMappings(imported, skillDirectory, sourceAudit) {
     if (imported.disposition === "copy") {
       try {
         const normalizedHash = sha256(
-          await normalizeSemanticBytes(destinationBytes, mapping.source)
+          await normalizePstackSemanticBytes(destinationBytes, mapping.source)
         );
         if (normalizedHash !== mapping.sourceNormalizedSha256) {
           fail(
@@ -289,7 +258,7 @@ async function validateMappings(imported, skillDirectory, sourceAudit) {
       }
       if (sourceBytes) {
         const normalizedSourceHash = sha256(
-          await normalizeSemanticBytes(sourceBytes, mapping.source)
+          await normalizePstackSemanticBytes(sourceBytes, mapping.source)
         );
         if (normalizedSourceHash !== mapping.sourceNormalizedSha256) {
           fail(`${mapping.source} does not match its committed sourceNormalizedSha256`);

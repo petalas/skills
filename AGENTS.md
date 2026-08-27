@@ -59,6 +59,7 @@ First time in a fresh clone: prettier lives in `node_modules/.bin` only after `b
 | `plugins/<name>/README.md` or root `README.md`                               | [CONTRIBUTING.md](CONTRIBUTING.md) — install/discovery guidance   |
 | Release-related changes (version bumps, distribution behavior, install flow) | [docs/RELEASING.md](docs/RELEASING.md)                            |
 | Pstack-derived skills or agent coordination                                  | [docs/SOLO_AGENT_POLICY.md](docs/SOLO_AGENT_POLICY.md)            |
+| Reviewing or porting a newer pstack revision                                 | [docs/UPDATING_PSTACK.md](docs/UPDATING_PSTACK.md)                |
 | Something broke and it wasn't obvious                                        | [LEARNINGS.md](LEARNINGS.md)                                      |
 
 ## When You Struggle

@@ -22,6 +22,7 @@
     "format:check": "prettier --check .",
     "hooks:install": "git config core.hooksPath .githooks",
     "notices:sync": "bun scripts/sync-pstack-notices.mjs",
+    "report:pstack-updates": "bun scripts/report-pstack-updates.mjs",
     "test:pstack-imports": "bun scripts/test-pstack-imports.mjs",
     "validate:fix-all-issues": "bun scripts/validate-fix-all-issues.mjs",
     "validate:pstack-imports": "bun scripts/validate-pstack-imports.mjs"

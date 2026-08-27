@@ -34,7 +34,7 @@ Formatting is the main repository quality gate right now:
 5. Run `bun run format`.
 6. Run `bun run check`.
 
-For a pstack-derived plugin, start with:
+For a new pstack-derived plugin, start with:
 
 ```bash
 bun scripts/scaffold-pstack-plugin.mjs <name> <pstack-source-directory>
@@ -43,6 +43,10 @@ bun scripts/scaffold-pstack-plugin.mjs <name> <pstack-source-directory>
 Then adapt the generated skill to the solo agent policy. Update
 `docs/pstack-imports.json`, keep the nested `THIRD_PARTY_NOTICES.md` path table
 exact, and run `bun run validate:pstack-imports`.
+
+To review or port a newer pstack revision, follow
+[`docs/UPDATING_PSTACK.md`](docs/UPDATING_PSTACK.md). Run the update report
+before editing so every changed upstream path receives an explicit decision.
 
 ## Repository Conventions
 

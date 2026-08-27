@@ -209,3 +209,6 @@ Each substantially copied or adapted skill contains Lauren Tan's full MIT
 notice and an exact source-path table inside its installed directory. See
 [the import manifest](docs/pstack-imports.json) and the
 [component inventory](docs/research/pstack-component-inventory.md).
+Follow [Update skills from pstack](docs/UPDATING_PSTACK.md) to compare a newer
+upstream commit, classify every changed path, update mappings, and verify the
+port.

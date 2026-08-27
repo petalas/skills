@@ -6,6 +6,9 @@ import { fileURLToPath } from "node:url";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "..");
+const importsManifest = JSON.parse(
+  readFileSync(join(repositoryRoot, "docs", "pstack-imports.json"), "utf8")
+);
 const scenarios = JSON.parse(
   readFileSync(join(repositoryRoot, "tests", "pstack-scenarios.json"), "utf8")
 );
@@ -87,7 +90,7 @@ try {
   const notice = readFileSync(join(installedRoot, "THIRD_PARTY_NOTICES.md"), "utf8");
   assert(notice.includes("Copyright (c) 2026 Lauren Tan"), "installed notice lost copyright");
   assert(
-    notice.includes("799151d91b6e12ee7dbd09f708eec108d7de9b3b"),
+    notice.includes(importsManifest.sourceCommit),
     "installed notice lost pinned source commit"
   );
 } finally {

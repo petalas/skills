@@ -4,322 +4,915 @@
   "sourcePluginVersion": "0.14.4",
   "license": "MIT",
   "copyright": "Copyright (c) 2026 Lauren Tan",
+  "licenseSourceSha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e",
+  "semanticNormalization": "pstack-markdown-v1",
   "imports": [
     {
       "name": "principle-boundary-discipline",
       "disposition": "copy",
-      "sourcePaths": ["skills/principle-boundary-discipline/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-boundary-discipline/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "ab3c690ce361542ca00446b8406f5afd47776f544b8ce06a9ef2eaa2338bde6d",
+          "sourceNormalizedSha256": "1ca1a02da3294176438a5451e1b44070d668169b8b307430be7bf71d287da038"
+        }
+      ],
+      "inventorySource": "skills/principle-boundary-discipline/SKILL.md"
     },
     {
       "name": "principle-build-the-lever",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/principle-build-the-lever/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-build-the-lever/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "3a0b02b1b890538810f27d00c525b2e677bb5d931f602fd7a774d5cd13b61c93",
+          "sourceNormalizedSha256": "c575cf33a27a67a1ac94aca13d4d38d0e3ae8744c5c9d614bb13cd617a1f21be"
+        }
+      ],
+      "inventorySource": "skills/principle-build-the-lever/SKILL.md"
     },
     {
       "name": "principle-encode-lessons-in-structure",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-encode-lessons-in-structure/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-encode-lessons-in-structure/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "4acdb3f466efd0a433899aafce3e0f100566228b63ccff43f363a83e80624d81",
+          "sourceNormalizedSha256": "d662a0b213edf505dcc44a5b72bc2f26bb67641989f72ebf85c6377a176b8833"
+        }
+      ],
+      "inventorySource": "skills/principle-encode-lessons-in-structure/SKILL.md"
     },
     {
       "name": "principle-exhaust-the-design-space",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-exhaust-the-design-space/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-exhaust-the-design-space/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "8583310d7297b7823d75494faa57b003564d436807febecdecbd8321abe5cf6e",
+          "sourceNormalizedSha256": "1b2d39f7f22ad0425e6fe56be34ca2cca2880472c9f24dc52d121d588f97baec"
+        }
+      ],
+      "inventorySource": "skills/principle-exhaust-the-design-space/SKILL.md"
     },
     {
       "name": "principle-experience-first",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-experience-first/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-experience-first/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "f8d643ddf2f6aa91d9607d1bb340fd2baf227d702e9738848b85312a312bb971",
+          "sourceNormalizedSha256": "564bf08783a42274834219c0cc20c8cec49b85b67bccbda2a42241c7a958a6a9"
+        }
+      ],
+      "inventorySource": "skills/principle-experience-first/SKILL.md"
     },
     {
       "name": "principle-fix-root-causes",
       "disposition": "copy",
-      "sourcePaths": ["skills/principle-fix-root-causes/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-fix-root-causes/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "cfae13b5a3e27bc88d069092cae97b3e95246879d5bf14f0e9a4db719c781952",
+          "sourceNormalizedSha256": "0a8d4cfa43038612fb32b9708bba3fe736bfc3d8fe16b60092ade673f7358355"
+        }
+      ],
+      "inventorySource": "skills/principle-fix-root-causes/SKILL.md"
     },
     {
       "name": "principle-foundational-thinking",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-foundational-thinking/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-foundational-thinking/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "a522488c9d4481e8bfcbe35cbf3838169c8e3801ee0738ae2859067684144579",
+          "sourceNormalizedSha256": "8421524fcf5fbc57a9f0de5012947737d0a71e619b78bdfd7f51d365f9c15346"
+        }
+      ],
+      "inventorySource": "skills/principle-foundational-thinking/SKILL.md"
     },
     {
       "name": "principle-guard-the-context-window",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/principle-guard-the-context-window/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-guard-the-context-window/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "291d0125125eabbc2109c880b1c1083aa95826187119a648b26c1c8ea6367179",
+          "sourceNormalizedSha256": "ac968865d9383746475173cb57ac7f023cfb7bf4681514723457cfdf97f5f0cb"
+        }
+      ],
+      "inventorySource": "skills/principle-guard-the-context-window/SKILL.md"
     },
     {
       "name": "principle-laziness-protocol",
       "disposition": "copy",
-      "sourcePaths": ["skills/principle-laziness-protocol/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-laziness-protocol/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "8999fda9fde65fd905835c86e3bfc64190369a84bba30b1e93769f39ad6580fe",
+          "sourceNormalizedSha256": "e35f59d4c3b96a74ce37fc81a978b14139c5b710227aaa81136ef7a14df35c8d"
+        }
+      ],
+      "inventorySource": "skills/principle-laziness-protocol/SKILL.md"
     },
     {
       "name": "principle-make-operations-idempotent",
       "disposition": "copy",
-      "sourcePaths": ["skills/principle-make-operations-idempotent/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-make-operations-idempotent/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "540738217c3da7bf513b9886924ad6a2bc77e58be867f5bd2e1831c74bf2ce70",
+          "sourceNormalizedSha256": "990a8bc6e455611783416ad48e9b693a9093316c1158fdd4c4818ef46a02ff3d"
+        }
+      ],
+      "inventorySource": "skills/principle-make-operations-idempotent/SKILL.md"
     },
     {
       "name": "principle-replace-internal-apis-atomically",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "e29b6b6534a23dcaf8c7e16fc25d6484000d7b6e289c48eb0a32a97280633c5d",
+          "sourceNormalizedSha256": "2ffaa3d1c0652e267383a65f5fca0feb46da74510ccae10a5ea0592c4d855bf8"
+        }
+      ],
+      "inventorySource": "skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md"
     },
     {
       "name": "principle-minimize-reader-load",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-minimize-reader-load/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-minimize-reader-load/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "480f4ddec29e7e3058a8f17eb97c0cec4a2c8b4b33ba6401e960167c1fc95a81",
+          "sourceNormalizedSha256": "061fe17aacd1e9e54558625aa35992bf4aae1754975bf5632d1ceef7f9c04cdf"
+        }
+      ],
+      "inventorySource": "skills/principle-minimize-reader-load/SKILL.md"
     },
     {
       "name": "principle-model-domain-in-code",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-model-the-domain/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-model-the-domain/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "6b359783c5c9be87860d0999321e864940ff17729b9f9a27f38abae449640022",
+          "sourceNormalizedSha256": "54d4b6806f8de565fba19d5a35652c62ff06f8bfb73cd319297dc0536927d2e5"
+        }
+      ],
+      "inventorySource": "skills/principle-model-the-domain/SKILL.md"
     },
     {
       "name": "principle-local-autonomy",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-never-block-on-the-human/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-never-block-on-the-human/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "f656f3b7581df55e79f53cc47df93905c3a940b822c25071ba95f40e530d102a",
+          "sourceNormalizedSha256": "bd8bb15199174575310f28e4b7490f76efedbdae182d02d3050af30369186f29"
+        }
+      ],
+      "inventorySource": "skills/principle-never-block-on-the-human/SKILL.md"
     },
     {
       "name": "principle-outcome-oriented-execution",
-      "disposition": "copy",
-      "sourcePaths": ["skills/principle-outcome-oriented-execution/SKILL.md"]
+      "disposition": "adapt",
+      "mappings": [
+        {
+          "source": "skills/principle-outcome-oriented-execution/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "beedcaed75572a6a1662d47f16da203c2bd2c9dbffbbd678d4ba187d67b7e670",
+          "sourceNormalizedSha256": "72efd276297b46a4ed3d787a948b8860f81412e5626e162dd4618c5dbb87a350"
+        }
+      ],
+      "inventorySource": "skills/principle-outcome-oriented-execution/SKILL.md"
     },
     {
       "name": "principle-prove-it-works",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/principle-prove-it-works/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-prove-it-works/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "9bbe6138505be34d81e9395d95d3639b384f71d71d65cc1903075126e1da1508",
+          "sourceNormalizedSha256": "4d20eed9680457d9318e0bca4b732c4d918931648282582e62e381c26388d390"
+        }
+      ],
+      "inventorySource": "skills/principle-prove-it-works/SKILL.md"
     },
     {
       "name": "principle-redesign-from-first-principles",
       "disposition": "copy",
-      "sourcePaths": ["skills/principle-redesign-from-first-principles/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-redesign-from-first-principles/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "9ae97b35d6338cc9e34c7023c995a39cb7afdaf4bfd41e1d3d665da04d7515d5",
+          "sourceNormalizedSha256": "038f73db07125e77f86b40b33a2caeb3315739a7e516aba5fb2f0ae7b8a8c25a"
+        }
+      ],
+      "inventorySource": "skills/principle-redesign-from-first-principles/SKILL.md"
     },
     {
       "name": "principle-separate-before-serializing-shared-state",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-separate-before-serializing-shared-state/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-separate-before-serializing-shared-state/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "5b14fd656441580061f760968c828f3f4ba034242d8fa06b544763efb25e89ee",
+          "sourceNormalizedSha256": "cbf2de9a8faf90be05de29d9995b94b7c4541fe5ab38dc5c6a4559053fcbdbb7"
+        }
+      ],
+      "inventorySource": "skills/principle-separate-before-serializing-shared-state/SKILL.md"
     },
     {
       "name": "principle-sequence-verifiable-units",
       "disposition": "adapt",
-      "sourcePaths": ["skills/principle-sequence-verifiable-units/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-sequence-verifiable-units/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "7478f8160ba5701ca40c742a81e90aff12d45f53ac9191e80ad79b9763e4489f",
+          "sourceNormalizedSha256": "6032a7a8be43aa8b6b5d96cf9d2da46f79ed2980976871685b0ec68784fb7b61"
+        }
+      ],
+      "inventorySource": "skills/principle-sequence-verifiable-units/SKILL.md"
     },
     {
       "name": "principle-subtract-before-you-add",
       "disposition": "copy",
-      "sourcePaths": ["skills/principle-subtract-before-you-add/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/principle-subtract-before-you-add/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "3999888dc21ced33b86054c2ffde1a3cb438e16bed1213f5dab2b5c000446292",
+          "sourceNormalizedSha256": "3fb74ce44a108c248c90c4c85b1081d55958ed1008d05913559daa77b334aa0a"
+        }
+      ],
+      "inventorySource": "skills/principle-subtract-before-you-add/SKILL.md"
     },
     {
       "name": "principle-type-system-discipline",
-      "disposition": "copy",
-      "sourcePaths": ["skills/principle-type-system-discipline/SKILL.md"]
+      "disposition": "adapt",
+      "mappings": [
+        {
+          "source": "skills/principle-type-system-discipline/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "662ed1ad53fb491e97b9c4eac7317fba8ec5ed722fec8d71beb94da0111619cf",
+          "sourceNormalizedSha256": "7ef202251bc53d4ff6864d53196a6ebbd5f7039c1a29f4d9923dc5b88682a401"
+        }
+      ],
+      "inventorySource": "skills/principle-type-system-discipline/SKILL.md"
     },
     {
       "name": "unslop",
-      "disposition": "adapt",
+      "disposition": "copy",
       "automaticInvocation": true,
-      "sourcePaths": ["skills/unslop/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/unslop/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "181883e539caec8258ec9129e3ba5f133409144a2cbf2aa361158ab94cfc3441",
+          "sourceNormalizedSha256": "ede754117769d18415917d99d9cbce14fa98d016fa57bf659d6a4c25648fc449"
+        }
+      ],
+      "inventorySource": "skills/unslop/SKILL.md"
     },
     {
       "name": "bro",
       "disposition": "copy",
-      "sourcePaths": ["skills/bro/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/bro/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "aa329d0ceeeecb6822a7174ad76bb07a7826a3c52ceb6a588dec4138815084bb",
+          "sourceNormalizedSha256": "3298b6f16d78bf17d9292b118464c3f392b7c5a18b02dc9d28ed6ca42a48e10f"
+        }
+      ],
+      "inventorySource": "skills/bro/SKILL.md"
     },
     {
       "name": "technical-writing",
       "disposition": "adapt",
-      "sourcePaths": ["skills/technical-writing/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/technical-writing/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "bd0cb21034f4fe6695cfdf8cd3561026eec943f0bb6e9300bc78a2b3340865a7",
+          "sourceNormalizedSha256": "317ee643c971ca4f3580d6da05e4c2e65dd9397fbe30a52793f05f37c12085ad"
+        }
+      ],
+      "inventorySource": "skills/technical-writing/SKILL.md"
     },
     {
       "name": "typescript-best-practices",
-      "disposition": "copy",
+      "disposition": "adapt",
       "automaticInvocation": true,
-      "sourcePaths": [
-        "skills/typescript-best-practices/SKILL.md",
-        "skills/typescript-best-practices/references/patterns.md"
-      ]
+      "mappings": [
+        {
+          "source": "skills/typescript-best-practices/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "df0ecd7518b33778f4b02c2f85ee577bbaea52caa1c49df6816b0594e128bb64",
+          "sourceNormalizedSha256": "100a29df4a84753282581318ffb019fc494715510a78170077d4c6e4d3d6c91f"
+        },
+        {
+          "source": "skills/typescript-best-practices/references/patterns.md",
+          "destination": "references/patterns.md",
+          "sourceSha256": "83d89dd2fdb81021eb18c77c57437f60314a60da79447756a547f08ece64b433",
+          "sourceNormalizedSha256": "24edcaf46ef420e5e3449942e593e0492b6884293f80b6b4bc7e21f4ce6163be"
+        }
+      ],
+      "inventorySource": "skills/typescript-best-practices/SKILL.md"
     },
     {
       "name": "regression-test",
       "disposition": "adapt",
-      "sourcePaths": ["skills/tdd/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/tdd/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "adad031f9e79d7f7389fa128f7af8e03344831270e282cf4e40bdacb8418c386",
+          "sourceNormalizedSha256": "23a448b455bfd0ffa746f61851e826e96d8f054493128962e6eedcd7455f9fda"
+        }
+      ],
+      "inventorySource": "skills/tdd/SKILL.md"
     },
     {
       "name": "how",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": [
-        "skills/how/SKILL.md",
-        "skills/how/references/critic-prompt.md",
-        "skills/how/references/critique-rubric.md",
-        "skills/how/references/explainer-prompt.md",
-        "skills/how/references/explorer-prompt.md"
-      ]
+      "mappings": [
+        {
+          "source": "skills/how/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "fe503e7a9b2a3a7ad2622a2de6124cb06c466922fb44bc61817b49b52042b885",
+          "sourceNormalizedSha256": "1f348b91b0de9aaa4c4c3c90812c5fb0ac581bdd9d7f95315e46bff88c900018"
+        },
+        {
+          "source": "skills/how/references/critic-prompt.md",
+          "destination": "references/critic-prompt.md",
+          "sourceSha256": "aa77a15590814c814bd5cb074842029ab7b790c2e8379050525bdbc20739d1bb",
+          "sourceNormalizedSha256": "aa77a15590814c814bd5cb074842029ab7b790c2e8379050525bdbc20739d1bb"
+        },
+        {
+          "source": "skills/how/references/critique-rubric.md",
+          "destination": "references/critique-rubric.md",
+          "sourceSha256": "5774ff2caf51796e54c4a61b63620a165de5801f23c8f47406e527abfbe9addc",
+          "sourceNormalizedSha256": "5774ff2caf51796e54c4a61b63620a165de5801f23c8f47406e527abfbe9addc"
+        },
+        {
+          "source": "skills/how/references/explainer-prompt.md",
+          "destination": "references/explainer-prompt.md",
+          "sourceSha256": "04336086e7c415394459ca2f461717d920e15339517dbf5a56ca042f8b4fead3",
+          "sourceNormalizedSha256": "5be1e0ee8200453dc9b60fb75dd46cd4c6b2cf827e1e01ec298eb9a7443bb6d9"
+        },
+        {
+          "source": "skills/how/references/explorer-prompt.md",
+          "destination": "references/explorer-prompt.md",
+          "sourceSha256": "fd1218b8cf1f467c644d4ce6fa5e54e6089ede65a28fbbae61f6ee7a2d462f85",
+          "sourceNormalizedSha256": "6b67131acc027a4c4c6fb0c77d69bae62c54f805980cd8b5c105d67769b2a48c"
+        }
+      ],
+      "inventorySource": "skills/how/SKILL.md"
     },
     {
       "name": "why",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": [
-        "skills/why/SKILL.md",
-        "skills/why/references/epistemics.md",
-        "skills/why/references/investigator-prompt.md",
-        "skills/why/references/source-playbook.md",
-        "skills/why/references/synthesizer-prompt.md",
-        "skills/why/references/sources/code-archaeology.md",
-        "skills/why/references/sources/databricks.md",
-        "skills/why/references/sources/datadog.md",
-        "skills/why/references/sources/incident-postmortem.md",
-        "skills/why/references/sources/linear.md",
-        "skills/why/references/sources/notion.md",
-        "skills/why/references/sources/sentry.md"
-      ]
+      "mappings": [
+        {
+          "source": "skills/why/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "dc8f2d8a7dbef7d0467cca8e6d055a4dbde027db6e2cbbfb18aa9071d8f20b6c",
+          "sourceNormalizedSha256": "82d52f1cf828507ebfdb5d3b45b432622723b3a011b2f50104abaf0a9659ec49"
+        },
+        {
+          "source": "skills/why/references/epistemics.md",
+          "destination": "references/epistemics.md",
+          "sourceSha256": "ba99dcdc4fbce91a83b50fc0c9b2c5769febd95540b1722c6b87fe8f900bb60a",
+          "sourceNormalizedSha256": "6b92e184a02dd7de75753d7839422ca1159f9a5d739111121359ccf7d4da2597"
+        },
+        {
+          "source": "skills/why/references/investigator-prompt.md",
+          "destination": "references/investigator-prompt.md",
+          "sourceSha256": "e35d8eaea13f0a027dd35572d525e9f66e8f8918ca9e555237dc228f26278d5f",
+          "sourceNormalizedSha256": "f4d9709ef0dea1613923a0d0193008f5f0217c07e0e6e00aca2cff890302a39a"
+        },
+        {
+          "source": "skills/why/references/source-playbook.md",
+          "destination": "references/source-playbook.md",
+          "sourceSha256": "3cfb0245d5b2019eeeaa7a0e023579d390f2cdcdff6942d2fe009b9efac0eb11",
+          "sourceNormalizedSha256": "2ced67cd48062f05b0a3c5c743a071a766cb8840a384fcb4f4a1fa3d41ded802"
+        },
+        {
+          "source": "skills/why/references/synthesizer-prompt.md",
+          "destination": "references/synthesizer-prompt.md",
+          "sourceSha256": "fcdc69ede22f94da9e22f510bb0c4a75a63820f0b49b8d5fd54a196b4010bf2a",
+          "sourceNormalizedSha256": "fcdc69ede22f94da9e22f510bb0c4a75a63820f0b49b8d5fd54a196b4010bf2a"
+        },
+        {
+          "source": "skills/why/references/sources/code-archaeology.md",
+          "destination": "references/sources/code-archaeology.md",
+          "sourceSha256": "8c14aa382f0de40829b2668d43e3f54814480bb93a486c9282ada4003f6b9dbd",
+          "sourceNormalizedSha256": "acd3011b121f048e0ea341ccb17ad556396294c1d24ecae80b0258046cda76f9"
+        },
+        {
+          "source": "skills/why/references/sources/databricks.md",
+          "destination": "references/sources/databricks.md",
+          "sourceSha256": "269a22032f027ee30a33c1b5e30443d13dd6d127ff20d8d1e8a20715b06a69cc",
+          "sourceNormalizedSha256": "f3632f187d22f51fd9dc0a7be35584ea7a370f3aad521227106c1a1c6b666846"
+        },
+        {
+          "source": "skills/why/references/sources/datadog.md",
+          "destination": "references/sources/datadog.md",
+          "sourceSha256": "db80803f1635a5015e3190f4753c4228083e6cebf222c84e24fc3c3919aa5574",
+          "sourceNormalizedSha256": "abe8091592ac862ba4257635c0306566ef95ae7d3ad11c95b04053b0b944f00a"
+        },
+        {
+          "source": "skills/why/references/sources/incident-postmortem.md",
+          "destination": "references/sources/incident-postmortem.md",
+          "sourceSha256": "486132457d3782eea64292ce7a2d3bbe3b24b372b20ca00de4329e820f74cd42",
+          "sourceNormalizedSha256": "486132457d3782eea64292ce7a2d3bbe3b24b372b20ca00de4329e820f74cd42"
+        },
+        {
+          "source": "skills/why/references/sources/linear.md",
+          "destination": "references/sources/linear.md",
+          "sourceSha256": "7e1b72ba459089168efd701502f8c268d2481154aeeda1ddd84f840f7e974760",
+          "sourceNormalizedSha256": "f05518323488994b1e8f0d92f585fd0cee6aa036d210cc1a86ffcf3f7995386c"
+        },
+        {
+          "source": "skills/why/references/sources/notion.md",
+          "destination": "references/sources/notion.md",
+          "sourceSha256": "2ce336dd3052967187a56ec33d308c7a69e7ef3b04ba7b17386a8b3914a0f000",
+          "sourceNormalizedSha256": "7514f527c8d0e3e1795753aafa19afe7a5feabdf7b88a893690c6d6b8d6fb872"
+        },
+        {
+          "source": "skills/why/references/sources/sentry.md",
+          "destination": "references/sources/sentry.md",
+          "sourceSha256": "0eef902cb0f835f7fa9bd85a8e19ba1505d05e59a0173dfe852d8d52d828266d",
+          "sourceNormalizedSha256": "e3e34993d3283099a20ce06629a0d9fc3a1bbbafe06981318d9b0271fbb6f163"
+        }
+      ],
+      "inventorySource": "skills/why/SKILL.md"
     },
     {
       "name": "explain-code",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/teach/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/teach/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "0a5987b0588dc56e14bfd84d0300e2ab405abc7c5c2aa81e0d3d7c6b243db7a7",
+          "sourceNormalizedSha256": "e8f40e472178b6bf69e4573bdf9bd28e6cce17f4eaa83e3c40a4e72046c5945b"
+        }
+      ],
+      "inventorySource": "skills/teach/SKILL.md"
     },
     {
       "name": "recall",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/recall/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/recall/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "90d290daec500f548a167bbd20d69a3a248e345c546ca847ca12967d1c99cbf3",
+          "sourceNormalizedSha256": "ba23ca0839a01a14cfdafdaf7285be0255f8462098d7c48f95291822e573a84a"
+        }
+      ],
+      "inventorySource": "skills/recall/SKILL.md"
     },
     {
       "name": "blast-radius",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/blast-radius/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/blast-radius/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "b060df3ca85803eabbce9fab53f5cc024ca8d784bdde5513c1c1a784947523f8",
+          "sourceNormalizedSha256": "c2d3e1eab20bea2a21130a88df9d586999ab2c653f0006c4a3221c0b4131ff5e"
+        }
+      ],
+      "inventorySource": "skills/blast-radius/SKILL.md"
     },
     {
       "name": "architect",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": [
-        "skills/architect/SKILL.md",
-        "skills/architect/references/design-red-flags.md",
-        "skills/architect/references/rationale-template.md",
-        "skills/architect/references/runner-prompt.md"
-      ]
+      "mappings": [
+        {
+          "source": "skills/architect/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "585d7a9e03c0cced84c80d4b60c09c8dc76010bb36c579f92d9e4deafec53df7",
+          "sourceNormalizedSha256": "f957f8d7f48e527c7e18f65ab6c9f4b7a6bd4ed9bd381c2c566642301a790270"
+        },
+        {
+          "source": "skills/architect/references/design-red-flags.md",
+          "destination": "references/design-red-flags.md",
+          "sourceSha256": "905066f9bbac81c573c2b325be47751d2c0f9325e0a0772bd4384e82dafe9336",
+          "sourceNormalizedSha256": "905066f9bbac81c573c2b325be47751d2c0f9325e0a0772bd4384e82dafe9336"
+        },
+        {
+          "source": "skills/architect/references/rationale-template.md",
+          "destination": "references/rationale-template.md",
+          "sourceSha256": "6645a0e5f68c003298ec95b85a23262bdda0c79f998b926060169b54d9f23fbb",
+          "sourceNormalizedSha256": "9b73092589c6a3091eb9986fba27738801e917c05fc23a6c2aabed4bf929c5a9"
+        },
+        {
+          "source": "skills/architect/references/runner-prompt.md",
+          "destination": "references/runner-prompt.md",
+          "sourceSha256": "3ef8c1452a0382a15b7601c7c94f2a16a00954170d705b7af8cc49ac78080ec9",
+          "sourceNormalizedSha256": "3ef8c1452a0382a15b7601c7c94f2a16a00954170d705b7af8cc49ac78080ec9"
+        }
+      ],
+      "inventorySource": "skills/architect/SKILL.md"
     },
     {
       "name": "arena",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/arena/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/arena/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "a2241e8500a44d9c16bd3260c8c70e28c4bb8a857c33061d42b267057e6f7093",
+          "sourceNormalizedSha256": "52785268f67b68ad4805a1aafeb9b933b8aba02bbb8ae5fb8df3cc9f07c949fc"
+        }
+      ],
+      "inventorySource": "skills/arena/SKILL.md"
     },
     {
       "name": "adversarial-review",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": [
-        "skills/interrogate/SKILL.md",
-        "skills/interrogate/references/code-quality-review.md",
-        "skills/interrogate/references/lead-judgment.md",
-        "skills/interrogate/references/reviewer-prompt.md",
-        "skills/interrogate/references/rubric.md"
-      ]
+      "mappings": [
+        {
+          "source": "skills/interrogate/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "a009220dfe6869c8f7980a94fb1c9c7763a081a0b32fb6d0afb65b8ff1868146",
+          "sourceNormalizedSha256": "e2b1d7b3c3fdbc1f79b2c6a6ee52a9699492b3f3dd9718fb37b118d1e932549a"
+        },
+        {
+          "source": "skills/interrogate/references/code-quality-review.md",
+          "destination": "references/code-quality-review.md",
+          "sourceSha256": "2462f1347b99b412b04fcb0577b96d8744c801f792f2651746f9409fd4465dc9",
+          "sourceNormalizedSha256": "2462f1347b99b412b04fcb0577b96d8744c801f792f2651746f9409fd4465dc9"
+        },
+        {
+          "source": "skills/interrogate/references/lead-judgment.md",
+          "destination": "references/lead-judgment.md",
+          "sourceSha256": "d2cea6cc308758201c6b8b82baf780947645f1ab752707ddf97fab374bf473f9",
+          "sourceNormalizedSha256": "2bf0f3c41ae8f57c7df2ff2b97afceb652f251a392acbc87432364e0646336eb"
+        },
+        {
+          "source": "skills/interrogate/references/reviewer-prompt.md",
+          "destination": "references/reviewer-prompt.md",
+          "sourceSha256": "a397cc61102add709803d917fb23d726920525bf23e7c06dc4ed0b5cbeb00e54",
+          "sourceNormalizedSha256": "a397cc61102add709803d917fb23d726920525bf23e7c06dc4ed0b5cbeb00e54"
+        },
+        {
+          "source": "skills/interrogate/references/rubric.md",
+          "destination": "references/rubric.md",
+          "sourceSha256": "a67bf02426f88714634ff481d667db821d4b2cea7b335bcd165fe3126e427fb5",
+          "sourceNormalizedSha256": "a67bf02426f88714634ff481d667db821d4b2cea7b335bcd165fe3126e427fb5"
+        }
+      ],
+      "inventorySource": "skills/interrogate/SKILL.md"
     },
     {
       "name": "swarm",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/swarm/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/swarm/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "8e6494e296af5496cacb0fb83f33f647c84286d2e1d1b85580bc0f0f577a81cd",
+          "sourceNormalizedSha256": "862ebab0dc5e37ab0d139b2cfbd1aa24c1639fa4bb9682b0fe8e8c0f6b9fead0"
+        }
+      ],
+      "inventorySource": "skills/swarm/SKILL.md"
     },
     {
       "name": "review-code-comments",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/no-comments/SKILL.md", "agents/comment-sicko.md"]
+      "mappings": [
+        {
+          "source": "skills/no-comments/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "72d3b153712ab641875f1d7424de0f77375af1cec03707935f08fa7d8f17bbf3",
+          "sourceNormalizedSha256": "965c81f1d24d0fb87890c3463b76a939114a5f67251065dc31e9f2a8960d7033"
+        },
+        {
+          "source": "agents/comment-sicko.md",
+          "destination": "references/reviewer-prompt.md",
+          "sourceSha256": "c0fd0383008da45fc78cfac17b9007d62c42f87ad1c8d5c2fb658b1fd01f7c82",
+          "sourceNormalizedSha256": "c58c10b0fb4d916c1d8c52e6335cd5f8f521bb060130676b91449ef3822f0f13"
+        }
+      ],
+      "inventorySource": "skills/no-comments/SKILL.md"
     },
     {
       "name": "show-me-your-work",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": [
-        "skills/show-me-your-work/SKILL.md",
-        "skills/show-me-your-work/references/decision-log-template.tsv",
-        "skills/show-me-your-work/scripts/log.sh"
-      ]
+      "mappings": [
+        {
+          "source": "skills/show-me-your-work/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "b99833c41a8781a6af191487f1af37711a3198b98f9373e3c02292b8a6e09aba",
+          "sourceNormalizedSha256": "d00d6243311491e3560781822bb34d26e685f00d953da0de86f36b60ab89c3c0"
+        },
+        {
+          "source": "skills/show-me-your-work/references/decision-log-template.tsv",
+          "destination": "references/decision-log-template.tsv",
+          "sourceSha256": "6779378006a2f5225e8c06deb84f1d913fb532041ebbb6e50d94600bfe3f4b76",
+          "sourceNormalizedSha256": "6779378006a2f5225e8c06deb84f1d913fb532041ebbb6e50d94600bfe3f4b76"
+        },
+        {
+          "source": "skills/show-me-your-work/scripts/log.sh",
+          "destination": "scripts/log.sh",
+          "sourceSha256": "1601bc18f9aba0af3f5d6375e4f2d5dc6102334d1bca935026c0e3547cdadbbf",
+          "sourceNormalizedSha256": "1601bc18f9aba0af3f5d6375e4f2d5dc6102334d1bca935026c0e3547cdadbbf"
+        }
+      ],
+      "inventorySource": "skills/show-me-your-work/SKILL.md"
     },
     {
       "name": "create-verification-skill",
       "disposition": "adapt",
-      "sourcePaths": [
-        "skills/create-verification-skill/SKILL.md",
-        "skills/create-verification-skill/references/feature-map-example/README.md",
-        "skills/create-verification-skill/references/feature-map-example/create-note.md",
-        "skills/create-verification-skill/references/feature-map-example/search.md"
-      ]
+      "mappings": [
+        {
+          "source": "skills/create-verification-skill/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "644f2551403c1bca01a2855b34611b6e7be0ce0dc5b204514c376c0f6a6e6ac4",
+          "sourceNormalizedSha256": "4afde72306155ec313c57f021d3009d7d52e68295aabfd0bcf24275d017d41dd"
+        },
+        {
+          "source": "skills/create-verification-skill/references/feature-map-example/README.md",
+          "destination": "references/feature-map-example/README.md",
+          "sourceSha256": "cb7bd782cf89968a4ba3d58a5151db837430db92d19a6f52a906973b77b516ba",
+          "sourceNormalizedSha256": "cb7bd782cf89968a4ba3d58a5151db837430db92d19a6f52a906973b77b516ba"
+        },
+        {
+          "source": "skills/create-verification-skill/references/feature-map-example/create-note.md",
+          "destination": "references/feature-map-example/create-note.md",
+          "sourceSha256": "644a44c74f35d38c2feb7cd05a0121fdebbb623e8dc376c185b565a581d1ccf7",
+          "sourceNormalizedSha256": "644a44c74f35d38c2feb7cd05a0121fdebbb623e8dc376c185b565a581d1ccf7"
+        },
+        {
+          "source": "skills/create-verification-skill/references/feature-map-example/search.md",
+          "destination": "references/feature-map-example/search.md",
+          "sourceSha256": "6e87b9e7f2791a7776ba1bb83f371cd285c306c67f19d245cc4dd6ca3015c823",
+          "sourceNormalizedSha256": "6e87b9e7f2791a7776ba1bb83f371cd285c306c67f19d245cc4dd6ca3015c823"
+        }
+      ],
+      "inventorySource": "skills/create-verification-skill/SKILL.md"
     },
     {
       "name": "maintain-verification-skill",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/maintain-verification-skill/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/maintain-verification-skill/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "515c0eaa054b3f6be1b1fb06f2c2f173c80fddb58bbcac57576f89c479bc68e8",
+          "sourceNormalizedSha256": "f242befc66006297ac84b123e9b1b86d727c47c16253e16008274e7d44e6b4d2"
+        }
+      ],
+      "inventorySource": "skills/maintain-verification-skill/SKILL.md"
     },
     {
       "name": "automate-me",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/automate-me/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/automate-me/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "34e7eab6f495093d474817bc4c13f26bcf5fafa439f2761b8c1ec72b07487764",
+          "sourceNormalizedSha256": "b2b225ae0da837c2a57d3b7f3d14e53b25fbfb96c5918347a1657f3184cbfd0f"
+        }
+      ],
+      "inventorySource": "skills/automate-me/SKILL.md"
     },
     {
       "name": "reflect",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": [
-        "skills/reflect/SKILL.md",
-        "skills/reflect/references/divergent-reviewer.md",
-        "skills/reflect/references/judgment-reviewer.md",
-        "skills/reflect/references/synthesizer.md",
-        "skills/reflect/references/tooling-reviewer.md"
-      ]
+      "mappings": [
+        {
+          "source": "skills/reflect/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "5485347991eb60ee226ca78c5972f9c694f6927cff3263b7f48b631ed7a9de56",
+          "sourceNormalizedSha256": "b70d29dab718a56200a68b2e863cb97f577b8e7c7391c202a9c7a242271b4f50"
+        },
+        {
+          "source": "skills/reflect/references/divergent-reviewer.md",
+          "destination": "references/divergent-reviewer.md",
+          "sourceSha256": "823167d485c8fc424530ac4eff447f132a10e318a2db35380312c7e843f17683",
+          "sourceNormalizedSha256": "9af0d67847c04f495bcb5a5d6bf86fa1aad0da10afeacecdc2843782cbaa6085"
+        },
+        {
+          "source": "skills/reflect/references/judgment-reviewer.md",
+          "destination": "references/judgment-reviewer.md",
+          "sourceSha256": "8db7a315ccf9280486b4df08b1277ba0fe4c4ac533ad3719945aa1aab2ebddea",
+          "sourceNormalizedSha256": "65c24270ad68e79194bd15f4048ea4201062a3ab0bfa17f97e853774a8bc30d0"
+        },
+        {
+          "source": "skills/reflect/references/synthesizer.md",
+          "destination": "references/synthesizer.md",
+          "sourceSha256": "52767b4566c37df0adc6350fff1c5c7a919a1178c2be539e0efbf920f2803702",
+          "sourceNormalizedSha256": "1999c23f44d431db664e0f028d1b287a1df80ba472208c7795a6471aa1677732"
+        },
+        {
+          "source": "skills/reflect/references/tooling-reviewer.md",
+          "destination": "references/tooling-reviewer.md",
+          "sourceSha256": "3a4dc9e87d0d74b46d0d0bc2c1af6acba10be7c95d1adafeab6ec5701e247933",
+          "sourceNormalizedSha256": "9523ffdf8aa3c8191add7fb6f5890fe402f256092675fb00c9f99bbc68b87999"
+        }
+      ],
+      "inventorySource": "skills/reflect/SKILL.md"
     },
     {
       "name": "auditable-run",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": ["skills/figure-it-out/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/figure-it-out/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "548616d04909de854f36869af2af127ce321fc6aaf95ea5a626997709fd46a2a",
+          "sourceNormalizedSha256": "1d8504692d985724612780602c7e813045fc219286c3fb044619822607519e6b"
+        }
+      ],
+      "inventorySource": "skills/figure-it-out/SKILL.md"
     },
     {
       "name": "configure-agent-models",
       "disposition": "adapt",
-      "sourcePaths": ["skills/setup-pstack/SKILL.md"]
+      "mappings": [
+        {
+          "source": "skills/setup-pstack/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "3b62d9fd4cce8f450b36b2bc6b1df2f00d887e0a3abd55e7fc1ccbde5db96cea",
+          "sourceNormalizedSha256": "b32dedb64ef5f165e4ddb304b57c51234115e3b03d766df8d69258f27c5edc33"
+        }
+      ],
+      "inventorySource": "skills/setup-pstack/SKILL.md"
     },
     {
       "name": "engineering-mode",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": [
-        "skills/poteto-mode/SKILL.md",
-        "skills/poteto-mode/playbooks/authoring-a-skill.md",
-        "skills/poteto-mode/playbooks/autonomous-run.md",
-        "skills/poteto-mode/playbooks/bug-fix.md",
-        "skills/poteto-mode/playbooks/eval.md",
-        "skills/poteto-mode/playbooks/feature.md",
-        "skills/poteto-mode/playbooks/hillclimb.md",
-        "skills/poteto-mode/playbooks/investigation.md",
-        "skills/poteto-mode/playbooks/pause-safely.md",
-        "skills/poteto-mode/playbooks/perf-issue.md",
-        "skills/poteto-mode/playbooks/prototype.md",
-        "skills/poteto-mode/playbooks/refactoring.md",
-        "skills/poteto-mode/playbooks/runtime-forensics.md",
-        "skills/poteto-mode/playbooks/session-pickup.md",
-        "skills/poteto-mode/playbooks/trace-forensics.md",
-        "skills/poteto-mode/playbooks/visual-parity.md",
-        "skills/poteto-mode/playbooks/worktree-cleanup.md"
-      ]
+      "mappings": [
+        {
+          "source": "skills/poteto-mode/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "3b6793bdaeada0bfc7291bcc00422093bd8d10e64a9bc3b6707008ba3c4c7316",
+          "sourceNormalizedSha256": "4affef1c977457c05a2d9fa0b6dd35f86899613ebb238df3b7c46bd0c603e206"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/authoring-a-skill.md",
+          "destination": "playbooks/authoring-a-skill.md",
+          "sourceSha256": "5479e2b3914acccbafd70f8be56520e1774775d9527f79ac255fd31ec554538a",
+          "sourceNormalizedSha256": "5479e2b3914acccbafd70f8be56520e1774775d9527f79ac255fd31ec554538a"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/autonomous-run.md",
+          "destination": "playbooks/autonomous-run.md",
+          "sourceSha256": "e4d9e2fc9195dbc521131021c23c6c53d66390048ca3e58be79bdb3d47b9d737",
+          "sourceNormalizedSha256": "e4d9e2fc9195dbc521131021c23c6c53d66390048ca3e58be79bdb3d47b9d737"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/bug-fix.md",
+          "destination": "playbooks/bug-fix.md",
+          "sourceSha256": "ffb71024f8af25923e6a937399d6424c07bc09363eb8a81c708c0a68c4afcb9d",
+          "sourceNormalizedSha256": "1f203ea74fcdef86cc25464500419ccdab09e87c1ab8a56290bc9ede631a54bd"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/eval.md",
+          "destination": "playbooks/eval.md",
+          "sourceSha256": "4881699e688353f7f5c64ae6f4db20fe96bf7267b2a77ce5a6198d2abf218ed3",
+          "sourceNormalizedSha256": "4881699e688353f7f5c64ae6f4db20fe96bf7267b2a77ce5a6198d2abf218ed3"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/feature.md",
+          "destination": "playbooks/feature.md",
+          "sourceSha256": "a2a04c2e4b273c0c33e4e3a22940049b60b917b064202e39bd34018356aa0926",
+          "sourceNormalizedSha256": "a2a04c2e4b273c0c33e4e3a22940049b60b917b064202e39bd34018356aa0926"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/hillclimb.md",
+          "destination": "playbooks/hillclimb.md",
+          "sourceSha256": "0078ed4be36486f257cf0ceeea4aec39e1e4d1900dacbffc58ef242b9037d6b0",
+          "sourceNormalizedSha256": "c83ea03603558edf89dd5341059580bf0605ee10886d24c79cfdc8f8e0686a9a"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/investigation.md",
+          "destination": "playbooks/investigation.md",
+          "sourceSha256": "bb28bfe2912511dbb777057326a8ccff3ef279d219e52271dcb5b10f68a38b5b",
+          "sourceNormalizedSha256": "bb28bfe2912511dbb777057326a8ccff3ef279d219e52271dcb5b10f68a38b5b"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/pause-safely.md",
+          "destination": "playbooks/pause-safely.md",
+          "sourceSha256": "5a34883f8daa41596c0f69387f60c083fa826f90004e14952b8c831651a69b3c",
+          "sourceNormalizedSha256": "5a34883f8daa41596c0f69387f60c083fa826f90004e14952b8c831651a69b3c"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/perf-issue.md",
+          "destination": "playbooks/perf-issue.md",
+          "sourceSha256": "afb819ff5252f9d410a108bad60c42d31a10989b856c48b1993c68abd555b710",
+          "sourceNormalizedSha256": "7716645f1c3f5f16821c4066d4d251953fb525cbdd0af9f9594fc00d961cf6cd"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/prototype.md",
+          "destination": "playbooks/prototype.md",
+          "sourceSha256": "0e539b57aa33deb09472e10ccab2a20cd166a86bea94c50e0b8be39e41164d33",
+          "sourceNormalizedSha256": "0e539b57aa33deb09472e10ccab2a20cd166a86bea94c50e0b8be39e41164d33"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/refactoring.md",
+          "destination": "playbooks/refactoring.md",
+          "sourceSha256": "437b86120a8044e85aabf77933d03ab8862d0b3635b0aece69cc3b98914ee7a4",
+          "sourceNormalizedSha256": "437b86120a8044e85aabf77933d03ab8862d0b3635b0aece69cc3b98914ee7a4"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/runtime-forensics.md",
+          "destination": "playbooks/runtime-forensics.md",
+          "sourceSha256": "96ac9a3a368e6a31d8a7aa56055e6f7f75e8e773c21b65c0f941c26403c8d105",
+          "sourceNormalizedSha256": "96ac9a3a368e6a31d8a7aa56055e6f7f75e8e773c21b65c0f941c26403c8d105"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/session-pickup.md",
+          "destination": "playbooks/session-pickup.md",
+          "sourceSha256": "c1a4aa69e32e2950fb66f7351b5cea7bbf8acff9c2aed4a4623585ed688fbf1e",
+          "sourceNormalizedSha256": "c1a4aa69e32e2950fb66f7351b5cea7bbf8acff9c2aed4a4623585ed688fbf1e"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/trace-forensics.md",
+          "destination": "playbooks/trace-forensics.md",
+          "sourceSha256": "fcae1f68f349072a8b2518f09b73dedeb826192d2ec33befb8906f42292e38be",
+          "sourceNormalizedSha256": "fcae1f68f349072a8b2518f09b73dedeb826192d2ec33befb8906f42292e38be"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/visual-parity.md",
+          "destination": "playbooks/visual-parity.md",
+          "sourceSha256": "33165e74665bf8ddec181598c2b21b4a1cd310b1adf23742af90ac0d10652b39",
+          "sourceNormalizedSha256": "33165e74665bf8ddec181598c2b21b4a1cd310b1adf23742af90ac0d10652b39"
+        },
+        {
+          "source": "skills/poteto-mode/playbooks/worktree-cleanup.md",
+          "destination": "playbooks/worktree-cleanup.md",
+          "sourceSha256": "b3a3b23f23972c6db490edc0403a0d717990871308fd57d69bb8438725df5dce",
+          "sourceNormalizedSha256": "b3a3b23f23972c6db490edc0403a0d717990871308fd57d69bb8438725df5dce"
+        }
+      ],
+      "inventorySource": "skills/poteto-mode/SKILL.md"
     },
     {
       "name": "worktree-cleanup",
       "disposition": "adapt",
       "coordinatesSubagents": true,
-      "sourcePaths": [
-        "skills/poteto-mode/playbooks/worktree-cleanup.md",
-        "skills/poteto-mode/scripts/worktree-audit.sh"
-      ]
+      "mappings": [
+        {
+          "source": "skills/poteto-mode/playbooks/worktree-cleanup.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "b3a3b23f23972c6db490edc0403a0d717990871308fd57d69bb8438725df5dce",
+          "sourceNormalizedSha256": "b3a3b23f23972c6db490edc0403a0d717990871308fd57d69bb8438725df5dce"
+        },
+        {
+          "source": "skills/poteto-mode/scripts/worktree-audit.sh",
+          "destination": "scripts/worktree-audit.sh",
+          "sourceSha256": "95b8530f3c0ccada8cabc4b0727c052fbc85c141531375aaace65c427af8aecc",
+          "sourceNormalizedSha256": "95b8530f3c0ccada8cabc4b0727c052fbc85c141531375aaace65c427af8aecc"
+        }
+      ],
+      "inventorySource": "skills/poteto-mode/playbooks/worktree-cleanup.md"
     }
   ],
   "exclusions": [

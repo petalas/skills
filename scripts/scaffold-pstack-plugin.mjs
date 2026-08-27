@@ -7,8 +7,9 @@ import {
   statSync,
   writeFileSync
 } from "node:fs";
+import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, join, posix, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
@@ -38,18 +39,18 @@ if (importsManifest.sourceCommit !== sourceCommit) {
 }
 const imported = importsManifest.imports.find((entry) => entry.name === name);
 if (!imported) {
-  throw new Error(
-    `add ${name} with exact sourcePaths to docs/pstack-imports.json before scaffolding`
-  );
+  throw new Error(`add ${name} with exact mappings to docs/pstack-imports.json before scaffolding`);
 }
 
 function validateSourcePath(path) {
   if (
     !path ||
-    path.startsWith("/") ||
-    path === ".." ||
+    path.includes("\\") ||
+    posix.isAbsolute(path) ||
+    posix.normalize(path) !== path ||
+    path === "." ||
     path.startsWith("../") ||
-    path.includes("/../")
+    path.endsWith("/")
   ) {
     throw new Error(`unsafe pstack source path: ${path}`);
   }
@@ -86,30 +87,6 @@ function readSourceBlob(sourcePath) {
   );
 }
 
-function destinationFor(sourcePath) {
-  if (sourcePath === "agents/comment-sicko.md") {
-    return "references/reviewer-prompt.md";
-  }
-
-  if (name === "worktree-cleanup") {
-    if (sourcePath.endsWith("/playbooks/worktree-cleanup.md")) return "SKILL.md";
-    if (sourcePath.endsWith("/scripts/worktree-audit.sh")) {
-      return "scripts/worktree-audit.sh";
-    }
-  }
-
-  if (name === "engineering-mode") {
-    if (sourcePath.endsWith("/SKILL.md")) return "SKILL.md";
-    const playbook = sourcePath.match(/\/playbooks\/(.+)$/);
-    if (playbook) return `playbooks/${playbook[1]}`;
-  }
-
-  const skillRelative = sourcePath.match(/^skills\/[^/]+\/(.+)$/);
-  if (skillRelative) return skillRelative[1];
-
-  throw new Error(`no destination rule for ${name}: ${sourcePath}`);
-}
-
 function sourceMode(sourcePath) {
   const output = execFileSync(
     "git",
@@ -122,44 +99,24 @@ function sourceMode(sourcePath) {
 }
 
 const sourceDirectoryPath = sourceRelative.replace(/\/+$/, "");
-const sourceTreePath = treePathFor(sourceDirectoryPath);
-const sourceEntries = execFileSync(
-  "git",
-  ["-C", gitRoot, "ls-tree", "-r", sourceCommit, "--", sourceTreePath],
-  { encoding: "utf8" }
-)
-  .trim()
-  .split("\n")
-  .filter(Boolean)
-  .map((line) => {
-    const match = line.match(/^(\d+) blob [0-9a-f]+\t(.+)$/);
-    if (!match) throw new Error(`unexpected git ls-tree output: ${line}`);
-    return { mode: match[1], treePath: match[2] };
-  });
-if (sourceEntries.length === 0) {
-  throw new Error(`source directory is absent at approved commit: ${sourceRelative}`);
-}
-
-const sourceFiles = sourceEntries.map(({ treePath }) =>
-  sourceTreePrefix ? treePath.slice(sourceTreePrefix.length + 1) : treePath
-);
-if (!sourceFiles.includes(`${sourceDirectoryPath}/SKILL.md`)) {
-  throw new Error(`source has no SKILL.md at approved commit: ${sourceRelative}`);
-}
-
-const plannedSourcePaths = new Set([...sourceFiles, ...additionalSourcePaths]);
-const manifestSourcePaths = new Set(imported.sourcePaths);
-for (const sourcePath of plannedSourcePaths) {
-  if (!manifestSourcePaths.has(sourcePath)) {
-    throw new Error(`${name} manifest does not declare source path ${sourcePath}`);
-  }
-}
-for (const sourcePath of manifestSourcePaths) {
-  if (!plannedSourcePaths.has(sourcePath)) {
+const additionalSources = new Set(additionalSourcePaths);
+for (const mapping of imported.mappings) {
+  if (
+    !mapping.source.startsWith(`${sourceDirectoryPath}/`) &&
+    !additionalSources.has(mapping.source)
+  ) {
     throw new Error(
-      `${name} manifest source ${sourcePath} is neither in ${sourceRelative} nor passed explicitly`
+      `${name} manifest source ${mapping.source} is neither in ${sourceRelative} nor passed explicitly`
     );
   }
+}
+for (const sourcePath of additionalSources) {
+  if (!imported.mappings.some((mapping) => mapping.source === sourcePath)) {
+    throw new Error(`${name} manifest does not declare additional source ${sourcePath}`);
+  }
+}
+if (!imported.mappings.some((mapping) => mapping.destination === "SKILL.md")) {
+  throw new Error(`${name} manifest has no installed SKILL.md mapping`);
 }
 
 const pluginDirectory = join(repositoryRoot, "plugins", name);
@@ -169,26 +126,26 @@ if (existsSync(pluginDirectory)) {
 
 const skillDirectory = join(pluginDirectory, "skills", name);
 mkdirSync(skillDirectory, { recursive: true });
-for (const entry of sourceEntries) {
-  const sourcePath = sourceTreePrefix
-    ? entry.treePath.slice(sourceTreePrefix.length + 1)
-    : entry.treePath;
-  const destinationPath = sourcePath.slice(sourceDirectoryPath.length + 1);
-  const destination = join(skillDirectory, destinationPath);
-  mkdirSync(dirname(destination), { recursive: true });
-  writeFileSync(destination, readSourceBlob(sourcePath));
-  if (entry.mode === "100755") chmodSync(destination, 0o755);
-}
-for (const sourcePath of additionalSourcePaths) {
-  const destinationPath = destinationFor(sourcePath);
-  validateSourcePath(destinationPath);
-  const destination = join(skillDirectory, destinationPath);
+const installedDestinations = new Set();
+for (const mapping of imported.mappings) {
+  validateSourcePath(mapping.destination);
+  if (installedDestinations.has(mapping.destination)) {
+    throw new Error(`${name} manifest repeats destination ${mapping.destination}`);
+  }
+  installedDestinations.add(mapping.destination);
+
+  const destination = join(skillDirectory, mapping.destination);
   if (existsSync(destination)) {
-    throw new Error(`additional source maps to existing destination ${destinationPath}`);
+    throw new Error(`source maps to existing destination ${mapping.destination}`);
+  }
+  const sourceBytes = readSourceBlob(mapping.source);
+  const sourceSha256 = createHash("sha256").update(sourceBytes).digest("hex");
+  if (sourceSha256 !== mapping.sourceSha256) {
+    throw new Error(`${mapping.source} does not match its committed source hash`);
   }
   mkdirSync(dirname(destination), { recursive: true });
-  writeFileSync(destination, readSourceBlob(sourcePath));
-  if (sourceMode(sourcePath) === "100755") chmodSync(destination, 0o755);
+  writeFileSync(destination, sourceBytes);
+  if (sourceMode(mapping.source) === "100755") chmodSync(destination, 0o755);
 }
 
 function ascii(text) {
@@ -249,7 +206,7 @@ const newSkill = [
   "---",
   `name: ${name}`,
   "version: 0.1.0",
-  "disable-model-invocation: true",
+  ...(imported.automaticInvocation ? [] : ["disable-model-invocation: true"]),
   `description: ${description}`,
   "---",
   frontmatterMatch[2].trimStart()

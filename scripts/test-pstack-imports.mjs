@@ -39,6 +39,23 @@ assert(existsSync(skillsBinary), "skills CLI is not installed; run bun install")
 const fixtureRoot = mkdtempSync(join(tmpdir(), "petalas-skills-install-"));
 
 try {
+  const standaloneValidation = spawnSync(
+    process.execPath,
+    [join(repositoryRoot, "scripts", "validate-pstack-imports.mjs")],
+    {
+      cwd: repositoryRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PSTACK_SOURCE_ROOT: join(fixtureRoot, "no-pstack-checkout")
+      }
+    }
+  );
+  assert(
+    standaloneValidation.status === 0,
+    `standalone provenance validation failed:\n${standaloneValidation.stdout}\n${standaloneValidation.stderr}`
+  );
+
   const git = spawnSync("git", ["init", "--quiet"], {
     cwd: fixtureRoot,
     encoding: "utf8"

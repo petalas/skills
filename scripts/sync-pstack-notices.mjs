@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, join, posix, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import prettier from "prettier";
 
@@ -40,12 +41,7 @@ if (sourceTreePrefix === ".." || sourceTreePrefix.startsWith("../")) {
 }
 
 function readSourceBlob(sourcePath) {
-  if (
-    sourcePath.startsWith("/") ||
-    sourcePath === ".." ||
-    sourcePath.startsWith("../") ||
-    sourcePath.includes("/../")
-  ) {
+  if (!isSafeRelativePath(sourcePath)) {
     throw new Error(`unsafe pstack source path: ${sourcePath}`);
   }
 
@@ -62,45 +58,55 @@ function readSourceBlob(sourcePath) {
   }
 }
 
-const license = readSourceBlob("LICENSE").toString("utf8").trim();
+function isSafeRelativePath(path) {
+  return (
+    typeof path === "string" &&
+    path.length > 0 &&
+    !path.includes("\\") &&
+    !posix.isAbsolute(path) &&
+    posix.normalize(path) === path &&
+    path !== "." &&
+    !path.startsWith("../")
+  );
+}
 
-function destinationFor(name, sourcePath) {
-  if (sourcePath === "agents/comment-sicko.md") {
-    return "references/reviewer-prompt.md";
-  }
-
-  if (name === "worktree-cleanup") {
-    if (sourcePath.endsWith("/playbooks/worktree-cleanup.md")) return "SKILL.md";
-    if (sourcePath.endsWith("/scripts/worktree-audit.sh")) {
-      return "scripts/worktree-audit.sh";
-    }
-  }
-
-  if (name === "engineering-mode") {
-    if (sourcePath.endsWith("/SKILL.md")) return "SKILL.md";
-    const playbook = sourcePath.match(/\/playbooks\/(.+)$/);
-    if (playbook) return `playbooks/${playbook[1]}`;
-  }
-
-  const skillRelative = sourcePath.match(/^skills\/[^/]+\/(.+)$/);
-  if (skillRelative) return skillRelative[1];
-
-  throw new Error(`no destination rule for ${name}: ${sourcePath}`);
+const licenseBytes = readSourceBlob("LICENSE");
+const license = licenseBytes.toString("utf8").trim();
+if (
+  createHash("sha256").update(licenseBytes).digest("hex") !== importsManifest.licenseSourceSha256
+) {
+  throw new Error("pstack LICENSE does not match the committed source hash");
 }
 
 for (const imported of importsManifest.imports) {
   const skillDirectory = join(repositoryRoot, "plugins", imported.name, "skills", imported.name);
 
-  const mappings = imported.sourcePaths.map((sourcePath) => {
-    const destinationPath = destinationFor(imported.name, sourcePath);
-    const destinationFile = join(skillDirectory, destinationPath);
-    if (!existsSync(destinationFile)) {
+  const mappings = imported.mappings.map((mapping) => {
+    if (!isSafeRelativePath(mapping.destination)) {
+      throw new Error(`unsafe installed destination: ${mapping.destination}`);
+    }
+    const sourceBytes = readSourceBlob(mapping.source);
+    const sourceSha256 = createHash("sha256").update(sourceBytes).digest("hex");
+    if (sourceSha256 !== mapping.sourceSha256) {
       throw new Error(
-        `missing destination ${relative(repositoryRoot, destinationFile)} for ${sourcePath}`
+        `${mapping.source} at ${approvedSourceCommit} does not match its committed source hash`
       );
     }
-    const unchanged = readSourceBlob(sourcePath).equals(readFileSync(destinationFile));
-    return `- \`${sourcePath}\` -> \`${destinationPath}\` (${unchanged ? "unchanged" : "modified"})`;
+
+    const destinationPath = mapping.destination;
+    const destinationFile = resolve(skillDirectory, destinationPath);
+    if (!destinationFile.startsWith(`${skillDirectory}/`)) {
+      throw new Error(`installed destination escapes ${imported.name}: ${destinationPath}`);
+    }
+    if (!existsSync(destinationFile)) {
+      throw new Error(
+        `missing destination ${relative(repositoryRoot, destinationFile)} for ${mapping.source}`
+      );
+    }
+    const destinationSha256 = createHash("sha256")
+      .update(readFileSync(destinationFile))
+      .digest("hex");
+    return `- \`${mapping.source}\` -> \`${destinationPath}\` (${destinationSha256 === mapping.sourceSha256 ? "unchanged" : "modified"})`;
   });
 
   const notice = await prettier.format(

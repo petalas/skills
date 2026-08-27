@@ -1,6 +1,6 @@
 {
   "name": "worktree-cleanup",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Audit git worktrees and local development caches, then remove only targets proven unused and recoverable.",
   "author": {
     "name": "Nick Petalas",

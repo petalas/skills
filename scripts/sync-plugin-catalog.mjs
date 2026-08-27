@@ -86,6 +86,10 @@ ${readmeRows}
 
 See the [full catalog](docs/PLUGIN_CATALOG.md) for categories and installation.
 
+Start with the [solo developer workflow guide](docs/guide/README.md) for a
+host-neutral path through understanding, design, implementation, verification,
+and long-running local work.
+
 ${end}`;
 const readmeText = await prettier.format(
   `${readme.slice(0, startIndex)}${generatedReadme}${readme.slice(endIndex + end.length)}`,

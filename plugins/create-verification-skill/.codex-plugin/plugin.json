@@ -1,6 +1,6 @@
 {
   "name": "create-verification-skill",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Create a project-local skill that drives an app through its real user surface and captures proof.",
   "author": {
     "name": "Nick Petalas",

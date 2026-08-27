@@ -1,6 +1,6 @@
 ---
 name: principle-prove-it-works
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: "Apply after completing a task, before declaring done. Verify against the real artifact (run the feature, read the actual value, inspect the diff), not a proxy, self-report, or 'it compiles.'"
 ---
@@ -28,7 +28,7 @@ Code and features:
 
 Delegation: trust artifacts, not self-reports.
 When verifying delegated work, inspect the actual output artifact (git diff, file contents, runtime behavior), not the delegate's summary. Agents report what they intended, not always what happened.
-Subagents may communicate with each other, but no agent may communicate with a person. Delegates report internally and never send messages, comments, replies, email, or chat posts to people.
+Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Delegates report internally and never send messages, comments, replies, email, or chat posts to people.
 
 ## Script the check when you can
 

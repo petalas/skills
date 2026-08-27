@@ -1,21 +1,68 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import prettier from "prettier";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "..");
-const sourceRoot =
-  process.env.PSTACK_SOURCE_ROOT ?? resolve(repositoryRoot, "..", "plugins", "pstack");
+const sourceRoot = resolve(
+  process.env.PSTACK_SOURCE_ROOT ?? resolve(repositoryRoot, "..", "plugins", "pstack")
+);
+const approvedSourceCommit = "799151d91b6e12ee7dbd09f708eec108d7de9b3b";
 const importsManifest = JSON.parse(
   readFileSync(join(repositoryRoot, "docs", "pstack-imports.json"), "utf8")
 );
 
-if (!existsSync(join(sourceRoot, "LICENSE"))) {
+if (importsManifest.sourceCommit !== approvedSourceCommit) {
+  throw new Error(`pstack import manifest must pin approved commit ${approvedSourceCommit}`);
+}
+
+if (!existsSync(sourceRoot)) {
   throw new Error(`pstack source not found at ${sourceRoot}; set PSTACK_SOURCE_ROOT`);
 }
 
-const license = readFileSync(join(sourceRoot, "LICENSE"), "utf8").trim();
+const gitRoot = execFileSync("git", ["-C", sourceRoot, "rev-parse", "--show-toplevel"], {
+  encoding: "utf8"
+}).trim();
+const resolvedSourceCommit = execFileSync(
+  "git",
+  ["-C", gitRoot, "rev-parse", "--verify", `${approvedSourceCommit}^{commit}`],
+  { encoding: "utf8" }
+).trim();
+if (resolvedSourceCommit !== approvedSourceCommit) {
+  throw new Error(`pstack source does not contain approved commit ${approvedSourceCommit}`);
+}
+
+const sourceTreePrefix = relative(gitRoot, sourceRoot).split("\\").join("/");
+if (sourceTreePrefix === ".." || sourceTreePrefix.startsWith("../")) {
+  throw new Error(`pstack source root ${sourceRoot} is outside git root ${gitRoot}`);
+}
+
+function readSourceBlob(sourcePath) {
+  if (
+    sourcePath.startsWith("/") ||
+    sourcePath === ".." ||
+    sourcePath.startsWith("../") ||
+    sourcePath.includes("/../")
+  ) {
+    throw new Error(`unsafe pstack source path: ${sourcePath}`);
+  }
+
+  const treePath = sourceTreePrefix ? `${sourceTreePrefix}/${sourcePath}` : sourcePath;
+  try {
+    return execFileSync("git", ["-C", gitRoot, "show", `${approvedSourceCommit}:${treePath}`], {
+      encoding: null,
+      maxBuffer: 16 * 1024 * 1024
+    });
+  } catch (error) {
+    throw new Error(
+      `cannot read ${sourcePath} from pstack commit ${approvedSourceCommit}: ${error.message}`
+    );
+  }
+}
+
+const license = readSourceBlob("LICENSE").toString("utf8").trim();
 
 function destinationFor(name, sourcePath) {
   if (sourcePath === "agents/comment-sicko.md") {
@@ -46,15 +93,13 @@ for (const imported of importsManifest.imports) {
 
   const mappings = imported.sourcePaths.map((sourcePath) => {
     const destinationPath = destinationFor(imported.name, sourcePath);
-    const sourceFile = join(sourceRoot, sourcePath);
     const destinationFile = join(skillDirectory, destinationPath);
-    if (!existsSync(sourceFile)) throw new Error(`missing source ${sourcePath}`);
     if (!existsSync(destinationFile)) {
       throw new Error(
         `missing destination ${relative(repositoryRoot, destinationFile)} for ${sourcePath}`
       );
     }
-    const unchanged = readFileSync(sourceFile).equals(readFileSync(destinationFile));
+    const unchanged = readSourceBlob(sourcePath).equals(readFileSync(destinationFile));
     return `- \`${sourcePath}\` -> \`${destinationPath}\` (${unchanged ? "unchanged" : "modified"})`;
   });
 

@@ -17,15 +17,17 @@
   "scripts": {
     "catalog:check": "bun scripts/sync-plugin-catalog.mjs --check",
     "catalog:sync": "bun scripts/sync-plugin-catalog.mjs",
-    "check": "bun run format:check && bun run catalog:check && bun run validate:fix-all-issues && bun run validate:pstack-imports",
+    "check": "bun run format:check && bun run catalog:check && bun run validate:fix-all-issues && bun run validate:pstack-imports && bun run test:pstack-imports",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "hooks:install": "git config core.hooksPath .githooks",
     "notices:sync": "bun scripts/sync-pstack-notices.mjs",
+    "test:pstack-imports": "bun scripts/test-pstack-imports.mjs",
     "validate:fix-all-issues": "bun scripts/validate-fix-all-issues.mjs",
     "validate:pstack-imports": "bun scripts/validate-pstack-imports.mjs"
   },
   "devDependencies": {
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "skills": "1.5.23"
   }
 }

@@ -1,6 +1,6 @@
 ---
 name: auditable-run
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: Design and execute an evidence-driven local workflow for a large task when no focused playbook fits.
 ---
@@ -9,7 +9,7 @@ description: Design and execute an evidence-driven local workflow for a large ta
 
 Design a task-specific execution workflow for a large migration, an ambitious multi-part change, or work the user will review after stepping away. Use a focused skill when one fits. This skill begins only after product, scope, safety, and one-way user decisions are settled. If one remains open, use `wayfinder` when installed. Otherwise write the unresolved question, known facts, options, consequences, and recommendation, then stop for the user.
 
-Subagents may communicate with each other, but no agent may communicate with a person. No agent may post, send, reply, or comment through external services. Internal delegation and local tool use are allowed within the user's scope.
+Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. No agent may post, send, reply, or comment through external services. Internal delegation and local tool use are allowed within the user's scope.
 
 ## A. Frame the run
 

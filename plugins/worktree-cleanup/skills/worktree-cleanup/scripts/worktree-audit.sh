@@ -20,10 +20,14 @@ main_worktree=$(git -C "$repo" worktree list --porcelain | awk '/^worktree / { p
 now=$(date +%s)
 tmp_dir=$(mktemp -d)
 trap 'rm -rf "$tmp_dir"' EXIT INT TERM
-active_dirs="$tmp_dir/active-dirs"
-: >"$active_dirs"
+open_paths="$tmp_dir/open-paths"
+: >"$open_paths"
+process_scan=unknown
 if command -v lsof >/dev/null 2>&1; then
-	lsof -Fn -a -d cwd 2>/dev/null | sed -n 's/^n//p' >"$active_dirs" || true
+	if lsof -Fn >"$tmp_dir/lsof" 2>/dev/null; then
+		sed -n 's/^n//p' "$tmp_dir/lsof" >"$open_paths"
+		process_scan=complete
+	fi
 fi
 
 classify_ignored_path() {
@@ -47,7 +51,10 @@ git -C "$repo" worktree list --porcelain |
 		ignored_file="$tmp_dir/ignored"
 		: >"$status_file"
 		: >"$ignored_file"
-		git -C "$worktree" status --porcelain=v1 --ignored=matching --untracked-files=all >"$status_file" 2>/dev/null || true
+		status_ok=yes
+		if ! git -C "$worktree" status --porcelain=v1 --ignored=matching --untracked-files=all >"$status_file" 2>/dev/null; then
+			status_ok=no
+		fi
 
 		tracked=0
 		untracked=0
@@ -87,15 +94,22 @@ git -C "$repo" worktree list --porcelain |
 		size_kib=$(du -sk "$worktree" 2>/dev/null | awk '{ print $1 }')
 		[ -n "$size_kib" ] || size_kib=0
 
-		process=no
-		if awk -v root="$worktree" 'index($0, root) == 1 && (length($0) == length(root) || substr($0, length(root) + 1, 1) == "/") { found=1; exit } END { exit !found }' "$active_dirs"; then
-			process=yes
+		process=unknown
+		if [ "$process_scan" = complete ]; then
+			process=no
+			if awk -v root="$worktree" 'index($0, root) == 1 && (length($0) == length(root) || substr($0, length(root) + 1, 1) == "/") { found=1; exit } END { exit !found }' "$open_paths"; then
+				process=yes
+			fi
 		fi
 
 		if [ "$worktree" = "$main_worktree" ]; then
 			bucket=hold-main
+		elif [ "$status_ok" != yes ]; then
+			bucket=needs-user-decision-status-scan
 		elif [ "$process" = yes ]; then
 			bucket=hold-process
+		elif [ "$process" = unknown ]; then
+			bucket=needs-user-decision-process-scan
 		elif [ "$tracked" -gt 0 ] || [ "$untracked" -gt 0 ]; then
 			bucket=hold-local-work
 		elif [ "$ignored_state" -gt 0 ]; then

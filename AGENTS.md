@@ -7,7 +7,7 @@
 Monorepo of public Claude Code / Codex agent skills distributed as plugins.
 
 - Runtime: `bun@>=1.3.11`
-- One plugin per directory under `plugins/`. Current plugins: `commit-guidelines`, `fix-all-issues`, and `safe-refactor`.
+- One plugin per directory under `plugins/`. Current membership is generated in [docs/PLUGIN_CATALOG.md](docs/PLUGIN_CATALOG.md).
 - Each plugin holds:
   - `.codex-plugin/plugin.json` — plugin manifest (name, version, marketing copy)
   - `commands/<name>.md` — slash-command entrypoint

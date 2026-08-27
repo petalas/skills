@@ -153,7 +153,7 @@ The extraction should generate or verify the path table from the actual copy
 plan. Do not use a generic statement such as "based on pstack" when exact file
 ancestry is known.
 
-## License and manifest decisions still needed
+## Resolved license and manifest decision
 
 The target repository has no root `LICENSE`, `COPYING`, `NOTICE`, or
 third-party notice file at the fixed commit. Its current plugin manifests all
@@ -163,31 +163,21 @@ declare `"license": "UNLICENSED"`:
 - [`fix-all-issues` line 13](https://github.com/petalas/skills/blob/ff2cfb9b4540b0691fa0165b9fd4895bc34eb4dd/plugins/fix-all-issues/.codex-plugin/plugin.json#L13)
 - [`safe-refactor` line 13](https://github.com/petalas/skills/blob/ff2cfb9b4540b0691fa0165b9fd4895bc34eb4dd/plugins/safe-refactor/.codex-plugin/plugin.json#L13)
 
-That creates an ambiguity to resolve before publishing pstack-derived plugins:
-
-1. **MIT-license an entire derived plugin.** Set its manifest consistently and
-   preserve the pstack notice and provenance inside the installed skill. This
-   is the clearest option when the destination is predominantly an adapted
-   pstack work and the maintainer is willing to license new contributions under
-   MIT.
-2. **Keep original destination contributions unlicensed while preserving
-   pstack's notice.** Leave the overall manifest policy deliberate, but add a
-   clear third-party notice inside the skill and explain that the manifest does
-   not erase third-party notices. This needs carefully worded public metadata
-   so `UNLICENSED` is not read as a claim that all contents are solely owned or
-   unrestricted by third-party notices.
-3. **Choose a repository-wide license.** This may simplify public reuse, but it
-   is broader than the pstack extraction and should be a separate owner
-   decision.
+The extraction resolves that ambiguity by MIT-licensing each pstack-derived
+plugin. Every derived plugin manifest declares `MIT`, and every installed skill
+directory preserves pstack's complete MIT text, copyright notice, exact source
+commit, and file mappings in `THIRD_PARTY_NOTICES.md`. This licenses the
+destination contributions in those derived plugins under MIT without changing
+the license policy of the pre-existing plugins or selecting a repository-wide
+license.
 
 The MIT grant permits use, modification, distribution, and sublicensing when
 its notice condition is met
 ([pstack license](https://github.com/cursor/plugins/blob/799151d91b6e12ee7dbd09f708eec108d7de9b3b/pstack/LICENSE)).
-For that reason, `UNLICENSED` and a preserved nested MIT notice are not
-automatically contradictory. They describe different layers only if the
-repository says so clearly. Conversely, changing a manifest to `MIT` would
-license the destination plugin's own contributions under MIT as well; it
-should not be done merely because one input was MIT licensed.
+The choice to declare the derived plugin manifests `MIT` is deliberate: it
+licenses the destination plugin's own contributions under MIT as well as
+preserving pstack's third-party notice. Existing `UNLICENSED` plugin manifests
+remain separate and do not describe the newly added derived plugins.
 
 ## Acceptance checks for the later extraction
 
@@ -203,6 +193,6 @@ Before a pstack-derived skill is considered publishable:
    original path and modification status.
 5. Run an installation fixture and assert that the notice exists in the
    installed skill while root-only files do not form part of the assertion.
-6. Decide and document the destination plugin or repository license before
-   setting its manifest `license` field.
+6. Verify each derived plugin manifest declares the documented `MIT` license;
+   do not infer a repository-wide license from those per-plugin declarations.
 7. Treat README credit as an acknowledgement layer, not the compliance layer.

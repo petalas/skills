@@ -1,6 +1,6 @@
 ---
 name: worktree-cleanup
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: Audit git worktrees and local development caches, then remove only targets proven unused and recoverable.
 ---
@@ -9,7 +9,7 @@ description: Audit git worktrees and local development caches, then remove only 
 
 Reclaim local disk without deleting active work or uncommitted changes. Discovery is automatic. Deletion requires an explicit candidate list and a safety check for each path.
 
-Subagents may communicate with each other, but no agent may communicate with a person. Internal read-only audits are allowed. No agent may post, send, reply, or comment through an external service.
+Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Internal read-only audits are allowed. No agent may post, send, reply, or comment through an external service.
 
 ## 1. Snapshot
 
@@ -22,7 +22,8 @@ For each worktree, collect:
 - last filesystem change time
 - tracked, untracked, and ignored entries from `git status --ignored --short --untracked-files=all`
 - whether its revision is reachable from the repository's configured integration branches
-- whether a local process has the directory open when that can be checked safely
+- whether a local process has its working directory or any file open beneath the worktree
+- whether the status and process scans completed; an unavailable or failed scan is unknown, never clean
 
 Do not query or mutate remote review systems. Remote state is outside this skill.
 
@@ -31,8 +32,8 @@ Do not query or mutate remote review systems. Remote state is outside this skill
 Use these buckets:
 
 - `hold`: the main worktree, active process, current task, tracked or untracked changes, or ignored files that look like credentials, authentication state, databases, uploads, or user data.
-- `candidate`: no tracked, untracked, or ignored entries, no active process, revision recoverable from an existing ref, and not named by current repository instructions as protected.
-- `needs-user-decision`: ambiguous ownership, detached unrecoverable work, or ignored build output and caches. The helper prints every ignored path. Empty normal status is never enough to classify a worktree as safe.
+- `candidate`: successful status and process scans, no tracked, untracked, or ignored entries, no active process, revision recoverable from an existing ref, and not named by current repository instructions as protected.
+- `needs-user-decision`: ambiguous ownership, incomplete status or process scans, detached unrecoverable work, or ignored build output and caches. The helper prints every ignored path. Empty normal status is never enough to classify a worktree as safe.
 
 Subagents may inspect disjoint candidate worktrees in parallel. They remain read-only and return evidence to the parent.
 

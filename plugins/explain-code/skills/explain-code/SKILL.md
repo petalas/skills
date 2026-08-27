@@ -1,6 +1,6 @@
 ---
 name: explain-code
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: "Explain code plainly by combining how it works with the evidence for why it has that shape. Use for teaching a change, subsystem, or unfamiliar code path."
 ---
@@ -9,7 +9,7 @@ description: "Explain code plainly by combining how it works with the evidence f
 
 Explain what a body of code is, how it works, and why it has its current shape. The goal is understanding, not modification.
 
-Use `how` for mechanics and `why` for evidence-backed rationale when those skills are installed. Those skills own their investigations; do not redo them by hand when they are available. When the host can run them concurrently, do so. Subagents may communicate with each other, but no agent may communicate with a person. Any child prompt must repeat that sentence verbatim and forbid external messages, posts, comments, and review actions. If concurrent skill execution is unavailable, run the smallest relevant investigation sequentially.
+Use `how` for mechanics and `why` for evidence-backed rationale when those skills are installed. Those skills own their investigations; do not redo them by hand when they are available. When the host can run them concurrently, do so. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Also forbid external messages, posts, comments, and review actions. If concurrent skill execution is unavailable, run the smallest relevant investigation sequentially.
 
 Model preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present, and map roles only to models the current host confirms are available. Otherwise omit model selection and inherit the parent or host defaults. Never require the file or hard-code unconfirmed model identifiers.
 

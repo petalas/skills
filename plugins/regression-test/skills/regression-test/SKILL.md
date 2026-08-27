@@ -1,6 +1,6 @@
 ---
 name: regression-test
-version: 0.1.0
+version: 0.1.1
 disable-model-invocation: true
 description: "Use when the user asks for a regression test, or when a bug has an obvious cheap local test seam. Do not use for general TDD or test-first feature development."
 ---

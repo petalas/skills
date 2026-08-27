@@ -1,6 +1,6 @@
 ---
 name: create-verification-skill
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: Create a project-local skill that drives an app through its real user surface and captures proof.
 ---
@@ -9,7 +9,7 @@ description: Create a project-local skill that drives an app through its real us
 
 Create a project-local skill that launches the real app, drives one user path, records evidence, and cleans up its own state. Tailor it to the repository. Do not leave placeholders.
 
-Subagents may communicate with each other, but no agent may communicate with a person. Put that exact sentence in the generated `SKILL.md` and in every child-agent or drive prompt the generated skill creates. The generated skill must forbid agents from sending messages, invitations, email, notifications, comments, replies, or published content to real people. Verify communication features only against isolated local sinks, fake accounts, fixtures, intercepted transports, or disposable test services that cannot reach a person. If no such target exists, mark the path unreachable and stop before the action.
+Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Put the same exact sentence in the generated `SKILL.md` and in every child-agent or drive prompt the generated skill creates. The generated skill must forbid agents from sending messages, invitations, email, notifications, comments, replies, or published content to real people. Verify communication features only against isolated local sinks, fake accounts, fixtures, intercepted transports, or disposable test services that cannot reach a person. If no such target exists, mark the path unreachable and stop before the action.
 
 ## 1. Interview the repository
 

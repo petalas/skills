@@ -1,6 +1,6 @@
 ---
 name: automate-me
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: Create or update a personal mode skill from the user's stated preferences and workspace-scoped conversation history.
 ---
@@ -9,7 +9,7 @@ description: Create or update a personal mode skill from the user's stated prefe
 
 Turn the user's recurring working preferences into one concise `-mode` skill. The output records how agents should work for this user. It does not automate contact with other people.
 
-Subagents may communicate with each other, but no agent may communicate with a person. No agent may post, send, reply, or comment through external chat, email, ticket, review, or social tools. If communication is useful, prepare a local draft for the user.
+Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. No agent may post, send, reply, or comment through external chat, email, ticket, review, or social tools. If communication is useful, prepare a local draft for the user.
 
 ## 1. Find the existing mode
 
@@ -37,7 +37,7 @@ The description should trigger on the user's chosen name, the mode name, or an e
 
 Add only sections backed by a specific preference. Common sections include response style, autonomy, subagents, verification, code and prose rules, and local process. Reference existing skills by name or path. Do not copy their bodies.
 
-Every generated mode must carry this communication rule exactly: `Subagents may communicate with each other, but no agent may communicate with a person`.
+Every generated mode must carry this communication rule exactly: `Subagents may communicate with each other, but no agent may communicate with a person.`
 
 ## 5. Edit the prose
 

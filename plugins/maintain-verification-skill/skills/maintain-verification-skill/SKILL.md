@@ -1,6 +1,6 @@
 ---
 name: maintain-verification-skill
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: Audit a project verification skill against source and every mapped user-facing feature, then apply proven local corrections.
 ---
@@ -9,7 +9,7 @@ description: Audit a project verification skill against source and every mapped 
 
 Keep a project-local verification skill and its feature map honest. Cover every feature from source and exercise every reachable feature through the live app.
 
-Subagents may communicate with each other, but no agent may communicate with a person. Subagents stay read-only. No agent may post, send, reply, or comment through an external service.
+Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Subagents stay read-only. No agent may post, send, reply, or comment through an external service.
 
 ## Outcomes
 

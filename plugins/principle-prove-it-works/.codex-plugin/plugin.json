@@ -1,6 +1,6 @@
 {
   "name": "principle-prove-it-works",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Apply after completing a task, before declaring done. Verify against the real artifact (run the feature, read the actual value, inspect the diff), not a proxy, self-report, or 'it compiles.'",
   "author": {
     "name": "Nick Petalas",

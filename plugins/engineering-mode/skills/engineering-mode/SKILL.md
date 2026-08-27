@@ -1,6 +1,6 @@
 ---
 name: engineering-mode
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: Route solo software work through focused, evidence-driven playbooks without assuming a specific agent host.
 ---
@@ -15,7 +15,7 @@ Local in-scope edits and read-only investigation are allowed. Create a branch or
 
 Rebase, amend, squash, reset, force operations, pushes, remote review requests, merges, deploys, issue mutations, and review-thread mutations require separate explicit authorization. Human-directed messages, comments, replies, email, and chat posts are always forbidden. No authorization overrides that rule. Prepare a local draft and let the user communicate human to human.
 
-Subagents may communicate with each other, but no agent may communicate with a person. Subagents work only on scoped internal tasks. The parent reviews their artifacts and owns the final answer.
+Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Subagents work only on scoped internal tasks. The parent reviews their artifacts and owns the final answer.
 
 ## Working rules
 

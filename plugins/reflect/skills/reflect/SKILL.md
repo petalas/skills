@@ -1,6 +1,6 @@
 ---
 name: reflect
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: Review the active session through independent lenses and propose durable skill improvements for user approval.
 ---
@@ -9,7 +9,7 @@ description: Review the active session through independent lenses and propose du
 
 Mine the current session for durable lessons, then route each accepted lesson to a concrete skill edit. Do not apply edits before the user approves them.
 
-Subagents may communicate with each other, but no agent may communicate with a person. No agent may post, send, reply, or comment through an external service. Reviewers may use read-only local evidence and read-only connectors for artifacts already in scope, but they must never use a communication capability.
+Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. No agent may post, send, reply, or comment through an external service. Reviewers may use read-only local evidence and read-only connectors for artifacts already in scope, but they must never use a communication capability.
 
 ## When to use
 

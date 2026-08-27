@@ -68,6 +68,10 @@ If you only want to install a skill, use the commands below and ignore the inter
 
 See the [full catalog](docs/PLUGIN_CATALOG.md) for categories and installation.
 
+Start with the [solo developer workflow guide](docs/guide/README.md) for a
+host-neutral path through understanding, design, implementation, verification,
+and long-running local work.
+
 <!-- END GENERATED SKILL CATALOG -->
 
 The generated catalog links every plugin README, including its prompts,

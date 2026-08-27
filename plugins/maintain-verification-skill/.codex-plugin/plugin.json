@@ -1,6 +1,6 @@
 {
   "name": "maintain-verification-skill",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Audit a project verification skill against source and every mapped user-facing feature, then apply proven local corrections.",
   "author": {
     "name": "Nick Petalas",

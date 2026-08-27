@@ -1,6 +1,6 @@
 {
   "name": "automate-me",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Create or update a personal mode skill from the user's stated preferences and workspace-scoped conversation history.",
   "author": {
     "name": "Nick Petalas",

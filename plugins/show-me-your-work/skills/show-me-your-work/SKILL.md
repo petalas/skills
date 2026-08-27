@@ -1,6 +1,6 @@
 ---
 name: show-me-your-work
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: Keep a local, reviewable TSV decision trail for long-running, unattended, or multi-phase work.
 ---
@@ -39,7 +39,7 @@ Before handoff, compare every row with the actual run. Use the active conversati
 - Add missing pivots, abandoned approaches, or failed checks that shaped the result.
 - Remove padding that does not help the user audit the run.
 
-Ask an independent subagent to inspect the trail and the available run record. The reviewer flags weak evidence, skipped verification, risky choices, and gaps. Subagents may communicate with each other, but no agent may communicate with a person. Agents must not post, send, reply, or comment through any external service. The parent agent owns the final report and presents the findings only to the user in the current conversation.
+Ask an independent subagent to inspect the trail and the available run record. The reviewer flags weak evidence, skipped verification, risky choices, and gaps. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Agents must not post, send, reply, or comment through any external service. The parent agent owns the final report and presents the findings only to the user in the current conversation.
 
 End the handoff with an `Attention` section. Name the review capability used, then list specific rows or moments that deserve scrutiny. `No flags` is valid.
 

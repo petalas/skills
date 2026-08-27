@@ -8,6 +8,30 @@ const pstackSourceRoot =
   process.env.PSTACK_SOURCE_ROOT ?? resolve(repositoryRoot, "..", "plugins", "pstack");
 const manifestPath = join(repositoryRoot, "docs", "pstack-imports.json");
 const expectedSourceCommit = "799151d91b6e12ee7dbd09f708eec108d7de9b3b";
+const exactSubagentCommunicationRule =
+  "Subagents may communicate with each other, but no agent may communicate with a person.";
+const exactChildPromptInstruction = "Repeat that sentence verbatim in every child prompt.";
+const expectedPstackLicense = `MIT License
+
+Copyright (c) 2026 Lauren Tan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.`;
 
 const failures = [];
 
@@ -49,15 +73,56 @@ function collectTextFiles(path) {
   });
 }
 
+function normalizeLicense(text) {
+  return text.replace(/\r\n?/g, "\n").replace(/\n$/, "");
+}
+
+function isBundledChildPromptTemplate(path, contents) {
+  const filename = path.split("/").at(-1) ?? "";
+  if (/prompt/i.test(filename)) return true;
+
+  const firstContentLine = contents.split("\n").find((line) => line.trim() !== "") ?? "";
+  return /^(?:You are |Synthesize .*reviewer outputs)/.test(firstContentLine);
+}
+
+function validateChildPromptSafety(imported, skillDirectory, skill) {
+  const constructsChildPrompts =
+    imported.coordinatesSubagents ||
+    /\b(?:child(?:-agent)?|drive) prompts?\b|\bprompt templates?\b/i.test(skill);
+
+  if (constructsChildPrompts) {
+    const skillPath = join(skillDirectory, "SKILL.md");
+    if (!skill.includes(exactSubagentCommunicationRule)) {
+      fail(
+        `${relative(repositoryRoot, skillPath)} constructs child prompts without the exact communication rule`
+      );
+    }
+    if (!skill.includes(exactChildPromptInstruction)) {
+      fail(
+        `${relative(repositoryRoot, skillPath)} constructs child prompts without requiring the exact rule in every child prompt`
+      );
+    }
+  }
+
+  for (const path of collectTextFiles(skillDirectory)) {
+    if (!path.endsWith(".md")) continue;
+    if (path.endsWith("SKILL.md") || path.endsWith("THIRD_PARTY_NOTICES.md")) continue;
+    const contents = readFileSync(path, "utf8");
+    if (!isBundledChildPromptTemplate(path, contents)) continue;
+    if (!contents.includes(exactSubagentCommunicationRule)) {
+      fail(
+        `${relative(repositoryRoot, path)} is a bundled child prompt template without the exact communication rule`
+      );
+    }
+  }
+}
+
 function validateNotice(imported, skillDirectory) {
   const noticePath = join(skillDirectory, "THIRD_PARTY_NOTICES.md");
   const notice = readRequired(noticePath);
   if (!notice) return;
 
   const requiredFragments = [
-    "Copyright (c) 2026 Lauren Tan",
-    "Permission is hereby granted, free of charge",
-    'THE SOFTWARE IS PROVIDED "AS IS"',
     expectedSourceCommit,
     "https://github.com/cursor/plugins",
     `https://github.com/cursor/plugins/tree/${expectedSourceCommit}/pstack`
@@ -66,6 +131,19 @@ function validateNotice(imported, skillDirectory) {
     if (!notice.includes(fragment)) {
       fail(`${relative(repositoryRoot, noticePath)} is missing ${fragment}`);
     }
+  }
+
+  const sourceLicensePath = join(pstackSourceRoot, "LICENSE");
+  if (
+    existsSync(sourceLicensePath) &&
+    normalizeLicense(readFileSync(sourceLicensePath, "utf8")) !== expectedPstackLicense
+  ) {
+    fail(`${sourceLicensePath} does not match the pinned pstack MIT license`);
+  }
+  if (!normalizeLicense(notice).includes(expectedPstackLicense)) {
+    fail(
+      `${relative(repositoryRoot, noticePath)} does not contain the exact full pstack MIT license`
+    );
   }
 
   for (const sourcePath of imported.sourcePaths) {
@@ -149,14 +227,13 @@ function validateHostNeutrality(imported, skillDirectory) {
   const skillPath = join(skillDirectory, "SKILL.md");
   const skill = readRequired(skillPath);
   if (imported.coordinatesSubagents) {
-    const requiredSafetyText =
-      "Subagents may communicate with each other, but no agent may communicate with a person";
-    if (!skill.includes(requiredSafetyText)) {
+    if (!skill.includes(exactSubagentCommunicationRule)) {
       fail(
         `${relative(repositoryRoot, skillPath)} coordinates subagents without the external-communication boundary`
       );
     }
   }
+  validateChildPromptSafety(imported, skillDirectory, skill);
 }
 
 function validateImportedPlugin(imported, marketplaceNames) {

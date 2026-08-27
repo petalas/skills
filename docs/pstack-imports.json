@@ -23,7 +23,7 @@
     },
     {
       "name": "principle-exhaust-the-design-space",
-      "disposition": "copy",
+      "disposition": "adapt",
       "sourcePaths": ["skills/principle-exhaust-the-design-space/SKILL.md"]
     },
     {
@@ -38,7 +38,7 @@
     },
     {
       "name": "principle-foundational-thinking",
-      "disposition": "copy",
+      "disposition": "adapt",
       "sourcePaths": ["skills/principle-foundational-thinking/SKILL.md"]
     },
     {
@@ -64,7 +64,7 @@
     },
     {
       "name": "principle-minimize-reader-load",
-      "disposition": "copy",
+      "disposition": "adapt",
       "sourcePaths": ["skills/principle-minimize-reader-load/SKILL.md"]
     },
     {
@@ -95,7 +95,7 @@
     },
     {
       "name": "principle-separate-before-serializing-shared-state",
-      "disposition": "copy",
+      "disposition": "adapt",
       "sourcePaths": ["skills/principle-separate-before-serializing-shared-state/SKILL.md"]
     },
     {
@@ -115,7 +115,7 @@
     },
     {
       "name": "unslop",
-      "disposition": "copy",
+      "disposition": "adapt",
       "automaticInvocation": true,
       "sourcePaths": ["skills/unslop/SKILL.md"]
     },

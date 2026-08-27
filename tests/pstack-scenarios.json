@@ -1,0 +1,71 @@
+[
+  {
+    "name": "internal subagents may coordinate",
+    "file": "plugins/swarm/skills/swarm/SKILL.md",
+    "includes": [
+      "Subagents may communicate with each other, but no agent may communicate with a person.",
+      "Launch as many workers concurrently as the host allows."
+    ]
+  },
+  {
+    "name": "external communication stays forbidden despite authorization",
+    "file": "plugins/engineering-mode/skills/engineering-mode/SKILL.md",
+    "includes": [
+      "Human-directed messages, comments, replies, email, and chat posts are always forbidden.",
+      "No authorization overrides that rule."
+    ]
+  },
+  {
+    "name": "subagent fan-out has a sequential fallback",
+    "file": "plugins/swarm/skills/swarm/SKILL.md",
+    "includes": ["If the host cannot spawn subagents, execute the slices sequentially"],
+    "excludes": ["run_in_background", "generalPurpose"]
+  },
+  {
+    "name": "candidate isolation has a local-draft fallback",
+    "file": "plugins/arena/skills/arena/SKILL.md",
+    "includes": ["If isolation is also unavailable, keep candidates as clearly separated drafts"],
+    "excludes": [".cursor/", "AskQuestion"]
+  },
+  {
+    "name": "agent voting cannot decide user-owned preferences",
+    "file": "plugins/arena/skills/arena/SKILL.md",
+    "includes": [
+      "Do not let agent votes, model diversity, or the cross-judge settle a preference that only the user can own."
+    ]
+  },
+  {
+    "name": "adapted TypeScript guidance works without sibling skills",
+    "file": "plugins/typescript-best-practices/skills/typescript-best-practices/SKILL.md",
+    "includes": [
+      "If `$principle-type-system-discipline` is available, apply it first. Otherwise use this skill's rules directly"
+    ]
+  },
+  {
+    "name": "design-space exploration does not imply a Git commit",
+    "file": "plugins/principle-exhaust-the-design-space/skills/principle-exhaust-the-design-space/SKILL.md",
+    "includes": ["Compare them side by side. Only then choose."]
+  },
+  {
+    "name": "foundational increments keep commit authority explicit",
+    "file": "plugins/principle-foundational-thinking/skills/principle-foundational-thinking/SKILL.md",
+    "includes": [
+      "Create commits only when the user or invoking workflow explicitly authorizes them."
+    ]
+  },
+  {
+    "name": "reader-load guidance has a standalone context fallback",
+    "file": "plugins/principle-minimize-reader-load/skills/principle-minimize-reader-load/SKILL.md",
+    "includes": [
+      "otherwise keep large payloads out of the main context and retain only useful summaries"
+    ]
+  },
+  {
+    "name": "shared-state separation preserves internal coordination and Git authority",
+    "file": "plugins/principle-separate-before-serializing-shared-state/skills/principle-separate-before-serializing-shared-state/SKILL.md",
+    "includes": [
+      "Subagents may communicate with each other, but no agent may communicate with a person.",
+      "This principle does not authorize Git mutations."
+    ]
+  }
+]

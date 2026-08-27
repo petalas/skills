@@ -1,6 +1,6 @@
 ---
 name: principle-build-the-lever
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: "Apply to any non-trivial work, not just bulk work: edits, migrations, analyses, checks. Build the tool that does it or proves it (codemod, script, generator, or a skill your subagents follow) instead of working by hand. The tool is the artifact a reviewer can rerun."
 ---
@@ -17,7 +17,7 @@ When the work isn't trivial, build the tool that does it instead of doing it by 
 - Codemod or script for edits, generator for repetitive files, a dump-to-sqlite query for analysis, a rerunnable check for verification.
 - A deterministic lever beats fan-out. If the tool can process every unit in one pass, run it yourself; don't fan out delegates to hand-apply what a script can do.
 - When you fan work out to subagents, write the lever as a skill they all read: the recipe, the verification contract, and the do-not-touch fences in one artifact, so every delegate inherits the same hardened version instead of re-explaining it per prompt and watching each one drift. Keep it outside the delegates' write scope so they can't quietly edit the contract.
-- Subagents may communicate with each other, but no agent may communicate with a person. Keep external communication manual: prepare local draft text for the user instead of sending messages, comments, replies, email, or chat posts.
+- Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Keep external communication manual: prepare local draft text for the user instead of sending messages, comments, replies, email, or chat posts.
 - Applying this principle produces a file. If you cited it and there is no codemod, script, generator, or delegate skill in the diff, you didn't apply it.
 - When the work outlives the session, keep the lever in the worktree so the next run can rerun it. Commit it only when the user or invoking workflow explicitly authorizes a commit. If `$commit-guidelines` is available, apply it; otherwise inspect the exact commit diff, preserve unrelated work, run repository checks, use the repository's commit-message convention, and never add AI attribution.
 

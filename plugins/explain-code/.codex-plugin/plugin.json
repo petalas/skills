@@ -1,6 +1,6 @@
 {
   "name": "explain-code",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Explain code plainly by combining how it works with the evidence for why it has that shape. Use for teaching a change, subsystem, or unfamiliar code path.",
   "author": {
     "name": "Nick Petalas",

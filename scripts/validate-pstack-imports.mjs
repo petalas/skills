@@ -520,6 +520,10 @@ if (!existsSync(manifestPath)) {
 
   const names = new Set();
   for (const imported of importsManifest.imports ?? []) {
+    if (typeof imported.name !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(imported.name)) {
+      fail(`unsafe imported plugin name: ${String(imported.name)}`);
+      continue;
+    }
     if (names.has(imported.name)) fail(`duplicate import ${imported.name}`);
     names.add(imported.name);
     await validateImportedPlugin(imported, marketplaceNames, inventory, sourceAudit);

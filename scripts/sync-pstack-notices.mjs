@@ -7,6 +7,7 @@ import prettier from "prettier";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "..");
+const pluginsRoot = resolve(repositoryRoot, "plugins");
 const sourceRoot = resolve(
   process.env.PSTACK_SOURCE_ROOT ?? resolve(repositoryRoot, "..", "plugins", "pstack")
 );
@@ -70,6 +71,22 @@ function isSafeRelativePath(path) {
   );
 }
 
+function safeSkillDirectory(name) {
+  if (typeof name !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
+    throw new Error(`unsafe imported plugin name: ${String(name)}`);
+  }
+
+  const pluginDirectory = resolve(pluginsRoot, name);
+  const skillDirectory = resolve(pluginDirectory, "skills", name);
+  if (
+    !pluginDirectory.startsWith(`${pluginsRoot}/`) ||
+    !skillDirectory.startsWith(`${pluginDirectory}/`)
+  ) {
+    throw new Error(`imported plugin path escapes plugins/: ${name}`);
+  }
+  return skillDirectory;
+}
+
 const licenseBytes = readSourceBlob("LICENSE");
 const license = licenseBytes.toString("utf8").trim();
 if (
@@ -79,7 +96,7 @@ if (
 }
 
 for (const imported of importsManifest.imports) {
-  const skillDirectory = join(repositoryRoot, "plugins", imported.name, "skills", imported.name);
+  const skillDirectory = safeSkillDirectory(imported.name);
 
   const mappings = imported.mappings.map((mapping) => {
     if (!isSafeRelativePath(mapping.destination)) {

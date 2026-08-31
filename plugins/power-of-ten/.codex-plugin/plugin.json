@@ -1,0 +1,29 @@
+{
+  "name": "power-of-ten",
+  "version": "0.2.0",
+  "description": "Apply all ten language-agnostic rules to every coding task. Inspect the code needed for the task, improve encountered violations without widening into unrelated rewrites, verify affected behavior, and document any justified deviation.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "power-of-ten", "coding-standards"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "power-of-ten",
+    "shortDescription": "Apply all ten language-agnostic rules to every coding task. Inspect the code needed for the task, improve encountered violations without widening into unrelated rewrites, verify affected behavior, and document any justified deviation.",
+    "longDescription": "Apply all ten language-agnostic rules to every coding task. Inspect the code needed for the task, improve encountered violations without widening into unrelated rewrites, verify affected behavior, and document any justified deviation.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Apply $power-of-ten to this task. Check all ten rules, improve encountered violations within scope, verify affected behavior, and document justified deviations."
+    ],
+    "brandColor": "#0F766E",
+    "screenshots": []
+  }
+}

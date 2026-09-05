@@ -1,6 +1,6 @@
 {
   "name": "power-of-ten",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Apply all ten language-agnostic rules to every coding task. Inspect the code needed for the task, improve encountered violations without widening into unrelated rewrites, verify affected behavior, and document any justified deviation.",
   "author": {
     "name": "Nick Petalas",

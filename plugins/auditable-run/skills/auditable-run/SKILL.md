@@ -1,6 +1,6 @@
 ---
 name: auditable-run
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: Design and execute an evidence-driven local workflow for a large task when no focused playbook fits.
 ---
@@ -24,7 +24,7 @@ Proceed with reversible local exploration. Pause once before a multi-hour run so
 
 ## B. Design the workflow
 
-Split the work into atomic units that can be checked independently. Order the largest unknowns first. Build the verification harness and capture the baseline before changing behavior.
+Split the work into atomic units that can be checked independently. Order the largest unknowns first. Build the verification harness and capture the baseline before changing behavior. Record the baseline revision and the scenario to repeat on the changed revision. If the baseline lacks the feature, record that absence and define checks for the added behavior and the final state the user expects. Do not invent a baseline result.
 
 For a reversible technical choice inside the settled constraints, run parallel isolated design candidates and use an independent judge when the comparison is worth its cost. Internal agent votes never settle a one-way user decision. Skip the panel for mechanical work with a settled shape.
 
@@ -38,7 +38,7 @@ For each unit:
 
 1. State the hypothesis.
 2. Make the smallest local change that tests it.
-3. Measure against the predicate on the real artifact.
+3. Measure against the predicate on the real artifact. Repeat the baseline scenario on the changed revision. For performance claims, require both revisions to produce the same metric under comparable conditions. If the scenarios differ, set absolute budgets for the added work and user-visible completion instead of reporting a ratio.
 4. Keep the change only if it advances the predicate.
 5. Revert or supersede changes that do not help, using a safe method that preserves unrelated user work.
 

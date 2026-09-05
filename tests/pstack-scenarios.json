@@ -67,5 +67,28 @@
       "Subagents may communicate with each other, but no agent may communicate with a person.",
       "This principle does not authorize Git mutations."
     ]
+  },
+  {
+    "name": "schema reuse does not install a new dependency",
+    "file": "plugins/typescript-best-practices/skills/typescript-best-practices/SKILL.md",
+    "includes": ["Infer types from schemas.", "Do not add a schema dependency for one guard."],
+    "excludes": ["disable-model-invocation: true"]
+  },
+  {
+    "name": "missing baseline features are reported rather than invented",
+    "file": "plugins/auditable-run/skills/auditable-run/SKILL.md",
+    "includes": [
+      "If the baseline lacks the feature, record that absence",
+      "Do not invent a baseline result.",
+      "absolute budgets for the added work and user-visible completion instead of reporting a ratio"
+    ]
+  },
+  {
+    "name": "performance comparisons reject unlike scenarios",
+    "file": "plugins/engineering-mode/skills/engineering-mode/playbooks/perf-issue.md",
+    "includes": [
+      "Both revisions must produce the same metric under comparable conditions.",
+      "Do not report a ratio between unlike scenarios."
+    ]
   }
 ]

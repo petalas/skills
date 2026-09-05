@@ -1,6 +1,6 @@
 {
   "name": "auditable-run",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Design and execute an evidence-driven local workflow for a large task when no focused playbook fits.",
   "author": {
     "name": "Nick Petalas",

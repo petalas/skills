@@ -1,6 +1,6 @@
 ---
 name: engineering-mode
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: Route solo software work through focused, evidence-driven playbooks without assuming a specific agent host.
 ---

@@ -31,6 +31,6 @@ That is enough for `engineering-mode` to select a bug-fix workflow. It is also e
 
 ## Provenance
 
-This guide adapts the pstack guide at commit `799151d91b6e12ee7dbd09f708eec108d7de9b3b` for host-neutral solo development. The adaptation removes team communication, remote review, shipping, and host-specific instructions. See [the third-party notice](./THIRD_PARTY_NOTICES.md) for source paths and the MIT license.
+This guide adapts the pstack guide at commit `93b00b89ef425a9c1bac0d0b317dfc49c930ac99` for host-neutral solo development. The adaptation removes team communication, remote review, shipping, and host-specific instructions. See [the third-party notice](./THIRD_PARTY_NOTICES.md) for source paths and the MIT license.
 
 Next: [Start from the outcome](./01-entry-point.md).

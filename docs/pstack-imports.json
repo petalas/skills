@@ -1,7 +1,7 @@
 {
   "sourceRepository": "https://github.com/cursor/plugins",
-  "sourceCommit": "799151d91b6e12ee7dbd09f708eec108d7de9b3b",
-  "sourcePluginVersion": "0.14.4",
+  "sourceCommit": "93b00b89ef425a9c1bac0d0b317dfc49c930ac99",
+  "sourcePluginVersion": "0.14.8",
   "license": "MIT",
   "copyright": "Copyright (c) 2026 Lauren Tan",
   "licenseSourceSha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e",
@@ -285,14 +285,14 @@
     },
     {
       "name": "unslop",
-      "disposition": "copy",
+      "disposition": "adapt",
       "automaticInvocation": true,
       "mappings": [
         {
           "source": "skills/unslop/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "181883e539caec8258ec9129e3ba5f133409144a2cbf2aa361158ab94cfc3441",
-          "sourceNormalizedSha256": "ede754117769d18415917d99d9cbce14fa98d016fa57bf659d6a4c25648fc449"
+          "sourceSha256": "2789ab80477b7e382292e4d7acca1057784df19713fffb74622ff0f83b2f3733",
+          "sourceNormalizedSha256": "59e485d24dfe1329987a08314c07eac43e6d22e5910bf95499142e3b37695814"
         }
       ],
       "inventorySource": "skills/unslop/SKILL.md"
@@ -331,14 +331,14 @@
         {
           "source": "skills/typescript-best-practices/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "df0ecd7518b33778f4b02c2f85ee577bbaea52caa1c49df6816b0594e128bb64",
-          "sourceNormalizedSha256": "100a29df4a84753282581318ffb019fc494715510a78170077d4c6e4d3d6c91f"
+          "sourceSha256": "b854da40f946f1cd4681785d3e802a2a592322d351f770f5057b56430edb35d0",
+          "sourceNormalizedSha256": "f0dc8e9794f87b32b8a1c990375f16d31cb9e345e7d8ff6ca488e27da5e3c4dc"
         },
         {
           "source": "skills/typescript-best-practices/references/patterns.md",
           "destination": "references/patterns.md",
-          "sourceSha256": "83d89dd2fdb81021eb18c77c57437f60314a60da79447756a547f08ece64b433",
-          "sourceNormalizedSha256": "24edcaf46ef420e5e3449942e593e0492b6884293f80b6b4bc7e21f4ce6163be"
+          "sourceSha256": "eb73b5f3514c0c14d14bafca59ffb54b161422ea5fc5fe65e60c5b4d71c40178",
+          "sourceNormalizedSha256": "77c79082c918d40eda7124adc006585f3c9d16b3dbfc25fdb99268b7b1fd116b"
         }
       ],
       "inventorySource": "skills/typescript-best-practices/SKILL.md"
@@ -364,8 +364,8 @@
         {
           "source": "skills/how/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "fe503e7a9b2a3a7ad2622a2de6124cb06c466922fb44bc61817b49b52042b885",
-          "sourceNormalizedSha256": "1f348b91b0de9aaa4c4c3c90812c5fb0ac581bdd9d7f95315e46bff88c900018"
+          "sourceSha256": "3a554ff564d66a4200a07e20164558e820ea7a9795beb98a4a06546146c98f5f",
+          "sourceNormalizedSha256": "899cf0506e503114f8be5aa1a6d34c8202d0bb6d9d8dbbe1b0f35fc39da4f6d7"
         },
         {
           "source": "skills/how/references/critic-prompt.md",
@@ -402,8 +402,8 @@
         {
           "source": "skills/why/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "dc8f2d8a7dbef7d0467cca8e6d055a4dbde027db6e2cbbfb18aa9071d8f20b6c",
-          "sourceNormalizedSha256": "82d52f1cf828507ebfdb5d3b45b432622723b3a011b2f50104abaf0a9659ec49"
+          "sourceSha256": "a9423bb7bab7c3280d17478ebe97bb283ea6ed12d9dcae590fc2f81f41660990",
+          "sourceNormalizedSha256": "f548502e71e8603154d8ecfad732365c38afe7adbcf6dc6a00c455ea9ca2d7fe"
         },
         {
           "source": "skills/why/references/epistemics.md",
@@ -524,8 +524,8 @@
         {
           "source": "skills/architect/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "585d7a9e03c0cced84c80d4b60c09c8dc76010bb36c579f92d9e4deafec53df7",
-          "sourceNormalizedSha256": "f957f8d7f48e527c7e18f65ab6c9f4b7a6bd4ed9bd381c2c566642301a790270"
+          "sourceSha256": "9dc60bcf8d8d09000cdd88636ddb7371c576282880a8bb17993d2a1ea1900285",
+          "sourceNormalizedSha256": "543727a8440288cd10514ec51e966708ee068c3a9770ed3c4a840bfdda9f29a0"
         },
         {
           "source": "skills/architect/references/design-red-flags.md",
@@ -556,8 +556,8 @@
         {
           "source": "skills/arena/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "a2241e8500a44d9c16bd3260c8c70e28c4bb8a857c33061d42b267057e6f7093",
-          "sourceNormalizedSha256": "52785268f67b68ad4805a1aafeb9b933b8aba02bbb8ae5fb8df3cc9f07c949fc"
+          "sourceSha256": "c090878efc50d71605e8be518d12e71d00b451b76c2fd38ea9e0bb2a3e2f6cda",
+          "sourceNormalizedSha256": "08d249f7981acfa5f7c0922a161ee514c0b38e91d29ec241a2aee6529fbce85c"
         }
       ],
       "inventorySource": "skills/arena/SKILL.md"
@@ -570,8 +570,8 @@
         {
           "source": "skills/interrogate/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "a009220dfe6869c8f7980a94fb1c9c7763a081a0b32fb6d0afb65b8ff1868146",
-          "sourceNormalizedSha256": "e2b1d7b3c3fdbc1f79b2c6a6ee52a9699492b3f3dd9718fb37b118d1e932549a"
+          "sourceSha256": "c9a42c706a84cab50d3cf1c7cf91149bac2e0d2ad24da2b8ff518ea0918ae3bb",
+          "sourceNormalizedSha256": "335ccaef4db03850fbc8d84c7d2ffc6c709c96110c750c6c8f551fdfc2ca2771"
         },
         {
           "source": "skills/interrogate/references/code-quality-review.md",
@@ -727,8 +727,8 @@
         {
           "source": "skills/reflect/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "5485347991eb60ee226ca78c5972f9c694f6927cff3263b7f48b631ed7a9de56",
-          "sourceNormalizedSha256": "b70d29dab718a56200a68b2e863cb97f577b8e7c7391c202a9c7a242271b4f50"
+          "sourceSha256": "5c0fd61b383a2cf98dfd597544c6fc0fdd6eb90802f1ada4f92fa0762c323ebc",
+          "sourceNormalizedSha256": "af59ea311a8ac2a83db94ef0c2a09fc6494b73fd3d9b32ab6cf449632751899a"
         },
         {
           "source": "skills/reflect/references/divergent-reviewer.md",
@@ -778,8 +778,8 @@
         {
           "source": "skills/setup-pstack/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "3b62d9fd4cce8f450b36b2bc6b1df2f00d887e0a3abd55e7fc1ccbde5db96cea",
-          "sourceNormalizedSha256": "b32dedb64ef5f165e4ddb304b57c51234115e3b03d766df8d69258f27c5edc33"
+          "sourceSha256": "6ed4840c3005fd455e347d2a97d7fc271df7e21ecadf3298a7e2b3d46dc58701",
+          "sourceNormalizedSha256": "7ede443b601055786dd406ec952d2fa2944b98b500b8785208c15317d7b1a0d8"
         }
       ],
       "inventorySource": "skills/setup-pstack/SKILL.md"
@@ -792,8 +792,8 @@
         {
           "source": "skills/poteto-mode/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "3b6793bdaeada0bfc7291bcc00422093bd8d10e64a9bc3b6707008ba3c4c7316",
-          "sourceNormalizedSha256": "4affef1c977457c05a2d9fa0b6dd35f86899613ebb238df3b7c46bd0c603e206"
+          "sourceSha256": "7c4ba1987c39044947946f7cf8399acfcea156672e5ad92bbaacb448830ca954",
+          "sourceNormalizedSha256": "ed409a1f7f75ba3863bd65600232f86627b196e0d432e47c9c10a8af5298a023"
         },
         {
           "source": "skills/poteto-mode/playbooks/authoring-a-skill.md",
@@ -810,8 +810,8 @@
         {
           "source": "skills/poteto-mode/playbooks/bug-fix.md",
           "destination": "playbooks/bug-fix.md",
-          "sourceSha256": "ffb71024f8af25923e6a937399d6424c07bc09363eb8a81c708c0a68c4afcb9d",
-          "sourceNormalizedSha256": "1f203ea74fcdef86cc25464500419ccdab09e87c1ab8a56290bc9ede631a54bd"
+          "sourceSha256": "283bd4013dc13bba1b80844b0aec9e078b9c175dcaa8fed14a08566856346515",
+          "sourceNormalizedSha256": "a74629dcd384d0683f05b543761d055d6a6730ddf9f9226a1d48d3673464205b"
         },
         {
           "source": "skills/poteto-mode/playbooks/eval.md",
@@ -828,8 +828,8 @@
         {
           "source": "skills/poteto-mode/playbooks/hillclimb.md",
           "destination": "playbooks/hillclimb.md",
-          "sourceSha256": "0078ed4be36486f257cf0ceeea4aec39e1e4d1900dacbffc58ef242b9037d6b0",
-          "sourceNormalizedSha256": "c83ea03603558edf89dd5341059580bf0605ee10886d24c79cfdc8f8e0686a9a"
+          "sourceSha256": "12f8f7a08098f0b5b3e5b61c98fadde8609bf05554b4d73efdd696cdb4e83f10",
+          "sourceNormalizedSha256": "e43e1f9afd6c7b44bcdd4d6b4b38c9ccaaffa54cffd68c01235b1a1af57594b6"
         },
         {
           "source": "skills/poteto-mode/playbooks/investigation.md",
@@ -846,8 +846,8 @@
         {
           "source": "skills/poteto-mode/playbooks/perf-issue.md",
           "destination": "playbooks/perf-issue.md",
-          "sourceSha256": "afb819ff5252f9d410a108bad60c42d31a10989b856c48b1993c68abd555b710",
-          "sourceNormalizedSha256": "7716645f1c3f5f16821c4066d4d251953fb525cbdd0af9f9594fc00d961cf6cd"
+          "sourceSha256": "3c1e7a4d7d273e6160cc4cfab58db3b7cef9e2a6099930012eed1c90e8c3de16",
+          "sourceNormalizedSha256": "83b006699a4eaf419993930bdc97ef79467bc8b9e2edee9d313f01657463adf6"
         },
         {
           "source": "skills/poteto-mode/playbooks/prototype.md",
@@ -939,6 +939,14 @@
     {
       "source": "skills/poteto-mode/scripts/watch-pr/**",
       "reason": "pull-request and review-thread automation"
+    },
+    {
+      "source": "skills/make-bot-ui/**",
+      "reason": "relocated external bot messaging and Cursor-specific webhook behavior"
+    },
+    {
+      "source": "skills/poteto-mode/references/bugbot-triage.md",
+      "reason": "automated review-thread workflow; generic untrusted-review handling already retained locally"
     }
   ]
 }

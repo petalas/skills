@@ -5,8 +5,8 @@
 This skill includes material copied or adapted from pstack.
 
 - Repository: https://github.com/cursor/plugins
-- Source commit: 799151d91b6e12ee7dbd09f708eec108d7de9b3b
-- Source subtree: https://github.com/cursor/plugins/tree/799151d91b6e12ee7dbd09f708eec108d7de9b3b/pstack
+- Source commit: 93b00b89ef425a9c1bac0d0b317dfc49c930ac99
+- Source subtree: https://github.com/cursor/plugins/tree/93b00b89ef425a9c1bac0d0b317dfc49c930ac99/pstack
 - Source-to-installed-file mappings:
 
 - `skills/principle-model-the-domain/SKILL.md` -> `SKILL.md` (modified)

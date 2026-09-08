@@ -1,0 +1,29 @@
+{
+  "name": "knowledge-audit",
+  "version": "0.1.0",
+  "description": "Audit one project's knowledge system on request: check for a routing table that maps file patterns to docs, a When You Struggle capture process, and a project-specific LEARNINGS.md; report pass or fail, then set the system up or migrate an older layout only with approval. Never runs proactively.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "knowledge-audit", "documentation", "agent-instructions"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "knowledge-audit",
+    "shortDescription": "Audit one project's knowledge system on request: check for a routing table that maps file patterns to docs, a When You Struggle capture process, and a project-specific LEARNINGS.md; report pass or fail, then set the system up or migrate an older layout only with approval. Never runs proactively.",
+    "longDescription": "Audit one project's knowledge system on request: check for a routing table that maps file patterns to docs, a When You Struggle capture process, and a project-specific LEARNINGS.md; report pass or fail, then set the system up or migrate an older layout only with approval. Never runs proactively.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Run $knowledge-audit on this project. Do the quick check first, run the full audit only if it fails, report a pass/fail checklist with an overall rating, and ask before setting up or migrating anything."
+    ],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

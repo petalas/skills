@@ -1,0 +1,7 @@
+interface:
+  display_name: "knowledge-migrate-all"
+  short_description: "Scan a chosen directory tree for projects with agent instructions files, run the knowledge-audit quick check on each, and report which are current, need an update, or need setup. Read-only discovery across projects; it never edits any project without a separate explicit instruction."
+  default_prompt: "Run $knowledge-migrate-all. Ask me which directory trees to scan, find every project with an agent instructions file under them, run the knowledge system quick check on each, and report a status table without editing anything."
+
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,29 @@
+{
+  "name": "knowledge-migrate-all",
+  "version": "0.1.0",
+  "description": "Scan a chosen directory tree for projects with agent instructions files, run the knowledge-audit quick check on each, and report which are current, need an update, or need setup. Read-only discovery across projects; it never edits any project without a separate explicit instruction.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "knowledge-migrate-all", "documentation", "agent-instructions"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "knowledge-migrate-all",
+    "shortDescription": "Scan a chosen directory tree for projects with agent instructions files, run the knowledge-audit quick check on each, and report which are current, need an update, or need setup. Read-only discovery across projects; it never edits any project without a separate explicit instruction.",
+    "longDescription": "Scan a chosen directory tree for projects with agent instructions files, run the knowledge-audit quick check on each, and report which are current, need an update, or need setup. Read-only discovery across projects; it never edits any project without a separate explicit instruction.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Run $knowledge-migrate-all. Ask me which directory trees to scan, find every project with an agent instructions file under them, run the knowledge system quick check on each, and report a status table without editing anything."
+    ],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

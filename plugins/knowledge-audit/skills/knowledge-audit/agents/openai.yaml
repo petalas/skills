@@ -1,0 +1,7 @@
+interface:
+  display_name: "knowledge-audit"
+  short_description: "Audit one project's knowledge system on request: check for a routing table that maps file patterns to docs, a When You Struggle capture process, and a project-specific LEARNINGS.md; report pass or fail, then set the system up or migrate an older layout only with approval. Never runs proactively."
+  default_prompt: "Run $knowledge-audit on this project. Do the quick check first, run the full audit only if it fails, report a pass/fail checklist with an overall rating, and ask before setting up or migrating anything."
+
+policy:
+  allow_implicit_invocation: false

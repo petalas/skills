@@ -1,7 +1,7 @@
 ---
 name: typescript-best-practices
-version: 0.2.1
-description: TypeScript best practices. Use when reading or editing any .ts or .tsx file.
+version: 0.3.0
+description: TypeScript best practices. Use when reading or editing any TypeScript or JavaScript file (.ts, .tsx, .js, .mjs, .cjs).
 ---
 
 # TypeScript best practices
@@ -14,6 +14,7 @@ If `$principle-type-system-discipline` is available, apply it first. Otherwise u
 | Branded types         | Brand primitives with `& { readonly __brand: "X" }` so they can't be mixed up. Validate once at the boundary.                                                                                                                                                                     |
 | Constructive modeling | Build the shape so the illegal value can't be constructed. `[T, ...T[]]` for non-empty, `[T, T][]` for even length, `start` plus `duration` for a range. Not a runtime guard, not a wish for refinement types.                                                                    |
 | Simplest total type   | Keep `T[]` while every operation on it stays total. Strengthen to `NonEmpty<T>` only where the loose type forces `!`, a cast, or a "should never happen" throw.                                                                                                                   |
+| `??` for defaults     | Use `??`, not `\|\|`, to fill a default (empty array, object, number, string). `\|\|` also replaces `0`, `""`, and `false`. Use `\|\|` only when those falsy values are intentionally treated as missing.                                                                         |
 | `unknown` over `any`  | External data is `unknown`.                                                                                                                                                                                                                                                       |
 | Schemas before guards | Reuse the repository's runtime schema library and existing schemas before writing property-by-property guards. Infer types from schemas. Do not add a schema dependency for one guard.                                                                                            |
 | No `as` casts         | Every `as` is a runtime crash waiting. Cast only after validation.                                                                                                                                                                                                                |

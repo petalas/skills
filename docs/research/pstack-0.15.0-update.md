@@ -136,3 +136,7 @@ All 77 changed mapping hashes are refreshed from the update report, the two `how
 `scripts/scaffold-pstack-plugin.mjs` also gains a one-character fix: the generated `agents/openai.yaml` `default_prompt` now reads `Use $<name> for this task.` like every existing leaf (it previously dropped the `$`).
 
 Run `bun run check` with the upstream checkout available. The checks cover formatting, the generated catalog, the generated principle index, Codex invocation policy, source hashes, copy equality, notices, prompt contract fixtures, and standalone installation. Prompt fixtures check required text; they do not prove future model behavior.
+
+## Post-bump local adaptation (2026-09-08)
+
+`typescript-best-practices` 0.3.0 adds a local rule preferring `??` over `||` for defaults (with a `references/patterns.md` example) and widens the trigger to plain JavaScript files (`.js`, `.mjs`, `.cjs`). This is a deliberate divergence from upstream in an `adapt`-class import; preserve both changes on future pstack bumps rather than reverting to the upstream text.

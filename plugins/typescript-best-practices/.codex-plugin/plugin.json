@@ -1,7 +1,7 @@
 {
   "name": "typescript-best-practices",
-  "version": "0.2.1",
-  "description": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
+  "version": "0.3.0",
+  "description": "TypeScript best practices. Use when reading or editing any TypeScript or JavaScript file (.ts, .tsx, .js, .mjs, .cjs).",
   "author": {
     "name": "Nick Petalas",
     "email": "webmasternikos@gmail.com",
@@ -15,8 +15,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "typescript-best-practices",
-    "shortDescription": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
-    "longDescription": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
+    "shortDescription": "TypeScript best practices. Use when reading or editing any TypeScript or JavaScript file (.ts, .tsx, .js, .mjs, .cjs).",
+    "longDescription": "TypeScript best practices. Use when reading or editing any TypeScript or JavaScript file (.ts, .tsx, .js, .mjs, .cjs).",
     "developerName": "Nick Petalas",
     "category": "Coding",
     "capabilities": ["Interactive"],

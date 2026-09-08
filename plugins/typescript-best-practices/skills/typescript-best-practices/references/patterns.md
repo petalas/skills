@@ -107,6 +107,17 @@ function newestSession(sessions: NonEmpty<Session>): Session {
 
 Weakening the result to `Session | undefined` is the other total signature.
 
+## `??` for defaults
+
+`||` treats `0`, `""`, and `false` as missing. `??` only fills in for `null` and `undefined`.
+
+```ts
+const tags = options.tags || []; // Don't. Also replaces a legitimate falsy value.
+const tags = options.tags ?? []; // Do. Only fills in for null or undefined.
+```
+
+Use `||` only when a falsy value is intentionally treated as missing, and say so in a comment.
+
 ## `unknown` over `any`
 
 External data is always `unknown`. Narrow before use.

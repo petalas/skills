@@ -1,6 +1,6 @@
 # typescript-best-practices
 
-TypeScript best practices. Use when reading or editing any .ts or .tsx file.
+TypeScript best practices. Use when reading or editing any TypeScript or JavaScript file (.ts, .tsx, .js, .mjs, .cjs).
 
 ## Install
 

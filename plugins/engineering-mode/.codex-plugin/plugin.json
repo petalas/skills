@@ -1,7 +1,7 @@
 {
   "name": "engineering-mode",
-  "version": "0.3.0",
-  "description": "Route solo software work through focused, evidence-driven playbooks without assuming a specific agent host.",
+  "version": "0.4.0",
+  "description": "Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code that will be kept. Picks one playbook, routes to the matching principle skills and power-of-ten, and proves the result on the real artifact. Skip for casual questions, throwaway scripts, or when the user opts out.",
   "author": {
     "name": "Nick Petalas",
     "email": "webmasternikos@gmail.com",
@@ -15,8 +15,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "engineering-mode",
-    "shortDescription": "Route solo software work through focused, evidence-driven playbooks without assuming a specific agent host.",
-    "longDescription": "Route solo software work through focused, evidence-driven playbooks without assuming a specific agent host.",
+    "shortDescription": "Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code that will be kept. Picks one playbook, routes to the matching principle skills and power-of-ten, and proves the result on the real artifact. Skip for casual questions, throwaway scripts, or when the user opts out.",
+    "longDescription": "Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code that will be kept. Picks one playbook, routes to the matching principle skills and power-of-ten, and proves the result on the real artifact. Skip for casual questions, throwaway scripts, or when the user opts out.",
     "developerName": "Nick Petalas",
     "category": "Coding",
     "capabilities": ["Interactive", "Write"],

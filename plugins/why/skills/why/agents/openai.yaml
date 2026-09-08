@@ -2,3 +2,6 @@ interface:
   display_name: "why"
   short_description: "Investigate why code has its current shape from read-only evidence."
   default_prompt: "Use $why for this task."
+
+policy:
+  allow_implicit_invocation: false

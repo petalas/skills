@@ -3,6 +3,11 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, posix, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizePstackSemanticBytes, sha256 } from "./lib/pstack-normalization.mjs";
+import {
+  openaiPolicyPath,
+  parseFrontmatter as parseFrontmatterFields,
+  readOpenaiPolicy
+} from "./lib/skill-invocation.mjs";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "..");
@@ -53,16 +58,10 @@ function readRequired(path) {
 }
 
 function parseFrontmatter(markdown, path) {
-  const match = markdown.match(/^---\n([\s\S]*?)\n---\n/);
-  if (!match) {
+  const fields = parseFrontmatterFields(markdown);
+  if (!fields) {
     fail(`${relative(repositoryRoot, path)} has no YAML frontmatter`);
     return new Map();
-  }
-
-  const fields = new Map();
-  for (const line of match[1].split("\n")) {
-    const field = line.match(/^([a-z][a-z-]*):\s*(.+)$/);
-    if (field) fields.set(field[1], field[2].replace(/^['"]|['"]$/g, ""));
   }
   return fields;
 }
@@ -408,6 +407,18 @@ async function validateImportedPlugin(imported, marketplaceNames, inventory, sou
     }
   } else if (invocationSetting !== "true") {
     fail(`${relative(repositoryRoot, skillPath)} must disable model invocation`);
+  }
+  const expectedPolicy = Boolean(imported.automaticInvocation);
+  const openaiPolicy = readOpenaiPolicy(skillDirectory);
+  const openaiPolicyLabel = relative(repositoryRoot, openaiPolicyPath(skillDirectory));
+  if (openaiPolicy === null) {
+    fail(
+      `${openaiPolicyLabel} lacks policy.allow_implicit_invocation (expected ${expectedPolicy}); run bun run policy:sync`
+    );
+  } else if (openaiPolicy !== expectedPolicy) {
+    fail(
+      `${openaiPolicyLabel} sets allow_implicit_invocation: ${openaiPolicy}, but the skill frontmatter requires ${expectedPolicy}`
+    );
   }
   if (!marketplaceNames.has(imported.name)) {
     fail(`${imported.name} is missing from the marketplace`);

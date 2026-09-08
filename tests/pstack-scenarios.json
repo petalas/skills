@@ -90,5 +90,51 @@
       "Both revisions must produce the same metric under comparable conditions.",
       "Do not report a ratio between unlike scenarios."
     ]
+  },
+  {
+    "name": "engineering-mode router is model-invocable and indexes leaf principles",
+    "file": "plugins/engineering-mode/skills/engineering-mode/SKILL.md",
+    "includes": [
+      "<!-- BEGIN GENERATED PRINCIPLE INDEX -->",
+      "<!-- END GENERATED PRINCIPLE INDEX -->",
+      "Cite only principles whose leaf `SKILL.md` you read this session.",
+      "../<name>/SKILL.md"
+    ],
+    "excludes": ["disable-model-invocation: true"]
+  },
+  {
+    "name": "generated principle index lists power-of-ten and laziness protocol",
+    "file": "plugins/engineering-mode/skills/engineering-mode/SKILL.md",
+    "includes": ["(`power-of-ten`)", "(`principle-laziness-protocol`)"]
+  },
+  {
+    "name": "leaf principle stays user-only and carries no index",
+    "file": "plugins/principle-laziness-protocol/skills/principle-laziness-protocol/SKILL.md",
+    "includes": ["disable-model-invocation: true"],
+    "excludes": ["GENERATED PRINCIPLE INDEX"]
+  },
+  {
+    "name": "power-of-ten stays user-only and scopes rules to durable code",
+    "file": "plugins/power-of-ten/skills/power-of-ten/SKILL.md",
+    "includes": ["disable-model-invocation: true", "committed, tested, or run more than once"],
+    "excludes": ["every coding task"]
+  },
+  {
+    "name": "power-of-ten Codex policy forbids implicit invocation",
+    "file": "plugins/power-of-ten/skills/power-of-ten/agents/openai.yaml",
+    "includes": ["policy:", "allow_implicit_invocation: false"],
+    "excludes": ["allow_implicit_invocation: true"]
+  },
+  {
+    "name": "laziness protocol Codex policy forbids implicit invocation",
+    "file": "plugins/principle-laziness-protocol/skills/principle-laziness-protocol/agents/openai.yaml",
+    "includes": ["policy:", "allow_implicit_invocation: false"],
+    "excludes": ["allow_implicit_invocation: true"]
+  },
+  {
+    "name": "engineering-mode Codex policy allows implicit invocation",
+    "file": "plugins/engineering-mode/skills/engineering-mode/agents/openai.yaml",
+    "includes": ["policy:", "allow_implicit_invocation: true"],
+    "excludes": ["allow_implicit_invocation: false"]
   }
 ]

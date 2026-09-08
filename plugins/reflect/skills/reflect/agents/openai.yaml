@@ -2,3 +2,6 @@ interface:
   display_name: "reflect"
   short_description: "Review the active session through independent lenses and propose durable skill improvements for user approval."
   default_prompt: "Use $reflect for this task."
+
+policy:
+  allow_implicit_invocation: false

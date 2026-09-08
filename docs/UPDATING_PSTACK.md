@@ -162,11 +162,26 @@ source tree. The generator refuses mismatched source blobs.
 
 4. Adapt the generated files to the solo policy.
 5. Add complete inline fallbacks for optional sibling skills.
-6. Regenerate the public catalog after the plugin metadata is final.
+6. For a `principle-*` leaf, add the skill to `docs/router-index.json` with its
+   group and position, then run `bun run router:sync` to regenerate the
+   principle index inside `engineering-mode`. `bun run check` fails until this
+   is done.
+7. Regenerate the public catalog after the plugin metadata is final.
 
 The scaffold copies only mappings already declared in the manifest. It reads
 the pinned Git commit, verifies source hashes, preserves executable bits, adds
 the plugin wrapper files, and generates the nested notice.
+
+### Exception: path references from engineering-mode to principle leaves
+
+Cross-skill references normally use the skill name with an installed check or
+a complete fallback. `engineering-mode` is the deliberate exception. It
+references each principle leaf by the relative path `../<name>/SKILL.md`
+because no harness lets a skill invoke a user-only leaf, and every harness
+reports the loaded skill's directory, so the relative path resolves wherever
+the suite is installed. Leaves must stay user-only: keep
+`disable-model-invocation: true` in the leaf frontmatter and
+`policy.allow_implicit_invocation: false` in its Codex plugin manifest.
 
 ## Move the pinned baseline
 

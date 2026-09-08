@@ -787,6 +787,7 @@
     {
       "name": "engineering-mode",
       "disposition": "adapt",
+      "automaticInvocation": true,
       "coordinatesSubagents": true,
       "mappings": [
         {

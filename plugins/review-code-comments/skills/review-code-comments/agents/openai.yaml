@@ -2,3 +2,6 @@ interface:
   display_name: "review-code-comments"
   short_description: "Review source-code comments and apply authorized local cleanups."
   default_prompt: "Use $review-code-comments for this task."
+
+policy:
+  allow_implicit_invocation: false

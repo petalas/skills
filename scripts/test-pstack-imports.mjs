@@ -67,7 +67,18 @@ try {
 
   const install = spawnSync(
     skillsBinary,
-    ["add", repositoryRoot, "--skill", "bro", "--agent", "codex", "--copy", "--yes"],
+    [
+      "add",
+      repositoryRoot,
+      "--skill",
+      "bro",
+      "engineering-mode",
+      "principle-laziness-protocol",
+      "--agent",
+      "codex",
+      "--copy",
+      "--yes"
+    ],
     {
       cwd: fixtureRoot,
       encoding: "utf8",
@@ -92,6 +103,50 @@ try {
   assert(
     notice.includes(importsManifest.sourceCommit),
     "installed notice lost pinned source commit"
+  );
+
+  const installedSkillsRoot = join(fixtureRoot, ".agents", "skills");
+  const installedRouterRoot = join(installedSkillsRoot, "engineering-mode");
+  const installedLeafRoot = join(installedSkillsRoot, "principle-laziness-protocol");
+  for (const [skillRoot, skillName] of [
+    [installedRouterRoot, "engineering-mode"],
+    [installedLeafRoot, "principle-laziness-protocol"]
+  ]) {
+    for (const relativePath of ["SKILL.md", "agents/openai.yaml"]) {
+      assert(
+        existsSync(join(skillRoot, relativePath)),
+        `installed ${skillName} skill is missing ${relativePath}`
+      );
+    }
+  }
+
+  assert(
+    existsSync(resolve(installedRouterRoot, "..", "principle-laziness-protocol", "SKILL.md")),
+    "installed engineering-mode router cannot resolve ../principle-laziness-protocol/SKILL.md"
+  );
+
+  const installedRouterSkill = readFileSync(join(installedRouterRoot, "SKILL.md"), "utf8");
+  assert(
+    installedRouterSkill.includes("<!-- BEGIN GENERATED PRINCIPLE INDEX -->"),
+    "installed engineering-mode router lost the generated principle index marker"
+  );
+
+  const installedRouterPolicy = readFileSync(
+    join(installedRouterRoot, "agents", "openai.yaml"),
+    "utf8"
+  );
+  assert(
+    installedRouterPolicy.includes("allow_implicit_invocation: true"),
+    "installed engineering-mode router does not allow implicit invocation"
+  );
+
+  const installedLeafPolicy = readFileSync(
+    join(installedLeafRoot, "agents", "openai.yaml"),
+    "utf8"
+  );
+  assert(
+    installedLeafPolicy.includes("allow_implicit_invocation: false"),
+    "installed principle-laziness-protocol leaf does not forbid implicit invocation"
   );
 } finally {
   rmSync(fixtureRoot, { recursive: true, force: true });

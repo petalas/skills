@@ -1,12 +1,13 @@
 ---
 name: power-of-ten
-version: 0.3.0
-description: "Apply all ten language-agnostic rules to every coding task. Inspect the code needed for the task, improve encountered violations without widening into unrelated rewrites, verify affected behavior, and document any justified deviation."
+version: 0.4.0
+disable-model-invocation: true
+description: "Apply when writing or changing code that will be committed, tested, or run more than once. Hold every touched path to the ten language-agnostic rules, fix encountered violations within scope, verify affected behavior, and document justified deviations. Skip throwaway scripts, one-off commands, prototypes, and pure config or documentation edits; honor narrower project scoping."
 ---
 
 # Power of Ten
 
-Apply all ten rules on every coding task. Check the code you must read or change to complete the task, including relevant entry points, callers, dependencies, and failure paths. Scale the depth of inspection and verification to the amount of touched code and the risk of the change. Do not turn this policy into an unrelated repository-wide rewrite.
+Apply all ten rules to code that will be committed, tested, or run more than once. Skip throwaway scripts, one-off commands, prototypes, and pure config or documentation edits, and honor narrower scoping in a project's own instructions. Check the code you must read or change to complete the task, including relevant entry points, callers, dependencies, and failure paths. Scale the depth of inspection and verification to the amount of touched code and the risk of the change. Do not turn this policy into an unrelated repository-wide rewrite.
 
 Compliance is directional. Leave every inspected or changed area at least as compliant as you found it. When you encounter a local violation, remove it or constrain it when that is safe and within the task. Never introduce a new violation or make new code depend unnecessarily on an existing one. If immediate cleanup would increase risk or expand scope, record the violation, keep the change from worsening it, and give a concrete follow-up. Never weaken behavior, error handling, tests, or verification to claim compliance.
 

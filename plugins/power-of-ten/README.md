@@ -1,6 +1,6 @@
 # power-of-ten
 
-Apply all ten language-agnostic rules to every coding task. Inspect the code needed for the task, improve encountered violations without widening into unrelated rewrites, verify affected behavior, and document any justified deviation.
+Apply when writing or changing code that will be committed, tested, or run more than once. Hold every touched path to the ten language-agnostic rules, fix encountered violations within scope, verify affected behavior, and document justified deviations. Skip throwaway scripts, one-off commands, prototypes, and pure config or documentation edits; honor narrower project scoping.
 
 The skill checks all ten rules against the code read or changed for the task. Its compliance workflow requires the agent to assess touched code before editing, safely fix or constrain local violations, introduce no new violation, verify affected behavior, and report any deferred violation with its exact reason and follow-up. A legitimate deviation must name its reason, scope, compensating control, and verification.
 

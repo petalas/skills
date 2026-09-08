@@ -1,6 +1,6 @@
 # engineering-mode
 
-Route solo software work through focused, evidence-driven playbooks without assuming a specific agent host.
+Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code that will be kept. Picks one playbook, routes to the matching principle skills and power-of-ten, and proves the result on the real artifact. Skip for casual questions, throwaway scripts, or when the user opts out.
 
 ## Install
 

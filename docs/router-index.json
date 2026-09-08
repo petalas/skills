@@ -1,0 +1,54 @@
+{
+  "router": "engineering-mode",
+  "markers": {
+    "begin": "<!-- BEGIN GENERATED PRINCIPLE INDEX -->",
+    "end": "<!-- END GENERATED PRINCIPLE INDEX -->"
+  },
+  "groups": [
+    {
+      "name": "Core",
+      "members": [
+        "principle-laziness-protocol",
+        "principle-foundational-thinking",
+        "principle-redesign-from-first-principles",
+        "principle-subtract-before-you-add",
+        "principle-minimize-reader-load",
+        "principle-outcome-oriented-execution",
+        "principle-experience-first",
+        "principle-exhaust-the-design-space",
+        "principle-build-the-lever"
+      ]
+    },
+    {
+      "name": "Architecture",
+      "members": [
+        "principle-model-domain-in-code",
+        "principle-boundary-discipline",
+        "principle-type-system-discipline",
+        "principle-make-operations-idempotent",
+        "principle-replace-internal-apis-atomically",
+        "principle-separate-before-serializing-shared-state"
+      ]
+    },
+    {
+      "name": "Verification",
+      "members": [
+        "principle-prove-it-works",
+        "principle-fix-root-causes",
+        "principle-sequence-verifiable-units"
+      ]
+    },
+    {
+      "name": "Delegation",
+      "members": ["principle-guard-the-context-window", "principle-local-autonomy"]
+    },
+    {
+      "name": "Meta",
+      "members": ["principle-encode-lessons-in-structure"]
+    },
+    {
+      "name": "Code",
+      "members": ["power-of-ten"]
+    }
+  ]
+}

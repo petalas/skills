@@ -2,3 +2,6 @@ interface:
   display_name: "blast-radius"
   short_description: "Find breakage outside a diff and prove its safety facts."
   default_prompt: "Use $blast-radius for this task."
+
+policy:
+  allow_implicit_invocation: false

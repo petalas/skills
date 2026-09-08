@@ -11,6 +11,7 @@ import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { dirname, join, posix, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { expectedPolicyBlock } from "./lib/skill-invocation.mjs";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "..");
@@ -216,7 +217,7 @@ writeFileSync(join(skillDirectory, "SKILL.md"), newSkill);
 mkdirSync(join(skillDirectory, "agents"), { recursive: true });
 writeFileSync(
   join(skillDirectory, "agents", "openai.yaml"),
-  `interface:\n  display_name: "${name}"\n  short_description: ${description}\n  default_prompt: "Use $${name} for this task."\n`
+  `interface:\n  display_name: "${name}"\n  short_description: ${description}\n  default_prompt: "Use ${name} for this task."\n\n${expectedPolicyBlock(Boolean(imported.automaticInvocation))}`
 );
 
 mkdirSync(join(pluginDirectory, "commands"), { recursive: true });

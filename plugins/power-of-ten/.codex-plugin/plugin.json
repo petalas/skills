@@ -1,7 +1,7 @@
 {
   "name": "power-of-ten",
-  "version": "0.3.0",
-  "description": "Apply all ten language-agnostic rules to every coding task. Inspect the code needed for the task, improve encountered violations without widening into unrelated rewrites, verify affected behavior, and document any justified deviation.",
+  "version": "0.4.0",
+  "description": "Apply when writing or changing code that will be committed, tested, or run more than once. Hold every touched path to the ten language-agnostic rules, fix encountered violations within scope, verify affected behavior, and document justified deviations. Skip throwaway scripts, one-off commands, prototypes, and pure config or documentation edits; honor narrower project scoping.",
   "author": {
     "name": "Nick Petalas",
     "email": "webmasternikos@gmail.com",
@@ -15,8 +15,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "power-of-ten",
-    "shortDescription": "Apply all ten language-agnostic rules to every coding task. Inspect the code needed for the task, improve encountered violations without widening into unrelated rewrites, verify affected behavior, and document any justified deviation.",
-    "longDescription": "Apply all ten language-agnostic rules to every coding task. Inspect the code needed for the task, improve encountered violations without widening into unrelated rewrites, verify affected behavior, and document any justified deviation.",
+    "shortDescription": "Apply when writing or changing code that will be committed, tested, or run more than once. Hold every touched path to the ten language-agnostic rules, fix encountered violations within scope, verify affected behavior, and document justified deviations. Skip throwaway scripts, one-off commands, prototypes, and pure config or documentation edits; honor narrower project scoping.",
+    "longDescription": "Apply when writing or changing code that will be committed, tested, or run more than once. Hold every touched path to the ten language-agnostic rules, fix encountered violations within scope, verify affected behavior, and document justified deviations. Skip throwaway scripts, one-off commands, prototypes, and pure config or documentation edits; honor narrower project scoping.",
     "developerName": "Nick Petalas",
     "category": "Coding",
     "capabilities": ["Interactive"],

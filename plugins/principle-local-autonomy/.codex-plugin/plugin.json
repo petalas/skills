@@ -1,6 +1,6 @@
 {
   "name": "principle-local-autonomy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Apply when reversible local work can proceed without a permission pause. Keep agents autonomous inside the workspace while reserving external communication and consequential actions for the user.",
   "author": {
     "name": "Nick Petalas",

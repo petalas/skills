@@ -11,6 +11,7 @@
         "principle-laziness-protocol",
         "principle-foundational-thinking",
         "principle-redesign-from-first-principles",
+        "principle-attack-the-premise",
         "principle-subtract-before-you-add",
         "principle-minimize-reader-load",
         "principle-outcome-oriented-execution",
@@ -35,7 +36,8 @@
       "members": [
         "principle-prove-it-works",
         "principle-fix-root-causes",
-        "principle-sequence-verifiable-units"
+        "principle-sequence-verifiable-units",
+        "principle-test-behavior-not-implementation"
       ]
     },
     {

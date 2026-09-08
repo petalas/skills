@@ -18,7 +18,7 @@ const repositoryRoot = resolve(scriptDirectory, "..");
 const pstackRoot = resolve(
   process.env.PSTACK_SOURCE_ROOT ?? resolve(repositoryRoot, "..", "plugins", "pstack")
 );
-const sourceCommit = "93b00b89ef425a9c1bac0d0b317dfc49c930ac99";
+const sourceCommit = "71ed0d1076fec562c1b74ee353121a8d00f75382";
 const [name, sourceRelative, ...additionalSourcePaths] = process.argv.slice(2);
 
 if (!name || !sourceRelative) {
@@ -217,7 +217,7 @@ writeFileSync(join(skillDirectory, "SKILL.md"), newSkill);
 mkdirSync(join(skillDirectory, "agents"), { recursive: true });
 writeFileSync(
   join(skillDirectory, "agents", "openai.yaml"),
-  `interface:\n  display_name: "${name}"\n  short_description: ${description}\n  default_prompt: "Use ${name} for this task."\n\n${expectedPolicyBlock(Boolean(imported.automaticInvocation))}`
+  `interface:\n  display_name: "${name}"\n  short_description: ${description}\n  default_prompt: "Use $${name} for this task."\n\n${expectedPolicyBlock(Boolean(imported.automaticInvocation))}`
 );
 
 mkdirSync(join(pluginDirectory, "commands"), { recursive: true });

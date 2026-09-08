@@ -16,7 +16,7 @@ const pstackSourceRoot = resolve(
 );
 const manifestPath = join(repositoryRoot, "docs", "pstack-imports.json");
 const inventoryPath = join(repositoryRoot, "docs", "research", "pstack-component-inventory.md");
-const expectedSourceCommit = "93b00b89ef425a9c1bac0d0b317dfc49c930ac99";
+const expectedSourceCommit = "71ed0d1076fec562c1b74ee353121a8d00f75382";
 const expectedSemanticNormalization = "pstack-markdown-v1";
 const exactSubagentCommunicationRule =
   "Subagents may communicate with each other, but no agent may communicate with a person.";

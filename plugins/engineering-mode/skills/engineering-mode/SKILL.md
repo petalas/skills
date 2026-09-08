@@ -1,6 +1,6 @@
 ---
 name: engineering-mode
-version: 0.4.0
+version: 0.4.1
 description: "Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code that will be kept. Picks one playbook, routes to the matching principle skills and power-of-ten, and proves the result on the real artifact. Skip for casual questions, throwaway scripts, or when the user opts out."
 ---
 
@@ -25,7 +25,7 @@ Subagents may communicate with each other, but no agent may communicate with a p
 - Parse and validate at system boundaries. Keep internal logic typed and direct.
 - Give concurrent writers disjoint files, worktrees, or branches. Serialize shared writes.
 - Verify on the real user surface when the task changes behavior.
-- Use `unslop` for prose when installed. Otherwise remove filler, generic claims, decorative formatting, and host jargon; write short concrete sentences.
+- Use `unslop` for prose when installed. Otherwise remove filler, generic claims, decorative formatting, and host jargon. Write short concrete sentences.
 - Use `show-me-your-work` for long, unattended, or multi-phase runs when installed. Otherwise keep a local append-only `decisions.tsv` with timestamp, phase, decision, reason, evidence, and result columns.
 - Read `.agents/agent-models.md` when present. Treat its values as preferences, never as required fixed identifiers.
 
@@ -40,7 +40,8 @@ Leaf skills are installed beside this skill and are user-only; do not try to inv
 - **Laziness Protocol** (`principle-laziness-protocol`). Apply when refactoring, evaluating diff size, or tempted to add abstractions, layers, or signal threading. Bias toward deletion and the smallest change that solves the problem.
 - **Foundational Thinking** (`principle-foundational-thinking`). Apply before writing logic: choosing core types and data structures, sequencing scaffold-vs-feature work, asking what concurrent actors share. Get the data structures right so downstream code becomes obvious.
 - **Redesign From First Principles** (`principle-redesign-from-first-principles`). Apply when integrating a new requirement into an existing design. Redesign as if the requirement had been a foundational assumption from day one, instead of bolting it on.
-- **Subtract Before You Add** (`principle-subtract-before-you-add`). Apply when sequencing an addition, refactor, or rewrite. Remove dead weight, redundant validators, and stub references first, then build on the simpler base.
+- **Attack the Premise** (`principle-attack-the-premise`). Apply when two or more fixes that share one premise have failed the same gate. Take a census of which actors hold the imbalance before the next fix, then question the premise instead of writing another fix that assumes it.
+- **Subtract Before You Add** (`principle-subtract-before-you-add`). Apply when sequencing an addition, refactor, or rewrite. Remove dead code, redundant validators, and stub references first, then build on the simpler base.
 - **Minimize Reader Load** (`principle-minimize-reader-load`). Apply when reviewing or shaping code that's hard to trace. Count layers between question and answer, and hidden state in the reader's head; collapse one-caller wrappers and shrink mutable scope.
 - **Outcome-Oriented Execution** (`principle-outcome-oriented-execution`). Apply during planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture; don't preserve smooth intermediate states with throwaway compatibility code.
 - **Experience First** (`principle-experience-first`). Apply when product, UX, or feature-scope tradeoffs come up. Choose user delight over implementation convenience; ship fewer polished features over more rough ones.
@@ -61,6 +62,7 @@ Leaf skills are installed beside this skill and are user-only; do not try to inv
 - **Prove It Works** (`principle-prove-it-works`). Apply after completing a task, before declaring done. Verify against the real artifact (run the feature, read the actual value, inspect the diff), not a proxy, self-report, or 'it compiles.'
 - **Fix Root Causes** (`principle-fix-root-causes`). Apply when debugging. Trace each symptom to its root cause and fix it there; reproduce first, ask why until you reach it, resist nil-check guards that silence crashes.
 - **Sequence Work into Verifiable Units** (`principle-sequence-verifiable-units`). Apply to multi-step work such as sweeps, migrations, and runs of similar edits. Break work into small units that each end in a verifiable state, check each before the next, and order authorized delivery so the sequence proves itself.
+- **Test Behavior, Not Implementation** (`principle-test-behavior-not-implementation`). Apply when you write, change, or keep a test. Call the code the way its users do and assert the result they observe against a literal expected value. If the test would still pass when every imported function returns undefined, rewrite the assertion or delete the test.
 
 **Delegation**
 
@@ -95,7 +97,7 @@ Review routes do not grant remote mutation or human-communication authority.
 
 ## Pick one playbook
 
-Read the matching file before planning. Copy its numbered steps into the active plan. Keep a skipped step visible with a short reason.
+Read the matching file before planning. Copy its numbered steps into the active plan verbatim, before any task-specific items. A step you choose not to do stays in the plan with a one-line `skip: <reason>`.
 
 - Investigation: `playbooks/investigation.md`
 - Bug fix: `playbooks/bug-fix.md`

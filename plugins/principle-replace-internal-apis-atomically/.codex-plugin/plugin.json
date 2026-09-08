@@ -1,6 +1,6 @@
 {
   "name": "principle-replace-internal-apis-atomically",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserving compatibility layers.",
   "author": {
     "name": "Nick Petalas",

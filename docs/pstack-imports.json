@@ -1,12 +1,25 @@
 {
   "sourceRepository": "https://github.com/cursor/plugins",
-  "sourceCommit": "93b00b89ef425a9c1bac0d0b317dfc49c930ac99",
-  "sourcePluginVersion": "0.14.8",
+  "sourceCommit": "71ed0d1076fec562c1b74ee353121a8d00f75382",
+  "sourcePluginVersion": "0.15.0",
   "license": "MIT",
   "copyright": "Copyright (c) 2026 Lauren Tan",
   "licenseSourceSha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e",
   "semanticNormalization": "pstack-markdown-v1",
   "imports": [
+    {
+      "name": "principle-attack-the-premise",
+      "disposition": "copy",
+      "mappings": [
+        {
+          "source": "skills/principle-attack-the-premise/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "c87bd7536f772f8a403ad8155535ee17a1bbec9a353156693eb3bb1520c87ae3",
+          "sourceNormalizedSha256": "69e8fc0f58a18486b14c1eaffb0ed78da7475b5d64224ac1f68b19f3ad91fcbe"
+        }
+      ],
+      "inventorySource": "skills/principle-attack-the-premise/SKILL.md"
+    },
     {
       "name": "principle-boundary-discipline",
       "disposition": "copy",
@@ -14,8 +27,8 @@
         {
           "source": "skills/principle-boundary-discipline/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "ab3c690ce361542ca00446b8406f5afd47776f544b8ce06a9ef2eaa2338bde6d",
-          "sourceNormalizedSha256": "1ca1a02da3294176438a5451e1b44070d668169b8b307430be7bf71d287da038"
+          "sourceSha256": "62ac2862c2caa22dd14531f51c9c6bb445ceb198ca98a687e25b4d47c1f10a28",
+          "sourceNormalizedSha256": "6c3a7741e17da6378cafad78c4febd877f5b7fabb585ed49109776c2007ce38a"
         }
       ],
       "inventorySource": "skills/principle-boundary-discipline/SKILL.md"
@@ -28,8 +41,8 @@
         {
           "source": "skills/principle-build-the-lever/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "3a0b02b1b890538810f27d00c525b2e677bb5d931f602fd7a774d5cd13b61c93",
-          "sourceNormalizedSha256": "c575cf33a27a67a1ac94aca13d4d38d0e3ae8744c5c9d614bb13cd617a1f21be"
+          "sourceSha256": "458b269eab8e95a1573276955312f7d2a13ae8599879a9efc748248f6bc34b56",
+          "sourceNormalizedSha256": "8a8beaee9c4a6d1746bd9b9964a254f7b9e30285373c6c3a819805bc5838d8d5"
         }
       ],
       "inventorySource": "skills/principle-build-the-lever/SKILL.md"
@@ -41,8 +54,8 @@
         {
           "source": "skills/principle-encode-lessons-in-structure/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "4acdb3f466efd0a433899aafce3e0f100566228b63ccff43f363a83e80624d81",
-          "sourceNormalizedSha256": "d662a0b213edf505dcc44a5b72bc2f26bb67641989f72ebf85c6377a176b8833"
+          "sourceSha256": "77044c83a9ac6df78fc643887ea5f1f11f082adaf14b717c060cdaed03cce863",
+          "sourceNormalizedSha256": "4faf9ebf6d7731d9e723a5b5008dd59d04180b8b649ad04ce12aefa70bd0db0f"
         }
       ],
       "inventorySource": "skills/principle-encode-lessons-in-structure/SKILL.md"
@@ -67,8 +80,8 @@
         {
           "source": "skills/principle-experience-first/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "f8d643ddf2f6aa91d9607d1bb340fd2baf227d702e9738848b85312a312bb971",
-          "sourceNormalizedSha256": "564bf08783a42274834219c0cc20c8cec49b85b67bccbda2a42241c7a958a6a9"
+          "sourceSha256": "58903529d733b1c1a7c9ccf127d45ef3c7d0d9f0b81164a4dc6b80efe6f2912b",
+          "sourceNormalizedSha256": "07384d9fb7a38b562a1af087c17be8f4fec7d04edc38290532c830938b9aab0d"
         }
       ],
       "inventorySource": "skills/principle-experience-first/SKILL.md"
@@ -80,8 +93,8 @@
         {
           "source": "skills/principle-fix-root-causes/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "cfae13b5a3e27bc88d069092cae97b3e95246879d5bf14f0e9a4db719c781952",
-          "sourceNormalizedSha256": "0a8d4cfa43038612fb32b9708bba3fe736bfc3d8fe16b60092ade673f7358355"
+          "sourceSha256": "ba4cd38da1dcc8fe5432feb64457cba95594736a9b21b2ebf8f8c52aee068707",
+          "sourceNormalizedSha256": "48a130e1d59467e56b206858e6314f557b59e03376a4ca14afcd9527a899da80"
         }
       ],
       "inventorySource": "skills/principle-fix-root-causes/SKILL.md"
@@ -93,8 +106,8 @@
         {
           "source": "skills/principle-foundational-thinking/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "a522488c9d4481e8bfcbe35cbf3838169c8e3801ee0738ae2859067684144579",
-          "sourceNormalizedSha256": "8421524fcf5fbc57a9f0de5012947737d0a71e619b78bdfd7f51d365f9c15346"
+          "sourceSha256": "864b827e8199d946ce58beca0f89c4ed4099ed6e426fb698a3aaa45de2a9eea2",
+          "sourceNormalizedSha256": "01e9587f0966c4118c669ca5627be4ce48b2a8350bb877f99ac90c802e360345"
         }
       ],
       "inventorySource": "skills/principle-foundational-thinking/SKILL.md"
@@ -107,8 +120,8 @@
         {
           "source": "skills/principle-guard-the-context-window/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "291d0125125eabbc2109c880b1c1083aa95826187119a648b26c1c8ea6367179",
-          "sourceNormalizedSha256": "ac968865d9383746475173cb57ac7f023cfb7bf4681514723457cfdf97f5f0cb"
+          "sourceSha256": "9f60e2c79b35f865cb103462f9128c6760b70f603475d1e535e5930f61840f66",
+          "sourceNormalizedSha256": "71db9233c8f26453a1a9ea171f5f997e6f38ab0a2ef7d75fd5d8d17f106fb23e"
         }
       ],
       "inventorySource": "skills/principle-guard-the-context-window/SKILL.md"
@@ -120,8 +133,8 @@
         {
           "source": "skills/principle-laziness-protocol/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "8999fda9fde65fd905835c86e3bfc64190369a84bba30b1e93769f39ad6580fe",
-          "sourceNormalizedSha256": "e35f59d4c3b96a74ce37fc81a978b14139c5b710227aaa81136ef7a14df35c8d"
+          "sourceSha256": "9006579e9e3f33955d17569733db688ae65f22577dc3b21803d219a5a8445aff",
+          "sourceNormalizedSha256": "cdc8c4e73a9075426db8936360cdc1219c95590958e9c185f182f2d959041229"
         }
       ],
       "inventorySource": "skills/principle-laziness-protocol/SKILL.md"
@@ -146,8 +159,8 @@
         {
           "source": "skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "e29b6b6534a23dcaf8c7e16fc25d6484000d7b6e289c48eb0a32a97280633c5d",
-          "sourceNormalizedSha256": "2ffaa3d1c0652e267383a65f5fca0feb46da74510ccae10a5ea0592c4d855bf8"
+          "sourceSha256": "09978915a4a11990cf0a9a02d9c08cc59e0b7a04c5c24b83aa560fbe4146f75b",
+          "sourceNormalizedSha256": "393b7ef312abc482d96d06b295ec8bb600739b974bdf10256b962b85716f0f4e"
         }
       ],
       "inventorySource": "skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md"
@@ -159,8 +172,8 @@
         {
           "source": "skills/principle-minimize-reader-load/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "480f4ddec29e7e3058a8f17eb97c0cec4a2c8b4b33ba6401e960167c1fc95a81",
-          "sourceNormalizedSha256": "061fe17aacd1e9e54558625aa35992bf4aae1754975bf5632d1ceef7f9c04cdf"
+          "sourceSha256": "42551c5dc74cd578163c148da552db3ff67d29b78600ef216bfd311fb828fe69",
+          "sourceNormalizedSha256": "70b08b3aba7ab2ac5632fc0a3b647746d7d99ae17a5524012bb5dfc945efcacb"
         }
       ],
       "inventorySource": "skills/principle-minimize-reader-load/SKILL.md"
@@ -172,8 +185,8 @@
         {
           "source": "skills/principle-model-the-domain/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "6b359783c5c9be87860d0999321e864940ff17729b9f9a27f38abae449640022",
-          "sourceNormalizedSha256": "54d4b6806f8de565fba19d5a35652c62ff06f8bfb73cd319297dc0536927d2e5"
+          "sourceSha256": "bbadbb9a723fac3f76e782ae45665eb94058ec10993e4bae36d4dc6b0e4eac07",
+          "sourceNormalizedSha256": "4de266da7d0f0bf31d09100af3a221c483480dfecf2841fa655a7dab7b205161"
         }
       ],
       "inventorySource": "skills/principle-model-the-domain/SKILL.md"
@@ -185,8 +198,8 @@
         {
           "source": "skills/principle-never-block-on-the-human/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "f656f3b7581df55e79f53cc47df93905c3a940b822c25071ba95f40e530d102a",
-          "sourceNormalizedSha256": "bd8bb15199174575310f28e4b7490f76efedbdae182d02d3050af30369186f29"
+          "sourceSha256": "d82bce9ab9193249d1ec0d514202d89602f0fd3d312174d622c2dd222bae5a2e",
+          "sourceNormalizedSha256": "81b6b97e666a939e2267745dd74f1084e95c21a8618b48e500664b3f3131cf65"
         }
       ],
       "inventorySource": "skills/principle-never-block-on-the-human/SKILL.md"
@@ -212,8 +225,8 @@
         {
           "source": "skills/principle-prove-it-works/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "9bbe6138505be34d81e9395d95d3639b384f71d71d65cc1903075126e1da1508",
-          "sourceNormalizedSha256": "4d20eed9680457d9318e0bca4b732c4d918931648282582e62e381c26388d390"
+          "sourceSha256": "ae13d287984a5864312b6286899d4ee2b60f8272b5e5e8fcc586a7c3ea51020b",
+          "sourceNormalizedSha256": "7d290baef991fabfb969bec23829ca51fbb8b4e1041d2d7e7d2db0fe2b2d93dd"
         }
       ],
       "inventorySource": "skills/principle-prove-it-works/SKILL.md"
@@ -225,8 +238,8 @@
         {
           "source": "skills/principle-redesign-from-first-principles/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "9ae97b35d6338cc9e34c7023c995a39cb7afdaf4bfd41e1d3d665da04d7515d5",
-          "sourceNormalizedSha256": "038f73db07125e77f86b40b33a2caeb3315739a7e516aba5fb2f0ae7b8a8c25a"
+          "sourceSha256": "a1c7fd0a96b40e12a74bceb0e6bb20a9666dd844dcabfb624acb27da23b929fe",
+          "sourceNormalizedSha256": "388789d0a1afa1bca70db3f35daaec2a89f8713f82e81589f801fb853c38d2b8"
         }
       ],
       "inventorySource": "skills/principle-redesign-from-first-principles/SKILL.md"
@@ -238,8 +251,8 @@
         {
           "source": "skills/principle-separate-before-serializing-shared-state/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "5b14fd656441580061f760968c828f3f4ba034242d8fa06b544763efb25e89ee",
-          "sourceNormalizedSha256": "cbf2de9a8faf90be05de29d9995b94b7c4541fe5ab38dc5c6a4559053fcbdbb7"
+          "sourceSha256": "05294b40448e927c5da1c7b6f5c6b9fed3744637e3833d2d948b9154a9dd00bb",
+          "sourceNormalizedSha256": "1230ccb427f36aaf6f366ff551f26de1f51f88e747a31cb2e9f69996108fe034"
         }
       ],
       "inventorySource": "skills/principle-separate-before-serializing-shared-state/SKILL.md"
@@ -251,8 +264,8 @@
         {
           "source": "skills/principle-sequence-verifiable-units/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "7478f8160ba5701ca40c742a81e90aff12d45f53ac9191e80ad79b9763e4489f",
-          "sourceNormalizedSha256": "6032a7a8be43aa8b6b5d96cf9d2da46f79ed2980976871685b0ec68784fb7b61"
+          "sourceSha256": "761390804ee36c32f5338d8db47ec54463d40ff96dbb296dfafabcd5f2593eec",
+          "sourceNormalizedSha256": "b8ef2edbbb3d80d08cba0944d3684663659d2dab530acc25d028fc1afa1ccdfc"
         }
       ],
       "inventorySource": "skills/principle-sequence-verifiable-units/SKILL.md"
@@ -264,11 +277,24 @@
         {
           "source": "skills/principle-subtract-before-you-add/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "3999888dc21ced33b86054c2ffde1a3cb438e16bed1213f5dab2b5c000446292",
-          "sourceNormalizedSha256": "3fb74ce44a108c248c90c4c85b1081d55958ed1008d05913559daa77b334aa0a"
+          "sourceSha256": "a983a50e732c1ed315eba7aaf47a61329e31c4794eb1ab9d25d9945265b31e03",
+          "sourceNormalizedSha256": "a1a986dcdd6a0f3967308d1db9d25a040f144d6fe93bfac73e02d7a1da90be0f"
         }
       ],
       "inventorySource": "skills/principle-subtract-before-you-add/SKILL.md"
+    },
+    {
+      "name": "principle-test-behavior-not-implementation",
+      "disposition": "copy",
+      "mappings": [
+        {
+          "source": "skills/principle-test-behavior-not-implementation/SKILL.md",
+          "destination": "SKILL.md",
+          "sourceSha256": "87e40efe4e486f7ea639d2ed1fc0abe6c93b8fd0e89a81218086909d2470a52e",
+          "sourceNormalizedSha256": "901a39935d90c3a909a6cc2fc9048d616ae2f507f532d983d1c710e457e8bd61"
+        }
+      ],
+      "inventorySource": "skills/principle-test-behavior-not-implementation/SKILL.md"
     },
     {
       "name": "principle-type-system-discipline",
@@ -277,8 +303,8 @@
         {
           "source": "skills/principle-type-system-discipline/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "662ed1ad53fb491e97b9c4eac7317fba8ec5ed722fec8d71beb94da0111619cf",
-          "sourceNormalizedSha256": "7ef202251bc53d4ff6864d53196a6ebbd5f7039c1a29f4d9923dc5b88682a401"
+          "sourceSha256": "c83da8031ffb4c86410030d3e261f659598fca2b7d8158fd9dc269d70a3a025e",
+          "sourceNormalizedSha256": "5d6617c15708a1e6a2cec341cfe1bf14e3d9b484f06999e6bae78034b4fd3da3"
         }
       ],
       "inventorySource": "skills/principle-type-system-discipline/SKILL.md"
@@ -291,8 +317,8 @@
         {
           "source": "skills/unslop/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "2789ab80477b7e382292e4d7acca1057784df19713fffb74622ff0f83b2f3733",
-          "sourceNormalizedSha256": "59e485d24dfe1329987a08314c07eac43e6d22e5910bf95499142e3b37695814"
+          "sourceSha256": "c6d2572294d933a428211921069e9a248490e9b466ca59437cb4d9de248600ca",
+          "sourceNormalizedSha256": "e059095a2600217792cbe51d0ec3b62abd2d6fbfc0a0059d7a0b051acc77f04c"
         }
       ],
       "inventorySource": "skills/unslop/SKILL.md"
@@ -317,8 +343,8 @@
         {
           "source": "skills/technical-writing/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "bd0cb21034f4fe6695cfdf8cd3561026eec943f0bb6e9300bc78a2b3340865a7",
-          "sourceNormalizedSha256": "317ee643c971ca4f3580d6da05e4c2e65dd9397fbe30a52793f05f37c12085ad"
+          "sourceSha256": "6d6d9e625ae412ee8f36df8deb6fd9203d7c6acca776d5ee3cabbb9126f8b84c",
+          "sourceNormalizedSha256": "610827d955209849781422a83f1b924a77c94d0eeaebbfa7111123e5662d2fb4"
         }
       ],
       "inventorySource": "skills/technical-writing/SKILL.md"
@@ -331,14 +357,14 @@
         {
           "source": "skills/typescript-best-practices/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "b854da40f946f1cd4681785d3e802a2a592322d351f770f5057b56430edb35d0",
-          "sourceNormalizedSha256": "f0dc8e9794f87b32b8a1c990375f16d31cb9e345e7d8ff6ca488e27da5e3c4dc"
+          "sourceSha256": "28f9e61710e205f6f3c5476f333483cff0e988f6a5b639e2faad536344b40c5e",
+          "sourceNormalizedSha256": "36a70314ef03145363f0fa07c9befdf689a6428a7fd678cec3d61cf0dbe7f298"
         },
         {
           "source": "skills/typescript-best-practices/references/patterns.md",
           "destination": "references/patterns.md",
-          "sourceSha256": "eb73b5f3514c0c14d14bafca59ffb54b161422ea5fc5fe65e60c5b4d71c40178",
-          "sourceNormalizedSha256": "77c79082c918d40eda7124adc006585f3c9d16b3dbfc25fdb99268b7b1fd116b"
+          "sourceSha256": "62e9cd32d2fa066a35d0d1349aac22dce31a48ad7d5eaf142570770cfe707384",
+          "sourceNormalizedSha256": "5634b5d3f898ad2101b4dfd9783952825c7cd9f49948b75159ced0417d1b4606"
         }
       ],
       "inventorySource": "skills/typescript-best-practices/SKILL.md"
@@ -350,8 +376,8 @@
         {
           "source": "skills/tdd/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "adad031f9e79d7f7389fa128f7af8e03344831270e282cf4e40bdacb8418c386",
-          "sourceNormalizedSha256": "23a448b455bfd0ffa746f61851e826e96d8f054493128962e6eedcd7455f9fda"
+          "sourceSha256": "011cab0ecc04a3632121efb493ae4d60aa282a9b72c66de74dd8ad7e4313e05a",
+          "sourceNormalizedSha256": "635d5710fe6147782dab9ee1f9b338a01b57dfb21b9fac2e68824de339d9def5"
         }
       ],
       "inventorySource": "skills/tdd/SKILL.md"
@@ -364,32 +390,20 @@
         {
           "source": "skills/how/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "3a554ff564d66a4200a07e20164558e820ea7a9795beb98a4a06546146c98f5f",
-          "sourceNormalizedSha256": "899cf0506e503114f8be5aa1a6d34c8202d0bb6d9d8dbbe1b0f35fc39da4f6d7"
-        },
-        {
-          "source": "skills/how/references/critic-prompt.md",
-          "destination": "references/critic-prompt.md",
-          "sourceSha256": "aa77a15590814c814bd5cb074842029ab7b790c2e8379050525bdbc20739d1bb",
-          "sourceNormalizedSha256": "aa77a15590814c814bd5cb074842029ab7b790c2e8379050525bdbc20739d1bb"
-        },
-        {
-          "source": "skills/how/references/critique-rubric.md",
-          "destination": "references/critique-rubric.md",
-          "sourceSha256": "5774ff2caf51796e54c4a61b63620a165de5801f23c8f47406e527abfbe9addc",
-          "sourceNormalizedSha256": "5774ff2caf51796e54c4a61b63620a165de5801f23c8f47406e527abfbe9addc"
+          "sourceSha256": "06b714dbd830bc829bfb89e33a1c39daf6d72ea412e488ea9d65f5f33b885a0c",
+          "sourceNormalizedSha256": "4ecfb5454992e15ca43d66eca047d3cfaa65226296a79393dfe6cbc113e2e411"
         },
         {
           "source": "skills/how/references/explainer-prompt.md",
           "destination": "references/explainer-prompt.md",
-          "sourceSha256": "04336086e7c415394459ca2f461717d920e15339517dbf5a56ca042f8b4fead3",
-          "sourceNormalizedSha256": "5be1e0ee8200453dc9b60fb75dd46cd4c6b2cf827e1e01ec298eb9a7443bb6d9"
+          "sourceSha256": "ddb89cebefc24e2b54517a331aedfe045b6971e101f45c71b8cef4cccff45bff",
+          "sourceNormalizedSha256": "6c516599a234aca6caaae5eae18c445b4529c4bf1ff222bef075f510d6c93072"
         },
         {
           "source": "skills/how/references/explorer-prompt.md",
           "destination": "references/explorer-prompt.md",
-          "sourceSha256": "fd1218b8cf1f467c644d4ce6fa5e54e6089ede65a28fbbae61f6ee7a2d462f85",
-          "sourceNormalizedSha256": "6b67131acc027a4c4c6fb0c77d69bae62c54f805980cd8b5c105d67769b2a48c"
+          "sourceSha256": "3a6965276d23be7d8da6c305bfd5d7bf29d2aef09e5dae4119463ac72022a02d",
+          "sourceNormalizedSha256": "26c99a16354e3a5530ee00874468f5f74a37b35901af84c9e4906d071a27862d"
         }
       ],
       "inventorySource": "skills/how/SKILL.md"
@@ -402,32 +416,32 @@
         {
           "source": "skills/why/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "a9423bb7bab7c3280d17478ebe97bb283ea6ed12d9dcae590fc2f81f41660990",
-          "sourceNormalizedSha256": "f548502e71e8603154d8ecfad732365c38afe7adbcf6dc6a00c455ea9ca2d7fe"
+          "sourceSha256": "222b93789754ba6ee901835137184acdca667f7e47c523bcc85aca86675fb249",
+          "sourceNormalizedSha256": "01e19b194eb5dce466386c3379bc3678f30b0ada8bfab8b10e4f615b08141507"
         },
         {
           "source": "skills/why/references/epistemics.md",
           "destination": "references/epistemics.md",
-          "sourceSha256": "ba99dcdc4fbce91a83b50fc0c9b2c5769febd95540b1722c6b87fe8f900bb60a",
-          "sourceNormalizedSha256": "6b92e184a02dd7de75753d7839422ca1159f9a5d739111121359ccf7d4da2597"
+          "sourceSha256": "fcc0f559c072832c869a5ada72434b4849320a637ae63c09e8ee14f7ad787059",
+          "sourceNormalizedSha256": "c8ed64343c95f85784b719a84d4e8728bc0999bd65ba60ce72b644dd9ddbbd28"
         },
         {
           "source": "skills/why/references/investigator-prompt.md",
           "destination": "references/investigator-prompt.md",
-          "sourceSha256": "e35d8eaea13f0a027dd35572d525e9f66e8f8918ca9e555237dc228f26278d5f",
-          "sourceNormalizedSha256": "f4d9709ef0dea1613923a0d0193008f5f0217c07e0e6e00aca2cff890302a39a"
+          "sourceSha256": "6892956a7ab0b5ee6c4babaf4f793703abe89b350ea7cb9463b4a56eea1c8266",
+          "sourceNormalizedSha256": "929b8fa76a3e705a73ebd3a38cb0fd6641a317c130cb44ff73c7668598ab89d9"
         },
         {
           "source": "skills/why/references/source-playbook.md",
           "destination": "references/source-playbook.md",
-          "sourceSha256": "3cfb0245d5b2019eeeaa7a0e023579d390f2cdcdff6942d2fe009b9efac0eb11",
-          "sourceNormalizedSha256": "2ced67cd48062f05b0a3c5c743a071a766cb8840a384fcb4f4a1fa3d41ded802"
+          "sourceSha256": "9ae9dcb9d09111c9facc68510331c5aba4aed9b1b057314ff1fc0e166ad3993a",
+          "sourceNormalizedSha256": "e445d814a535e5a7b51a95e009312d912b076bfd80cfdd11ecaa8c2b5ff8154a"
         },
         {
           "source": "skills/why/references/synthesizer-prompt.md",
           "destination": "references/synthesizer-prompt.md",
-          "sourceSha256": "fcdc69ede22f94da9e22f510bb0c4a75a63820f0b49b8d5fd54a196b4010bf2a",
-          "sourceNormalizedSha256": "fcdc69ede22f94da9e22f510bb0c4a75a63820f0b49b8d5fd54a196b4010bf2a"
+          "sourceSha256": "733a3e9cf897b1aca56aaddeae01a3832e4bfed024c2f602db2d1bf807d7a73b",
+          "sourceNormalizedSha256": "733a3e9cf897b1aca56aaddeae01a3832e4bfed024c2f602db2d1bf807d7a73b"
         },
         {
           "source": "skills/why/references/sources/code-archaeology.md",
@@ -438,38 +452,38 @@
         {
           "source": "skills/why/references/sources/databricks.md",
           "destination": "references/sources/databricks.md",
-          "sourceSha256": "269a22032f027ee30a33c1b5e30443d13dd6d127ff20d8d1e8a20715b06a69cc",
-          "sourceNormalizedSha256": "f3632f187d22f51fd9dc0a7be35584ea7a370f3aad521227106c1a1c6b666846"
+          "sourceSha256": "236ede7aab6454662a992db088a5393537a5233a4c26719c93188f9e174488f6",
+          "sourceNormalizedSha256": "cab3ca9d20288ea231d17d8b24bcafc4b446ea61276e8d5a61b467c809f52196"
         },
         {
           "source": "skills/why/references/sources/datadog.md",
           "destination": "references/sources/datadog.md",
-          "sourceSha256": "db80803f1635a5015e3190f4753c4228083e6cebf222c84e24fc3c3919aa5574",
-          "sourceNormalizedSha256": "abe8091592ac862ba4257635c0306566ef95ae7d3ad11c95b04053b0b944f00a"
+          "sourceSha256": "ebe9c07bac28e47757ee7f16fb93b0c01d427a08c501957d047f395a2f37b7e7",
+          "sourceNormalizedSha256": "3a9422489570dbe2b052056384be3809e836d566828a78b6677e51c048479de5"
         },
         {
           "source": "skills/why/references/sources/incident-postmortem.md",
           "destination": "references/sources/incident-postmortem.md",
-          "sourceSha256": "486132457d3782eea64292ce7a2d3bbe3b24b372b20ca00de4329e820f74cd42",
-          "sourceNormalizedSha256": "486132457d3782eea64292ce7a2d3bbe3b24b372b20ca00de4329e820f74cd42"
+          "sourceSha256": "a899470f05f86029630a13a2696491cc708ca7b56a6e822a69ff6e954d6ff8cf",
+          "sourceNormalizedSha256": "a899470f05f86029630a13a2696491cc708ca7b56a6e822a69ff6e954d6ff8cf"
         },
         {
           "source": "skills/why/references/sources/linear.md",
           "destination": "references/sources/linear.md",
-          "sourceSha256": "7e1b72ba459089168efd701502f8c268d2481154aeeda1ddd84f840f7e974760",
-          "sourceNormalizedSha256": "f05518323488994b1e8f0d92f585fd0cee6aa036d210cc1a86ffcf3f7995386c"
+          "sourceSha256": "01304e7f1badfcfb78babbb0edcadeb3cc8dd3f713793420cdff24ba190f907c",
+          "sourceNormalizedSha256": "dfaff76c78feab2c42d2da6cc34f0b79bee9a2b7e3bcf59668876a23eda99935"
         },
         {
           "source": "skills/why/references/sources/notion.md",
           "destination": "references/sources/notion.md",
-          "sourceSha256": "2ce336dd3052967187a56ec33d308c7a69e7ef3b04ba7b17386a8b3914a0f000",
-          "sourceNormalizedSha256": "7514f527c8d0e3e1795753aafa19afe7a5feabdf7b88a893690c6d6b8d6fb872"
+          "sourceSha256": "3bcfa695c49dfad4ac036d5d7181c12585f55ac04f1936198d16ab75a2788997",
+          "sourceNormalizedSha256": "4f2dc1f9b17436ca07a6cfa6ea669d0b612f7289a388c9cb12b678da5206ec27"
         },
         {
           "source": "skills/why/references/sources/sentry.md",
           "destination": "references/sources/sentry.md",
-          "sourceSha256": "0eef902cb0f835f7fa9bd85a8e19ba1505d05e59a0173dfe852d8d52d828266d",
-          "sourceNormalizedSha256": "e3e34993d3283099a20ce06629a0d9fc3a1bbbafe06981318d9b0271fbb6f163"
+          "sourceSha256": "6f292bc4fb1548e956f95e1900b9481abf5134254419f1cd9edec95428c82d73",
+          "sourceNormalizedSha256": "3a441a84e0a9ef35c1e5ff965840977bfe21062325045d2477c27a7cfe277233"
         }
       ],
       "inventorySource": "skills/why/SKILL.md"
@@ -482,8 +496,8 @@
         {
           "source": "skills/teach/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "0a5987b0588dc56e14bfd84d0300e2ab405abc7c5c2aa81e0d3d7c6b243db7a7",
-          "sourceNormalizedSha256": "e8f40e472178b6bf69e4573bdf9bd28e6cce17f4eaa83e3c40a4e72046c5945b"
+          "sourceSha256": "bd286e5a6290673be2cd28aef7af2ec7f1fb138e6bce156ea657368c7e7fc8a4",
+          "sourceNormalizedSha256": "3cf9d4917c8cdc3ec37865d1d800f04cdf0a75473180715a16232431f6fa1443"
         }
       ],
       "inventorySource": "skills/teach/SKILL.md"
@@ -496,8 +510,8 @@
         {
           "source": "skills/recall/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "90d290daec500f548a167bbd20d69a3a248e345c546ca847ca12967d1c99cbf3",
-          "sourceNormalizedSha256": "ba23ca0839a01a14cfdafdaf7285be0255f8462098d7c48f95291822e573a84a"
+          "sourceSha256": "d265b0e5b6dc5b89c0407f3387d24462c988e1990a37d5359735137908128c5a",
+          "sourceNormalizedSha256": "692e5df87c73fe8e294a0a569e7b53d22dfee491c85840315b6e3208548ddaf4"
         }
       ],
       "inventorySource": "skills/recall/SKILL.md"
@@ -510,8 +524,8 @@
         {
           "source": "skills/blast-radius/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "b060df3ca85803eabbce9fab53f5cc024ca8d784bdde5513c1c1a784947523f8",
-          "sourceNormalizedSha256": "c2d3e1eab20bea2a21130a88df9d586999ab2c653f0006c4a3221c0b4131ff5e"
+          "sourceSha256": "20cb2945f5fe62055166f745107274af5f19428ca033e53a9b8bc69650d3ded1",
+          "sourceNormalizedSha256": "34b0887bf888130cc83cc00156e13b973e2814689b252d3683b871faf98db371"
         }
       ],
       "inventorySource": "skills/blast-radius/SKILL.md"
@@ -524,8 +538,8 @@
         {
           "source": "skills/architect/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "9dc60bcf8d8d09000cdd88636ddb7371c576282880a8bb17993d2a1ea1900285",
-          "sourceNormalizedSha256": "543727a8440288cd10514ec51e966708ee068c3a9770ed3c4a840bfdda9f29a0"
+          "sourceSha256": "897a59beaa3cab107d98c256206e062cc4a5e9421a45b9d462fbded19291fea5",
+          "sourceNormalizedSha256": "7820a6a9601fa3f1ac7e051bcad437cb052e46b4fd5be1a8972e174aa88269de"
         },
         {
           "source": "skills/architect/references/design-red-flags.md",
@@ -536,14 +550,14 @@
         {
           "source": "skills/architect/references/rationale-template.md",
           "destination": "references/rationale-template.md",
-          "sourceSha256": "6645a0e5f68c003298ec95b85a23262bdda0c79f998b926060169b54d9f23fbb",
-          "sourceNormalizedSha256": "9b73092589c6a3091eb9986fba27738801e917c05fc23a6c2aabed4bf929c5a9"
+          "sourceSha256": "0cedfccdc7b47fc881febd5a8293eecbc542c20f8df825639904a8102d2eb5d3",
+          "sourceNormalizedSha256": "ab196d726f4ecd879952623d2cf7667a83440141bc301f747f03433c1da8b085"
         },
         {
           "source": "skills/architect/references/runner-prompt.md",
           "destination": "references/runner-prompt.md",
-          "sourceSha256": "3ef8c1452a0382a15b7601c7c94f2a16a00954170d705b7af8cc49ac78080ec9",
-          "sourceNormalizedSha256": "3ef8c1452a0382a15b7601c7c94f2a16a00954170d705b7af8cc49ac78080ec9"
+          "sourceSha256": "983bf2820cc14ed8ecab6e448e1033e5cfe6031967d0a9287b48c7fa9c33d925",
+          "sourceNormalizedSha256": "983bf2820cc14ed8ecab6e448e1033e5cfe6031967d0a9287b48c7fa9c33d925"
         }
       ],
       "inventorySource": "skills/architect/SKILL.md"
@@ -556,8 +570,8 @@
         {
           "source": "skills/arena/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "c090878efc50d71605e8be518d12e71d00b451b76c2fd38ea9e0bb2a3e2f6cda",
-          "sourceNormalizedSha256": "08d249f7981acfa5f7c0922a161ee514c0b38e91d29ec241a2aee6529fbce85c"
+          "sourceSha256": "8d431f7b1aa19daf6300366fc876c4d1aadac06417ec5502407345ffaf4e90d9",
+          "sourceNormalizedSha256": "2436b70bbb4fb60100c8bdbb018bbb6fef05250a8c78714581d5a2194b4f6da5"
         }
       ],
       "inventorySource": "skills/arena/SKILL.md"
@@ -570,20 +584,20 @@
         {
           "source": "skills/interrogate/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "c9a42c706a84cab50d3cf1c7cf91149bac2e0d2ad24da2b8ff518ea0918ae3bb",
-          "sourceNormalizedSha256": "335ccaef4db03850fbc8d84c7d2ffc6c709c96110c750c6c8f551fdfc2ca2771"
+          "sourceSha256": "2867910309e81411123ae4edca68ffca5795e66521d3f3bc0876f6213b542fb9",
+          "sourceNormalizedSha256": "f1c44e3527edc9e4e8a4dc72c3fd04a7dd8a7e45006ce29aeecaee8695fdcdcb"
         },
         {
           "source": "skills/interrogate/references/code-quality-review.md",
           "destination": "references/code-quality-review.md",
-          "sourceSha256": "2462f1347b99b412b04fcb0577b96d8744c801f792f2651746f9409fd4465dc9",
-          "sourceNormalizedSha256": "2462f1347b99b412b04fcb0577b96d8744c801f792f2651746f9409fd4465dc9"
+          "sourceSha256": "623d3d8122d075c303b562783b471a732992e84166b318f85ab6d6c118b13304",
+          "sourceNormalizedSha256": "623d3d8122d075c303b562783b471a732992e84166b318f85ab6d6c118b13304"
         },
         {
           "source": "skills/interrogate/references/lead-judgment.md",
           "destination": "references/lead-judgment.md",
-          "sourceSha256": "d2cea6cc308758201c6b8b82baf780947645f1ab752707ddf97fab374bf473f9",
-          "sourceNormalizedSha256": "2bf0f3c41ae8f57c7df2ff2b97afceb652f251a392acbc87432364e0646336eb"
+          "sourceSha256": "6e5bdf5670eb34017692e9b6c546f36ac7552e6bb9f3f2f3429164fcc46a9361",
+          "sourceNormalizedSha256": "4f854be03410241ce402849acdfa4ec5fdfe0103e71f1eabe1c10cbdf7652d44"
         },
         {
           "source": "skills/interrogate/references/reviewer-prompt.md",
@@ -594,8 +608,8 @@
         {
           "source": "skills/interrogate/references/rubric.md",
           "destination": "references/rubric.md",
-          "sourceSha256": "a67bf02426f88714634ff481d667db821d4b2cea7b335bcd165fe3126e427fb5",
-          "sourceNormalizedSha256": "a67bf02426f88714634ff481d667db821d4b2cea7b335bcd165fe3126e427fb5"
+          "sourceSha256": "59e9b7cc4556e735e1b859a7dd1f7637b013a2426a84825ac1c51979942c158a",
+          "sourceNormalizedSha256": "59e9b7cc4556e735e1b859a7dd1f7637b013a2426a84825ac1c51979942c158a"
         }
       ],
       "inventorySource": "skills/interrogate/SKILL.md"
@@ -608,8 +622,8 @@
         {
           "source": "skills/swarm/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "8e6494e296af5496cacb0fb83f33f647c84286d2e1d1b85580bc0f0f577a81cd",
-          "sourceNormalizedSha256": "862ebab0dc5e37ab0d139b2cfbd1aa24c1639fa4bb9682b0fe8e8c0f6b9fead0"
+          "sourceSha256": "d578d877c3b8b9de7163f52579c4683337a940acc0fbe4496a498f5d3b27df30",
+          "sourceNormalizedSha256": "bdde657d17b9d0266ba6e206fdc24a0dbfbbf1a719f3418194fff8d88cd8ecf9"
         }
       ],
       "inventorySource": "skills/swarm/SKILL.md"
@@ -622,8 +636,8 @@
         {
           "source": "skills/no-comments/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "72d3b153712ab641875f1d7424de0f77375af1cec03707935f08fa7d8f17bbf3",
-          "sourceNormalizedSha256": "965c81f1d24d0fb87890c3463b76a939114a5f67251065dc31e9f2a8960d7033"
+          "sourceSha256": "5c5b0882297d704c3a9720c52b7a793c68b013eaf717989f0945624efdfe2b05",
+          "sourceNormalizedSha256": "b27b7f99daf0643774cb37c4d52f047899099f7372ce2846922810c2b81aa534"
         },
         {
           "source": "agents/comment-sicko.md",
@@ -642,8 +656,8 @@
         {
           "source": "skills/show-me-your-work/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "b99833c41a8781a6af191487f1af37711a3198b98f9373e3c02292b8a6e09aba",
-          "sourceNormalizedSha256": "d00d6243311491e3560781822bb34d26e685f00d953da0de86f36b60ab89c3c0"
+          "sourceSha256": "831e85ba3f84f38bf338cd03e6af050fea357752e25a825e334c99f59d7f2077",
+          "sourceNormalizedSha256": "15d5d12c3cdabc3178bb643d8ac795786c8773b38d0f78ae5046f6987f74e963"
         },
         {
           "source": "skills/show-me-your-work/references/decision-log-template.tsv",
@@ -713,8 +727,8 @@
         {
           "source": "skills/automate-me/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "34e7eab6f495093d474817bc4c13f26bcf5fafa439f2761b8c1ec72b07487764",
-          "sourceNormalizedSha256": "b2b225ae0da837c2a57d3b7f3d14e53b25fbfb96c5918347a1657f3184cbfd0f"
+          "sourceSha256": "1510979b0b71b54284427a19c09918f8b1fdfc168f9b7f9e30098793a5ec88ef",
+          "sourceNormalizedSha256": "74a541578e56e23134bd4b239e6d3251729ba5e327acd75357f97d84bd3d9e68"
         }
       ],
       "inventorySource": "skills/automate-me/SKILL.md"
@@ -727,32 +741,32 @@
         {
           "source": "skills/reflect/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "5c0fd61b383a2cf98dfd597544c6fc0fdd6eb90802f1ada4f92fa0762c323ebc",
-          "sourceNormalizedSha256": "af59ea311a8ac2a83db94ef0c2a09fc6494b73fd3d9b32ab6cf449632751899a"
+          "sourceSha256": "6a4d4ccaace9ce88c3e268fcbedf3cfd40e527162a5e5aad6de8edbaf5e2b83f",
+          "sourceNormalizedSha256": "ed433ddf978b10618203426314575200cba339fa18745f2f5e5f82daab310ba7"
         },
         {
           "source": "skills/reflect/references/divergent-reviewer.md",
           "destination": "references/divergent-reviewer.md",
-          "sourceSha256": "823167d485c8fc424530ac4eff447f132a10e318a2db35380312c7e843f17683",
-          "sourceNormalizedSha256": "9af0d67847c04f495bcb5a5d6bf86fa1aad0da10afeacecdc2843782cbaa6085"
+          "sourceSha256": "7da0334ce282e6d8d7349c0cff14ffbd10a91a756c0b5c3ccc97291f57b8bed6",
+          "sourceNormalizedSha256": "8db3395c71a84dcf848d3056d1642ca4fb6d29a0934551bbc0bb430024f598c6"
         },
         {
           "source": "skills/reflect/references/judgment-reviewer.md",
           "destination": "references/judgment-reviewer.md",
-          "sourceSha256": "8db7a315ccf9280486b4df08b1277ba0fe4c4ac533ad3719945aa1aab2ebddea",
-          "sourceNormalizedSha256": "65c24270ad68e79194bd15f4048ea4201062a3ab0bfa17f97e853774a8bc30d0"
+          "sourceSha256": "917bb2ad21240a42b440aeb2a17766092e09f70d0982417b2f4caa6d74f27164",
+          "sourceNormalizedSha256": "ddc952521e5bf5386db2fd23e2ab44318dd55a5188fecf8fc8b9481f79fa9870"
         },
         {
           "source": "skills/reflect/references/synthesizer.md",
           "destination": "references/synthesizer.md",
-          "sourceSha256": "52767b4566c37df0adc6350fff1c5c7a919a1178c2be539e0efbf920f2803702",
-          "sourceNormalizedSha256": "1999c23f44d431db664e0f028d1b287a1df80ba472208c7795a6471aa1677732"
+          "sourceSha256": "2f76c847eb45b182dc6fbcbf7d96c8ee7e2986ecfd9e0d640fec44e3cc5a617c",
+          "sourceNormalizedSha256": "0f220b609dc304ff1df385bc48273e2110a63d6b6d229411c6de4e34169e991c"
         },
         {
           "source": "skills/reflect/references/tooling-reviewer.md",
           "destination": "references/tooling-reviewer.md",
-          "sourceSha256": "3a4dc9e87d0d74b46d0d0bc2c1af6acba10be7c95d1adafeab6ec5701e247933",
-          "sourceNormalizedSha256": "9523ffdf8aa3c8191add7fb6f5890fe402f256092675fb00c9f99bbc68b87999"
+          "sourceSha256": "8c74ebf7811801d634db7ab609b097d77ea00ab77bb4b258d69bd96e671cfa39",
+          "sourceNormalizedSha256": "159fac22a08f10cd11dc7ecb605cbf4e92fceee966f53059f2e60c685610fedd"
         }
       ],
       "inventorySource": "skills/reflect/SKILL.md"
@@ -765,8 +779,8 @@
         {
           "source": "skills/figure-it-out/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "548616d04909de854f36869af2af127ce321fc6aaf95ea5a626997709fd46a2a",
-          "sourceNormalizedSha256": "1d8504692d985724612780602c7e813045fc219286c3fb044619822607519e6b"
+          "sourceSha256": "e041c64a39f1084a20e60ee99762c4dbd3ec8be56ed33fd68ea867b8bd8bd3e4",
+          "sourceNormalizedSha256": "441c31c931f463db99a41e4e3264a04a7e714c71e2af15da663cf866fca5f147"
         }
       ],
       "inventorySource": "skills/figure-it-out/SKILL.md"
@@ -778,8 +792,8 @@
         {
           "source": "skills/setup-pstack/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "6ed4840c3005fd455e347d2a97d7fc271df7e21ecadf3298a7e2b3d46dc58701",
-          "sourceNormalizedSha256": "7ede443b601055786dd406ec952d2fa2944b98b500b8785208c15317d7b1a0d8"
+          "sourceSha256": "5acdc3db4f15f3e9b81fb56eab7f17cdccde1a11a40053ed7743f7467729c8a9",
+          "sourceNormalizedSha256": "a255100961b15983adfc6cde69395e08e758a926fae92662f6fd17ca446d600b"
         }
       ],
       "inventorySource": "skills/setup-pstack/SKILL.md"
@@ -793,104 +807,104 @@
         {
           "source": "skills/poteto-mode/SKILL.md",
           "destination": "SKILL.md",
-          "sourceSha256": "7c4ba1987c39044947946f7cf8399acfcea156672e5ad92bbaacb448830ca954",
-          "sourceNormalizedSha256": "ed409a1f7f75ba3863bd65600232f86627b196e0d432e47c9c10a8af5298a023"
+          "sourceSha256": "dc166350bc3bb3b9a061930380e971b3ca8c9f55822c52d7249b92b43f5cb865",
+          "sourceNormalizedSha256": "51b5c189cb5602a71e54db0fa24843c1434bcce44650164b754d7c6c89c421bb"
         },
         {
           "source": "skills/poteto-mode/playbooks/authoring-a-skill.md",
           "destination": "playbooks/authoring-a-skill.md",
-          "sourceSha256": "5479e2b3914acccbafd70f8be56520e1774775d9527f79ac255fd31ec554538a",
-          "sourceNormalizedSha256": "5479e2b3914acccbafd70f8be56520e1774775d9527f79ac255fd31ec554538a"
+          "sourceSha256": "f6a13a445c360b48d6cd72780ac01955f45b82826476efe0e67c7559329407aa",
+          "sourceNormalizedSha256": "f6a13a445c360b48d6cd72780ac01955f45b82826476efe0e67c7559329407aa"
         },
         {
           "source": "skills/poteto-mode/playbooks/autonomous-run.md",
           "destination": "playbooks/autonomous-run.md",
-          "sourceSha256": "e4d9e2fc9195dbc521131021c23c6c53d66390048ca3e58be79bdb3d47b9d737",
-          "sourceNormalizedSha256": "e4d9e2fc9195dbc521131021c23c6c53d66390048ca3e58be79bdb3d47b9d737"
+          "sourceSha256": "15e54ad3ac92565613980772d8708de6e19cc4690bfd4bb3fb8836522407377b",
+          "sourceNormalizedSha256": "15e54ad3ac92565613980772d8708de6e19cc4690bfd4bb3fb8836522407377b"
         },
         {
           "source": "skills/poteto-mode/playbooks/bug-fix.md",
           "destination": "playbooks/bug-fix.md",
-          "sourceSha256": "283bd4013dc13bba1b80844b0aec9e078b9c175dcaa8fed14a08566856346515",
-          "sourceNormalizedSha256": "a74629dcd384d0683f05b543761d055d6a6730ddf9f9226a1d48d3673464205b"
+          "sourceSha256": "e958c67d5454fc12d76ec645b50dfd85c423082aac13a49e2913ef2815948216",
+          "sourceNormalizedSha256": "5be67b75b1b743bf662194606446178f46569a94c41b2c1ed96f3c5fafa0ea24"
         },
         {
           "source": "skills/poteto-mode/playbooks/eval.md",
           "destination": "playbooks/eval.md",
-          "sourceSha256": "4881699e688353f7f5c64ae6f4db20fe96bf7267b2a77ce5a6198d2abf218ed3",
-          "sourceNormalizedSha256": "4881699e688353f7f5c64ae6f4db20fe96bf7267b2a77ce5a6198d2abf218ed3"
+          "sourceSha256": "b862bfa2fae2399abf047a8e80d3e3dddb64003af96fb1cebb625216131e36bb",
+          "sourceNormalizedSha256": "b862bfa2fae2399abf047a8e80d3e3dddb64003af96fb1cebb625216131e36bb"
         },
         {
           "source": "skills/poteto-mode/playbooks/feature.md",
           "destination": "playbooks/feature.md",
-          "sourceSha256": "a2a04c2e4b273c0c33e4e3a22940049b60b917b064202e39bd34018356aa0926",
-          "sourceNormalizedSha256": "a2a04c2e4b273c0c33e4e3a22940049b60b917b064202e39bd34018356aa0926"
+          "sourceSha256": "430dae0fd736554ff7dffc3ef0644c9f0c845e25742f69e598c35b9b89660301",
+          "sourceNormalizedSha256": "430dae0fd736554ff7dffc3ef0644c9f0c845e25742f69e598c35b9b89660301"
         },
         {
           "source": "skills/poteto-mode/playbooks/hillclimb.md",
           "destination": "playbooks/hillclimb.md",
-          "sourceSha256": "12f8f7a08098f0b5b3e5b61c98fadde8609bf05554b4d73efdd696cdb4e83f10",
-          "sourceNormalizedSha256": "e43e1f9afd6c7b44bcdd4d6b4b38c9ccaaffa54cffd68c01235b1a1af57594b6"
+          "sourceSha256": "bc1fc4052c1ee918a56115a219cbcbbc4c147fa1a8080e77c7d58068eecac299",
+          "sourceNormalizedSha256": "417eb9cd4449a0d48baa99d8ef9738b03bd4790d1c79d75714022ad9e18b8d97"
         },
         {
           "source": "skills/poteto-mode/playbooks/investigation.md",
           "destination": "playbooks/investigation.md",
-          "sourceSha256": "bb28bfe2912511dbb777057326a8ccff3ef279d219e52271dcb5b10f68a38b5b",
-          "sourceNormalizedSha256": "bb28bfe2912511dbb777057326a8ccff3ef279d219e52271dcb5b10f68a38b5b"
+          "sourceSha256": "dc66bcf6af3a074fc7f67aa5e12b93ef571a4fb4d8e17f2f1af5ae5359f42e46",
+          "sourceNormalizedSha256": "dc66bcf6af3a074fc7f67aa5e12b93ef571a4fb4d8e17f2f1af5ae5359f42e46"
         },
         {
           "source": "skills/poteto-mode/playbooks/pause-safely.md",
           "destination": "playbooks/pause-safely.md",
-          "sourceSha256": "5a34883f8daa41596c0f69387f60c083fa826f90004e14952b8c831651a69b3c",
-          "sourceNormalizedSha256": "5a34883f8daa41596c0f69387f60c083fa826f90004e14952b8c831651a69b3c"
+          "sourceSha256": "7d5fc10e144265f1b35f8157926541e738c1de64b6a85b3e61b51cf268c3dffd",
+          "sourceNormalizedSha256": "7d5fc10e144265f1b35f8157926541e738c1de64b6a85b3e61b51cf268c3dffd"
         },
         {
           "source": "skills/poteto-mode/playbooks/perf-issue.md",
           "destination": "playbooks/perf-issue.md",
-          "sourceSha256": "3c1e7a4d7d273e6160cc4cfab58db3b7cef9e2a6099930012eed1c90e8c3de16",
-          "sourceNormalizedSha256": "83b006699a4eaf419993930bdc97ef79467bc8b9e2edee9d313f01657463adf6"
+          "sourceSha256": "b2ee9aed1466583361cb61b4e8d79ebb3b61f7f9f6540be7633852afacab1d89",
+          "sourceNormalizedSha256": "b2ee9aed1466583361cb61b4e8d79ebb3b61f7f9f6540be7633852afacab1d89"
         },
         {
           "source": "skills/poteto-mode/playbooks/prototype.md",
           "destination": "playbooks/prototype.md",
-          "sourceSha256": "0e539b57aa33deb09472e10ccab2a20cd166a86bea94c50e0b8be39e41164d33",
-          "sourceNormalizedSha256": "0e539b57aa33deb09472e10ccab2a20cd166a86bea94c50e0b8be39e41164d33"
+          "sourceSha256": "7aa1f52c691c3d46d5afc527b23f90977fce869ce33573c73c81a4c7f0cde962",
+          "sourceNormalizedSha256": "7aa1f52c691c3d46d5afc527b23f90977fce869ce33573c73c81a4c7f0cde962"
         },
         {
           "source": "skills/poteto-mode/playbooks/refactoring.md",
           "destination": "playbooks/refactoring.md",
-          "sourceSha256": "437b86120a8044e85aabf77933d03ab8862d0b3635b0aece69cc3b98914ee7a4",
-          "sourceNormalizedSha256": "437b86120a8044e85aabf77933d03ab8862d0b3635b0aece69cc3b98914ee7a4"
+          "sourceSha256": "53bac1f1fe886600dd1991b5511b7975e6a206168038f9d282d88e45408e93cf",
+          "sourceNormalizedSha256": "53bac1f1fe886600dd1991b5511b7975e6a206168038f9d282d88e45408e93cf"
         },
         {
           "source": "skills/poteto-mode/playbooks/runtime-forensics.md",
           "destination": "playbooks/runtime-forensics.md",
-          "sourceSha256": "96ac9a3a368e6a31d8a7aa56055e6f7f75e8e773c21b65c0f941c26403c8d105",
-          "sourceNormalizedSha256": "96ac9a3a368e6a31d8a7aa56055e6f7f75e8e773c21b65c0f941c26403c8d105"
+          "sourceSha256": "594f02c40c243a346e1f57b688ecf2ed5e882f21b3d24ed2204d1ac6f1c24a8a",
+          "sourceNormalizedSha256": "594f02c40c243a346e1f57b688ecf2ed5e882f21b3d24ed2204d1ac6f1c24a8a"
         },
         {
           "source": "skills/poteto-mode/playbooks/session-pickup.md",
           "destination": "playbooks/session-pickup.md",
-          "sourceSha256": "c1a4aa69e32e2950fb66f7351b5cea7bbf8acff9c2aed4a4623585ed688fbf1e",
-          "sourceNormalizedSha256": "c1a4aa69e32e2950fb66f7351b5cea7bbf8acff9c2aed4a4623585ed688fbf1e"
+          "sourceSha256": "1604fb463f7c7410d43fa024ca76c1c1824c166a01fd69d61f073d06fdca2a47",
+          "sourceNormalizedSha256": "1604fb463f7c7410d43fa024ca76c1c1824c166a01fd69d61f073d06fdca2a47"
         },
         {
           "source": "skills/poteto-mode/playbooks/trace-forensics.md",
           "destination": "playbooks/trace-forensics.md",
-          "sourceSha256": "fcae1f68f349072a8b2518f09b73dedeb826192d2ec33befb8906f42292e38be",
-          "sourceNormalizedSha256": "fcae1f68f349072a8b2518f09b73dedeb826192d2ec33befb8906f42292e38be"
+          "sourceSha256": "137ce3984fb96e45971fdff4d3c79fa4ccc647c5b30ae4945783b9fb23f8cec7",
+          "sourceNormalizedSha256": "137ce3984fb96e45971fdff4d3c79fa4ccc647c5b30ae4945783b9fb23f8cec7"
         },
         {
           "source": "skills/poteto-mode/playbooks/visual-parity.md",
           "destination": "playbooks/visual-parity.md",
-          "sourceSha256": "33165e74665bf8ddec181598c2b21b4a1cd310b1adf23742af90ac0d10652b39",
-          "sourceNormalizedSha256": "33165e74665bf8ddec181598c2b21b4a1cd310b1adf23742af90ac0d10652b39"
+          "sourceSha256": "950ca51999a6454c98eee6bcbc3d1bbe501a4e3a5d5439b6f6ddc378991b256c",
+          "sourceNormalizedSha256": "950ca51999a6454c98eee6bcbc3d1bbe501a4e3a5d5439b6f6ddc378991b256c"
         },
         {
           "source": "skills/poteto-mode/playbooks/worktree-cleanup.md",
           "destination": "playbooks/worktree-cleanup.md",
-          "sourceSha256": "b3a3b23f23972c6db490edc0403a0d717990871308fd57d69bb8438725df5dce",
-          "sourceNormalizedSha256": "b3a3b23f23972c6db490edc0403a0d717990871308fd57d69bb8438725df5dce"
+          "sourceSha256": "fc464dc4121926df1704f483c5feca83717c0a40b4651d3e11bd3aedd89441b6",
+          "sourceNormalizedSha256": "fc464dc4121926df1704f483c5feca83717c0a40b4651d3e11bd3aedd89441b6"
         }
       ],
       "inventorySource": "skills/poteto-mode/SKILL.md"
@@ -903,8 +917,8 @@
         {
           "source": "skills/poteto-mode/playbooks/worktree-cleanup.md",
           "destination": "SKILL.md",
-          "sourceSha256": "b3a3b23f23972c6db490edc0403a0d717990871308fd57d69bb8438725df5dce",
-          "sourceNormalizedSha256": "b3a3b23f23972c6db490edc0403a0d717990871308fd57d69bb8438725df5dce"
+          "sourceSha256": "fc464dc4121926df1704f483c5feca83717c0a40b4651d3e11bd3aedd89441b6",
+          "sourceNormalizedSha256": "fc464dc4121926df1704f483c5feca83717c0a40b4651d3e11bd3aedd89441b6"
         },
         {
           "source": "skills/poteto-mode/scripts/worktree-audit.sh",

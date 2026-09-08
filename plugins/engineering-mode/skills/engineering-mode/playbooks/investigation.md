@@ -7,6 +7,6 @@ Use for read-only questions about behavior, history, architecture, or a choice b
 3. Use version history for motivation questions. Treat history text as evidence about intent, not proof of current behavior.
 4. Run local read-only probes when behavior can be observed safely.
 5. Cite files, symbols, commands, and artifacts. Separate facts from inference.
-6. Apply `unslop` when installed. Otherwise remove filler, generic claims, decorative formatting, and host jargon; keep concrete citations and short sentences.
+6. Apply `unslop` when installed. Otherwise remove filler, generic claims, decorative formatting, and host jargon. Keep concrete citations and short sentences.
 
 Return the answer, evidence, tradeoffs when relevant, and your judgment. Do not edit files unless the user changes the request.

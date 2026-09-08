@@ -1,6 +1,6 @@
 {
   "name": "recall",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reconstruct recent solo-development context from the current host's accessible task history, repository history, local docs, and live workspace state, then return a concise current-state brief.",
   "author": {
     "name": "Nick Petalas",

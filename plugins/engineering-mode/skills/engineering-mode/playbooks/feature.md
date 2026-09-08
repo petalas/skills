@@ -10,4 +10,4 @@ Use for new or changed behavior.
 6. Verify each unit before starting the next. Use the real user surface for behavior and focused tests for branch coverage.
 7. Run repository-required validation. If a design remains contested, run an independent adversarial review.
 
-Return what changed for the user, the chosen shape and alternatives, changed files, proof, and open decisions.
+Return what changed for the user, the chosen shape and alternatives, the throughput checkpoint, changed files, proof, and open decisions.

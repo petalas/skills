@@ -8,13 +8,7 @@ Start with the question you need answered. [`how`](../../plugins/how/README.md) 
 Use how to trace notification deduplication from the request entry point to the stored record. Check whether subscriber lookup repeats per recipient.
 ```
 
-For a narrow symbol, one agent can follow callers, types, state changes, and outputs. For a subsystem, `how` can assign independent read-only lanes to internal subagents and then resolve their findings against the code.
-
-Ask for critique only when you want structural judgment:
-
-```text
-Explain the sync service first, then critique its ownership boundaries. Do not edit anything.
-```
+For a narrow symbol, one agent can follow callers, types, state changes, and outputs. For a subsystem, `how` can assign independent read-only lanes to internal subagents and then resolve their findings against the code. `how` explains and does not critique. Use [`adversarial-review`](../../plugins/adversarial-review/README.md) when you want a structural judgment of a design.
 
 ## Investigate intent with `why`
 

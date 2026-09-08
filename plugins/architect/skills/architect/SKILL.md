@@ -1,6 +1,6 @@
 ---
 name: architect
-version: 0.1.0
+version: 0.1.1
 disable-model-invocation: true
 description: "Design non-trivial code from caller usage, types, signatures, and module boundaries before implementation, then implement against the chosen sketch when the request authorizes it."
 ---

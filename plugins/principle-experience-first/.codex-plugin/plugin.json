@@ -1,6 +1,6 @@
 {
   "name": "principle-experience-first",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Apply when product, UX, or feature-scope tradeoffs come up. Choose user delight over implementation convenience; ship fewer polished features over more rough ones.",
   "author": {
     "name": "Nick Petalas",

@@ -1,6 +1,6 @@
 {
   "name": "principle-sequence-verifiable-units",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Apply to multi-step work such as sweeps, migrations, and runs of similar edits. Break work into small units that each end in a verifiable state, check each before the next, and order authorized delivery so the sequence proves itself.",
   "author": {
     "name": "Nick Petalas",

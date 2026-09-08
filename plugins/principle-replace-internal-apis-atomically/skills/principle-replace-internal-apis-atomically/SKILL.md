@@ -1,6 +1,6 @@
 ---
 name: principle-replace-internal-apis-atomically
-version: 0.1.0
+version: 0.1.1
 disable-model-invocation: true
 description: "Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserving compatibility layers."
 ---
@@ -11,7 +11,7 @@ When we decide a new API is the right design, migrate callers and remove the old
 
 **Rule:**
 
-- Do not keep legacy API paths alive only because internal callers still exist
+- Do not keep legacy API paths only because internal callers still exist
 - Inventory callers, migrate them, and delete the old API immediately
 - Treat temporary adapters as exceptional and time-boxed, not default architecture
 - Update tests to assert the new contract, and delete tests that only protect pre-refactor implementation details

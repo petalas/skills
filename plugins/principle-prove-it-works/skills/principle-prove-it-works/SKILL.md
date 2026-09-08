@@ -1,6 +1,6 @@
 ---
 name: principle-prove-it-works
-version: 0.2.0
+version: 0.2.1
 disable-model-invocation: true
 description: "Apply after completing a task, before declaring done. Verify against the real artifact (run the feature, read the actual value, inspect the diff), not a proxy, self-report, or 'it compiles.'"
 ---
@@ -27,11 +27,11 @@ Code and features:
 4. For integrations, test the full communication path end-to-end
 
 Delegation: trust artifacts, not self-reports.
-When verifying delegated work, inspect the actual output artifact (git diff, file contents, runtime behavior), not the delegate's summary. Agents report what they intended, not always what happened.
+When verifying delegated work, inspect the actual output artifact (git diff, file contents, runtime behavior), not the delegate's summary.
 Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Delegates report internally and never send messages, comments, replies, email, or chat posts to people.
 
 ## Script the check when you can
 
-The strongest proof is a deterministic script that re-runs the same comparison, not a one-time eyeball. Write the script, run it, and keep its output as an artifact a reviewer can re-run instead of trusting your word. A script comparing the old and new compiled output catches what a glance misses.
+The strongest proof is a deterministic script that re-runs the same comparison, not a one-time eyeball. Write the script, run it, and keep its output as an artifact a reviewer can re-run instead of trusting your word.
 
-Keep the artifact visible for the user. Most work just needs it in the worktree, not committed. For large or complex work where the trail must remain auditable, commit the artifact only when the user or invoking workflow explicitly authorizes a commit. If `$commit-guidelines` is available, apply it; otherwise inspect the exact commit diff, preserve unrelated work, run repository checks, use the repository's commit-message convention, and never add AI attribution.
+Keep the artifact visible for the user. For large or complex work where the trail must remain auditable, commit the artifact only when the user or invoking workflow explicitly authorizes a commit. If `$commit-guidelines` is available, apply it; otherwise inspect the exact commit diff, preserve unrelated work, run repository checks, use the repository's commit-message convention, and never add AI attribution.

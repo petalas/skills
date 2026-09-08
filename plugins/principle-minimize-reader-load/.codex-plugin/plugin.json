@@ -1,6 +1,6 @@
 {
   "name": "principle-minimize-reader-load",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Apply when reviewing or shaping code that's hard to trace. Count layers between question and answer, and hidden state in the reader's head; collapse one-caller wrappers and shrink mutable scope.",
   "author": {
     "name": "Nick Petalas",

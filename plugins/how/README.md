@@ -1,6 +1,6 @@
 # how
 
-Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Optionally add a read-only architectural critique. Use why for historical motivation.
+Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Use why for historical motivation.
 
 ## Install
 

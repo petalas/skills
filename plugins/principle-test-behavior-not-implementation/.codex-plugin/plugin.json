@@ -1,0 +1,27 @@
+{
+  "name": "principle-test-behavior-not-implementation",
+  "version": "0.1.0",
+  "description": "Apply when you write, change, or keep a test. Call the code the way its users do and assert the result they observe against a literal expected value. If the test would still pass when every imported function returns undefined, rewrite the assertion or delete the test.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "principle-test-behavior-not-implementation"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "principle-test-behavior-not-implementation",
+    "shortDescription": "Apply when you write, change, or keep a test. Call the code the way its users do and assert the result they observe against a literal expected value. If the test would still pass when every imported function returns undefined, rewrite the assertion or delete the test.",
+    "longDescription": "Apply when you write, change, or keep a test. Call the code the way its users do and assert the result they observe against a literal expected value. If the test would still pass when every imported function returns undefined, rewrite the assertion or delete the test.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $principle-test-behavior-not-implementation for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

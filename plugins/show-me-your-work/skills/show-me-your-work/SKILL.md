@@ -1,13 +1,13 @@
 ---
 name: show-me-your-work
-version: 0.2.0
+version: 0.2.1
 disable-model-invocation: true
 description: Keep a local, reviewable TSV decision trail for long-running, unattended, or multi-phase work.
 ---
 
 # Show me your work
 
-Keep one append-only decision log for work the user will review later. The log must let a cold reader reconstruct what changed, why it changed, what evidence supported it, and what happened next.
+Keep one append-only decision log for work the user will review later.
 
 ## Start the trail
 
@@ -37,7 +37,7 @@ Before handoff, compare every row with the actual run. Use the active conversati
 - Remove invented or aspirational rows.
 - Resolve every evidence pointer and confirm it proves the claim.
 - Add missing pivots, abandoned approaches, or failed checks that shaped the result.
-- Remove padding that does not help the user audit the run.
+- Remove padding.
 
 Ask an independent subagent to inspect the trail and the available run record. The reviewer flags weak evidence, skipped verification, risky choices, and gaps. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Agents must not post, send, reply, or comment through any external service. The parent agent owns the final report and presents the findings only to the user in the current conversation.
 
@@ -45,6 +45,6 @@ End the handoff with an `Attention` section. Name the review capability used, th
 
 ## Reading the trail
 
-Read it top to bottom and follow the evidence pointers. A row with missing evidence or an unverified result is a surfaced gap, not a pass. In a shell, `column -s$'\t' -t decisions.tsv` renders it as a table.
+Read it top to bottom and follow the evidence pointers. In a shell, `column -s$'\t' -t decisions.tsv` renders it as a table.
 
 Other skills should route audit logging here instead of duplicating this format.

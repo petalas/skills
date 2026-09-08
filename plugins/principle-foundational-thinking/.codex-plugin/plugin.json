@@ -1,6 +1,6 @@
 {
   "name": "principle-foundational-thinking",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Apply before writing logic: choosing core types and data structures, sequencing scaffold-vs-feature work, asking what concurrent actors share. Get the data structures right so downstream code becomes obvious.",
   "author": {
     "name": "Nick Petalas",

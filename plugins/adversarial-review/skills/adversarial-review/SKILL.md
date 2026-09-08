@@ -1,6 +1,6 @@
 ---
 name: adversarial-review
-version: 0.1.0
+version: 0.1.1
 disable-model-invocation: true
 description: "Run independent read-only reviewers against the same code and intent, then apply lead judgment to surface high-confidence blind spots without changing the code."
 ---

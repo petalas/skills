@@ -1,15 +1,15 @@
 ---
 name: principle-guard-the-context-window
-version: 0.2.0
+version: 0.2.1
 disable-model-invocation: true
 description: "Apply when context is filling up: large outputs, long files, repeated reads, fan-out planning. Route bulk to subagents; keep summaries in the main thread, not raw payloads."
 ---
 
 # Guard the Context Window
 
-The context window is finite and non-renewable within a session. Every token that enters should earn its place.
+The context window is finite and non-renewable within a session. Every token should be worth its cost.
 
-**Why:** Context overflow degrades reasoning quality, creates compression artifacts, and halts progress. Unlike compute or time, context spent inside a session cannot be reclaimed.
+**Why:** Context overflow degrades reasoning quality, creates compression artifacts, and halts progress.
 
 **Pattern:**
 

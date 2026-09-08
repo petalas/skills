@@ -1,6 +1,6 @@
 ---
 name: recall
-version: 0.1.0
+version: 0.1.1
 disable-model-invocation: true
 description: "Reconstruct recent solo-development context from the current host's accessible task history, repository history, local docs, and live workspace state, then return a concise current-state brief."
 ---
@@ -41,7 +41,7 @@ Read-only remote repository views may be used to verify an already surfaced bran
 
 ## 4. Verify live state
 
-History is not current truth. Confirm referenced paths, branches, commits, worktree changes, tests, and generated artifacts in the active workspace. When history and live state disagree, lead with live state and explain the discrepancy.
+Confirm referenced paths, branches, commits, worktree changes, tests, and generated artifacts in the active workspace. When history and live state disagree, lead with live state and explain the discrepancy.
 
 ## Output contract
 

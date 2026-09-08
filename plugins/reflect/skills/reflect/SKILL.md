@@ -1,6 +1,6 @@
 ---
 name: reflect
-version: 0.2.0
+version: 0.2.1
 disable-model-invocation: true
 description: Review the active session through independent lenses and propose durable skill improvements for user approval.
 ---
@@ -13,7 +13,7 @@ Subagents may communicate with each other, but no agent may communicate with a p
 
 ## When to use
 
-Use this skill when the user says `reflect`, when a complex workflow produced a reusable technique, when the agent recovered from dead ends, or when the user corrected the approach. Skip trivial sessions and one-off facts.
+Use this skill when the user says `reflect`. Skip trivial sessions and one-off facts.
 
 ## 1. Capture the active session
 

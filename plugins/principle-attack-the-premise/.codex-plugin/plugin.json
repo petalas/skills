@@ -1,0 +1,27 @@
+{
+  "name": "principle-attack-the-premise",
+  "version": "0.1.0",
+  "description": "Apply when two or more fixes that share one premise have failed the same gate. Take a census of which actors hold the imbalance before the next fix, then question the premise instead of writing another fix that assumes it.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "principle-attack-the-premise"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "principle-attack-the-premise",
+    "shortDescription": "Apply when two or more fixes that share one premise have failed the same gate. Take a census of which actors hold the imbalance before the next fix, then question the premise instead of writing another fix that assumes it.",
+    "longDescription": "Apply when two or more fixes that share one premise have failed the same gate. Take a census of which actors hold the imbalance before the next fix, then question the premise instead of writing another fix that assumes it.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $principle-attack-the-premise for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

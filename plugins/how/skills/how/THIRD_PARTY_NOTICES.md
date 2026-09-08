@@ -5,13 +5,11 @@
 This skill includes material copied or adapted from pstack.
 
 - Repository: https://github.com/cursor/plugins
-- Source commit: 93b00b89ef425a9c1bac0d0b317dfc49c930ac99
-- Source subtree: https://github.com/cursor/plugins/tree/93b00b89ef425a9c1bac0d0b317dfc49c930ac99/pstack
+- Source commit: 71ed0d1076fec562c1b74ee353121a8d00f75382
+- Source subtree: https://github.com/cursor/plugins/tree/71ed0d1076fec562c1b74ee353121a8d00f75382/pstack
 - Source-to-installed-file mappings:
 
 - `skills/how/SKILL.md` -> `SKILL.md` (modified)
-- `skills/how/references/critic-prompt.md` -> `references/critic-prompt.md` (modified)
-- `skills/how/references/critique-rubric.md` -> `references/critique-rubric.md` (unchanged)
 - `skills/how/references/explainer-prompt.md` -> `references/explainer-prompt.md` (modified)
 - `skills/how/references/explorer-prompt.md` -> `references/explorer-prompt.md` (modified)
 

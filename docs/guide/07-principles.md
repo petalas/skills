@@ -1,6 +1,6 @@
 # Steer with principle names
 
-The repository includes 21 principle skills. Their names are compact corrections during a task. A principle counts only when it changes a concrete decision.
+The repository includes 23 principle skills. Their names are compact corrections during a task. A principle counts only when it changes a concrete decision.
 
 For example:
 
@@ -21,7 +21,8 @@ Apply separate before serializing shared state. Give each writer its own worktre
 - [`principle-laziness-protocol`](../../plugins/principle-laziness-protocol/README.md) prefers deletion and the smallest sufficient change.
 - [`principle-foundational-thinking`](../../plugins/principle-foundational-thinking/README.md) settles core types and shared data before logic.
 - [`principle-redesign-from-first-principles`](../../plugins/principle-redesign-from-first-principles/README.md) integrates a requirement as if it had existed from the start.
-- [`principle-subtract-before-you-add`](../../plugins/principle-subtract-before-you-add/README.md) removes dead weight before building on top of it.
+- [`principle-attack-the-premise`](../../plugins/principle-attack-the-premise/README.md) questions the premise that two or more failed fixes shared, after a census of which actors hold the imbalance.
+- [`principle-subtract-before-you-add`](../../plugins/principle-subtract-before-you-add/README.md) removes dead code before building on top of it.
 - [`principle-minimize-reader-load`](../../plugins/principle-minimize-reader-load/README.md) removes layers and hidden state that make code hard to trace.
 - [`principle-outcome-oriented-execution`](../../plugins/principle-outcome-oriented-execution/README.md) converges an authorized rewrite on its target without preserving throwaway intermediate APIs.
 - [`principle-experience-first`](../../plugins/principle-experience-first/README.md) chooses the user's result over implementation convenience.
@@ -42,6 +43,7 @@ Apply separate before serializing shared state. Give each writer its own worktre
 - [`principle-prove-it-works`](../../plugins/principle-prove-it-works/README.md) checks the real artifact before reporting success.
 - [`principle-fix-root-causes`](../../plugins/principle-fix-root-causes/README.md) reproduces and traces a defect before changing code.
 - [`principle-sequence-verifiable-units`](../../plugins/principle-sequence-verifiable-units/README.md) ends each small unit with a check.
+- [`principle-test-behavior-not-implementation`](../../plugins/principle-test-behavior-not-implementation/README.md) calls the code the way its users do, asserts a literal expected value, and deletes a test that would still pass if every imported function returned `undefined`.
 - [`principle-guard-the-context-window`](../../plugins/principle-guard-the-context-window/README.md) routes bulk reading to internal subagents and keeps compact findings in the main task.
 - [`principle-local-autonomy`](../../plugins/principle-local-autonomy/README.md) proceeds with reversible local work while reserving external actions and communication for the user.
 - [`principle-encode-lessons-in-structure`](../../plugins/principle-encode-lessons-in-structure/README.md) turns repeated advice into a check, type, lint, or script.

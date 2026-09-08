@@ -1,6 +1,6 @@
 {
   "name": "principle-fix-root-causes",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Apply when debugging. Trace each symptom to its root cause and fix it there; reproduce first, ask why until you reach it, resist nil-check guards that silence crashes.",
   "author": {
     "name": "Nick Petalas",

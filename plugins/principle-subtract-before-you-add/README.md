@@ -1,6 +1,6 @@
 # principle-subtract-before-you-add
 
-Apply when sequencing an addition, refactor, or rewrite. Remove dead weight, redundant validators, and stub references first, then build on the simpler base.
+Apply when sequencing an addition, refactor, or rewrite. Remove dead code, redundant validators, and stub references first, then build on the simpler base.
 
 ## Install
 

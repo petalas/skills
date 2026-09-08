@@ -1,6 +1,6 @@
 ---
 name: why
-version: 0.1.0
+version: 0.1.1
 disable-model-invocation: true
 description: "Investigate why code has its current shape using read-only repository history, issue tracking, user-scoped documents, observability, error tracking, and product data."
 ---

@@ -1,6 +1,6 @@
 ---
 name: typescript-best-practices
-version: 0.2.0
+version: 0.2.1
 description: TypeScript best practices. Use when reading or editing any .ts or .tsx file.
 ---
 
@@ -14,7 +14,7 @@ If `$principle-type-system-discipline` is available, apply it first. Otherwise u
 | Branded types         | Brand primitives with `& { readonly __brand: "X" }` so they can't be mixed up. Validate once at the boundary.                                                                                                                                                                     |
 | Constructive modeling | Build the shape so the illegal value can't be constructed. `[T, ...T[]]` for non-empty, `[T, T][]` for even length, `start` plus `duration` for a range. Not a runtime guard, not a wish for refinement types.                                                                    |
 | Simplest total type   | Keep `T[]` while every operation on it stays total. Strengthen to `NonEmpty<T>` only where the loose type forces `!`, a cast, or a "should never happen" throw.                                                                                                                   |
-| `unknown` over `any`  | External data is `unknown`. `any` disables type checking everywhere it touches.                                                                                                                                                                                                   |
+| `unknown` over `any`  | External data is `unknown`.                                                                                                                                                                                                                                                       |
 | Schemas before guards | Reuse the repository's runtime schema library and existing schemas before writing property-by-property guards. Infer types from schemas. Do not add a schema dependency for one guard.                                                                                            |
 | No `as` casts         | Every `as` is a runtime crash waiting. Cast only after validation.                                                                                                                                                                                                                |
 | Narrowing hierarchy   | Discriminant switch > `in` operator > `typeof`/`instanceof` > user-defined type guard > `as`.                                                                                                                                                                                     |

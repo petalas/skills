@@ -30,9 +30,10 @@ If you only want to install a skill, use the commands below and ignore the inter
 | [`engineering-mode`](plugins/engineering-mode/README.md)                                                                     | Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code th... |
 | [`explain-code`](plugins/explain-code/README.md)                                                                             | Explain code by combining how it works with evidence for why it has that shape.                                                                        |
 | [`fix-all-issues`](plugins/fix-all-issues/README.md)                                                                         | Bounded PR review with exact-tree evidence and durable issue routes                                                                                    |
-| [`how`](plugins/how/README.md)                                                                                               | Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Optionally add a read-only architectural critique... |
+| [`how`](plugins/how/README.md)                                                                                               | Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Use why for historical motivation.                   |
 | [`maintain-verification-skill`](plugins/maintain-verification-skill/README.md)                                               | Audit a project verification skill against source and every mapped user-facing feature, then apply proven local corrections.                           |
 | [`power-of-ten`](plugins/power-of-ten/README.md)                                                                             | Apply when writing or changing code that will be committed, tested, or run more than once. Hold every touched path to the ten language-agnostic rul... |
+| [`principle-attack-the-premise`](plugins/principle-attack-the-premise/README.md)                                             | Apply when two or more fixes that share one premise have failed the same gate. Take a census of which actors hold the imbalance before the next fix... |
 | [`principle-boundary-discipline`](plugins/principle-boundary-discipline/README.md)                                           | Apply when wiring validation, error handling, or framework adapters. Concentrate guards at system boundaries (CLI, config, network, external APIs);... |
 | [`principle-build-the-lever`](plugins/principle-build-the-lever/README.md)                                                   | Apply to any non-trivial work, not just bulk work: edits, migrations, analyses, checks. Build the tool that does it or proves it (codemod, script, ... |
 | [`principle-encode-lessons-in-structure`](plugins/principle-encode-lessons-in-structure/README.md)                           | Apply when you catch yourself writing the same instruction a second time, or notice a recurring correction. Encode the rule as a lint, metadata fla... |
@@ -52,7 +53,8 @@ If you only want to install a skill, use the commands below and ignore the inter
 | [`principle-replace-internal-apis-atomically`](plugins/principle-replace-internal-apis-atomically/README.md)                 | Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserv... |
 | [`principle-separate-before-serializing-shared-state`](plugins/principle-separate-before-serializing-shared-state/README.md) | Apply when concurrent actors might write to the same file, branch, key, or state object. Eliminate the sharing first; serialize structurally only w... |
 | [`principle-sequence-verifiable-units`](plugins/principle-sequence-verifiable-units/README.md)                               | Apply to multi-step work such as sweeps, migrations, and runs of similar edits. Break work into small units that each end in a verifiable state, ch... |
-| [`principle-subtract-before-you-add`](plugins/principle-subtract-before-you-add/README.md)                                   | Apply when sequencing an addition, refactor, or rewrite. Remove dead weight, redundant validators, and stub references first, then build on the sim... |
+| [`principle-subtract-before-you-add`](plugins/principle-subtract-before-you-add/README.md)                                   | Apply when sequencing an addition, refactor, or rewrite. Remove dead code, redundant validators, and stub references first, then build on the simpl... |
+| [`principle-test-behavior-not-implementation`](plugins/principle-test-behavior-not-implementation/README.md)                 | Apply when you write, change, or keep a test. Call the code the way its users do and assert the result they observe against a literal expected valu... |
 | [`principle-type-system-discipline`](plugins/principle-type-system-discipline/README.md)                                     | Apply when designing types, reviewing a function signature, or writing code in any statically-typed language. Make illegal states unrepresentable, ... |
 | [`recall`](plugins/recall/README.md)                                                                                         | Reconstruct recent solo-development context and return a concise current-state brief.                                                                  |
 | [`reflect`](plugins/reflect/README.md)                                                                                       | Review the active session through independent lenses and propose durable skill improvements for user approval.                                         |
@@ -204,9 +206,9 @@ the user handles communication with other people.
 
 ## Pstack provenance
 
-The derived collection uses pstack 0.14.8 at commit
-`93b00b89ef425a9c1bac0d0b317dfc49c930ac99` as its fixed upstream baseline.
-See [the 0.14.8 port decisions](docs/research/pstack-0.14.8-update.md) for changes and exclusions.
+The derived collection uses pstack 0.15.0 at commit
+`71ed0d1076fec562c1b74ee353121a8d00f75382` as its fixed upstream baseline.
+See [the 0.15.0 port decisions](docs/research/pstack-0.15.0-update.md) for changes and exclusions.
 Each substantially copied or adapted skill contains Lauren Tan's full MIT
 notice and an exact source-path table inside its installed directory. See
 [the import manifest](docs/pstack-imports.json) and the

@@ -1,6 +1,6 @@
 {
   "name": "why",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Investigate why code has its current shape using read-only repository history, issue tracking, user-scoped documents, observability, error tracking, and product data.",
   "author": {
     "name": "Nick Petalas",

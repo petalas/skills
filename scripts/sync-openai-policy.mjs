@@ -40,7 +40,9 @@ for (const skillDirectory of skillDirectories) {
     continue;
   }
   if (!existsSync(policyPath)) {
-    problems.push(`${policyLabel} is missing`);
+    problems.push(
+      `${policyLabel} is missing; this script only edits the policy block, so create the file with its interface block first (scripts/scaffold-pstack-plugin.mjs generates it for pstack imports)`
+    );
     continue;
   }
 
@@ -50,19 +52,32 @@ for (const skillDirectory of skillDirectories) {
     continue;
   }
 
-  const allowImplicit = skillAllowsImplicitInvocation(frontmatter);
+  let allowImplicit;
+  let expected;
   const current = readFileSync(policyPath, "utf8");
-  const expected = withPolicyBlock(current, allowImplicit);
+  try {
+    allowImplicit = skillAllowsImplicitInvocation(frontmatter, skillLabel);
+    expected = withPolicyBlock(current, allowImplicit, policyLabel);
+  } catch (error) {
+    problems.push(error.message);
+    continue;
+  }
   if (current === expected) continue;
 
   changed += 1;
   if (checkOnly) {
-    const currentPolicy = parseImplicitInvocationPolicy(current);
-    problems.push(
-      currentPolicy === null
-        ? `${policyLabel} lacks policy.allow_implicit_invocation (expected ${allowImplicit})`
-        : `${policyLabel} sets allow_implicit_invocation: ${currentPolicy}, expected ${allowImplicit}`
-    );
+    const currentPolicy = parseImplicitInvocationPolicy(current, policyLabel);
+    if (currentPolicy === null) {
+      problems.push(
+        `${policyLabel} lacks policy.allow_implicit_invocation (expected ${allowImplicit})`
+      );
+    } else if (currentPolicy === allowImplicit) {
+      problems.push(`${policyLabel} is not in canonical form; run bun run policy:sync`);
+    } else {
+      problems.push(
+        `${policyLabel} sets allow_implicit_invocation: ${currentPolicy}, expected ${allowImplicit}`
+      );
+    }
     continue;
   }
   writeFileSync(policyPath, expected);

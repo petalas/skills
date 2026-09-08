@@ -12,6 +12,9 @@ const importsManifest = JSON.parse(
 const scenarios = JSON.parse(
   readFileSync(join(repositoryRoot, "tests", "pstack-scenarios.json"), "utf8")
 );
+const routerIndex = JSON.parse(
+  readFileSync(join(repositoryRoot, "docs", "router-index.json"), "utf8")
+);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -127,7 +130,7 @@ try {
 
   const installedRouterSkill = readFileSync(join(installedRouterRoot, "SKILL.md"), "utf8");
   assert(
-    installedRouterSkill.includes("<!-- BEGIN GENERATED PRINCIPLE INDEX -->"),
+    installedRouterSkill.includes(routerIndex.markers.begin),
     "installed engineering-mode router lost the generated principle index marker"
   );
 

@@ -1,16 +1,23 @@
 // Renders the principle index from docs/router-index.json into the router
-// skill and checks the invariants the router relies on.
+// skill, renders the companion install block into the router README, and
+// checks the invariants the router relies on.
 //
 // Usage:
-//   node scripts/sync-router-index.mjs            # write the block, report problems
-//   node scripts/sync-router-index.mjs --check    # report drift and problems, write nothing
+//   bun scripts/sync-router-index.mjs            # write both blocks when every check passes
+//   bun scripts/sync-router-index.mjs --check    # report drift and problems, write nothing
 //
-// ROUTER_SKILL_PATH overrides the target SKILL.md path (testing only).
+// Nothing is written while any problem exists, so a partial index never lands.
 
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import prettier from "prettier";
+import {
+  nonAsciiPattern,
+  readOpenaiPolicy,
+  skillAllowsImplicitInvocation,
+  splitFrontmatter
+} from "./lib/skill-invocation.mjs";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "..");
@@ -18,68 +25,25 @@ const checkOnly = process.argv.includes("--check");
 const pluginsDirectory = join(repositoryRoot, "plugins");
 const indexPath = join(repositoryRoot, "docs", "router-index.json");
 const maxRouterDescriptionLength = 1536;
+const readmeMarkers = {
+  begin: "<!-- BEGIN GENERATED COMPANION INSTALL -->",
+  end: "<!-- END GENERATED COMPANION INSTALL -->"
+};
 
 const index = JSON.parse(readFileSync(indexPath, "utf8"));
 const routerName = index.router;
-const { begin, end } = index.markers;
-const routerSkillPath =
-  process.env.ROUTER_SKILL_PATH ??
-  join(pluginsDirectory, routerName, "skills", routerName, "SKILL.md");
+const skillMarkers = index.markers;
+const routerSkillPath = join(pluginsDirectory, routerName, "skills", routerName, "SKILL.md");
+const routerReadmePath = join(pluginsDirectory, routerName, "README.md");
 
 const problems = [];
 
-function skillPath(name) {
-  return join(pluginsDirectory, name, "skills", name, "SKILL.md");
+function label(path) {
+  return relative(repositoryRoot, path);
 }
 
-function openaiYamlPath(name) {
-  return join(pluginsDirectory, name, "skills", name, "agents", "openai.yaml");
-}
-
-function unquote(value) {
-  const text = value.trim();
-  if (text.length >= 2 && text.startsWith('"') && text.endsWith('"')) {
-    return text.slice(1, -1).replaceAll('\\"', '"').replaceAll("\\\\", "\\");
-  }
-  if (text.length >= 2 && text.startsWith("'") && text.endsWith("'")) {
-    return text.slice(1, -1).replaceAll("''", "'");
-  }
-  return text;
-}
-
-// Minimal YAML frontmatter reader: top-level `key: value` pairs plus `>`/`|`
-// block scalars. Returns { data, body }.
-function parseFrontmatter(markdown) {
-  const lines = markdown.split("\n");
-  if (lines[0]?.trim() !== "---") return { data: {}, body: markdown };
-  const closing = lines.findIndex((line, position) => position > 0 && line.trim() === "---");
-  if (closing < 0) return { data: {}, body: markdown };
-
-  const data = {};
-  let cursor = 1;
-  while (cursor < closing) {
-    const line = lines[cursor];
-    const match = /^([A-Za-z0-9_-]+):(.*)$/.exec(line);
-    if (!match) {
-      cursor += 1;
-      continue;
-    }
-    const key = match[1];
-    const rawValue = match[2].trim();
-    if (rawValue === ">" || rawValue === ">-" || rawValue === "|" || rawValue === "|-") {
-      const block = [];
-      cursor += 1;
-      while (cursor < closing && (lines[cursor].startsWith(" ") || lines[cursor].trim() === "")) {
-        block.push(lines[cursor].trim());
-        cursor += 1;
-      }
-      data[key] = block.join(rawValue.startsWith(">") ? " " : "\n").trim();
-      continue;
-    }
-    data[key] = unquote(rawValue);
-    cursor += 1;
-  }
-  return { data, body: lines.slice(closing + 1).join("\n") };
+function skillDirectory(name) {
+  return join(pluginsDirectory, name, "skills", name);
 }
 
 function firstHeading(body) {
@@ -87,20 +51,33 @@ function firstHeading(body) {
   return match ? match[1].trim() : null;
 }
 
-function readOpenaiPolicyFlag(name) {
-  const path = openaiYamlPath(name);
-  if (!existsSync(path)) return { present: false };
-  const lines = readFileSync(path, "utf8").split("\n");
-  const policyIndex = lines.findIndex((line) => /^policy:\s*$/.test(line));
-  if (policyIndex < 0) return { present: true, hasPolicy: false };
-  for (let cursor = policyIndex + 1; cursor < lines.length; cursor += 1) {
-    const line = lines[cursor];
-    if (line.trim() !== "" && !line.startsWith(" ")) break;
-    const match = /^ {2}allow_implicit_invocation:\s*(true|false)\s*$/.exec(line);
-    if (match)
-      return { present: true, hasPolicy: true, allowImplicitInvocation: match[1] === "true" };
+async function formatMarkdown(text, path) {
+  const options = (await prettier.resolveConfig(path)) ?? {};
+  return prettier.format(text, { ...options, parser: "markdown" });
+}
+
+// Replaces the text between two marker lines. Returns null (and records a
+// problem) when the markers are absent.
+function splice(text, path, markers, generated) {
+  const startIndex = text.indexOf(markers.begin);
+  const endIndex = text.indexOf(markers.end);
+  if (startIndex < 0 || endIndex < startIndex) {
+    problems.push(
+      `${label(path)} is missing the generated markers; add the lines "${markers.begin}" and "${markers.end}" where the generated block belongs, then rerun`
+    );
+    return null;
   }
-  return { present: true, hasPolicy: true };
+  return `${text.slice(0, startIndex)}${generated}${text.slice(endIndex + markers.end.length)}`;
+}
+
+function checkAscii(text, path) {
+  const nonAscii = nonAsciiPattern.exec(text);
+  if (!nonAscii) return;
+  const lineNumber = text.slice(0, nonAscii.index).split("\n").length;
+  const codePoint = nonAscii[0].codePointAt(0).toString(16).toUpperCase().padStart(4, "0");
+  problems.push(
+    `${label(path)} contains a non-ASCII character (U+${codePoint}) on line ${lineNumber}`
+  );
 }
 
 // (a) every principle plugin is listed; (b) every listed member exists.
@@ -120,35 +97,45 @@ for (const name of principlePlugins) {
   }
 }
 
-// Collect leaf metadata and (d) invocation flags.
+// Collect leaf metadata and (d) invocation flags. A member must be user-only
+// on both hosts: the skill frontmatter disables model invocation and the
+// Codex policy forbids implicit invocation.
 const entries = new Map();
 for (const name of listedMembers) {
-  const path = skillPath(name);
+  const directory = skillDirectory(name);
+  const path = join(directory, "SKILL.md");
   if (!existsSync(path)) {
-    problems.push(
-      `docs/router-index.json lists ${name} but plugins/${name}/skills/${name}/SKILL.md is missing`
-    );
+    problems.push(`docs/router-index.json lists ${name} but ${label(path)} is missing`);
     continue;
   }
-  const { data, body } = parseFrontmatter(readFileSync(path, "utf8"));
+  const parsed = splitFrontmatter(readFileSync(path, "utf8"));
+  if (!parsed) {
+    problems.push(`${label(path)} has no YAML frontmatter`);
+    continue;
+  }
+  const { frontmatter, body } = parsed;
   const title = firstHeading(body);
-  if (!title) problems.push(`${name}: SKILL.md has no "# " heading`);
-  if (!data.description) problems.push(`${name}: SKILL.md frontmatter has no description`);
-  if (data["disable-model-invocation"] !== "true") {
-    problems.push(`${name}: SKILL.md frontmatter lacks "disable-model-invocation: true"`);
+  if (!title) problems.push(`${label(path)} has no "# " heading`);
+  const description = frontmatter.get("description") ?? "";
+  if (!description) problems.push(`${label(path)} frontmatter has no description`);
+
+  try {
+    if (skillAllowsImplicitInvocation(frontmatter, label(path))) {
+      problems.push(`${label(path)} frontmatter lacks "disable-model-invocation: true"`);
+    }
+    const policyLabel = label(join(directory, "agents", "openai.yaml"));
+    if (readOpenaiPolicy(directory, policyLabel) !== false) {
+      problems.push(
+        `${policyLabel} must set policy.allow_implicit_invocation: false; run bun run policy:sync`
+      );
+    }
+  } catch (error) {
+    problems.push(error.message);
   }
-  const policy = readOpenaiPolicyFlag(name);
-  if (!policy.present) {
-    problems.push(`${name}: agents/openai.yaml is missing`);
-  } else if (policy.allowImplicitInvocation !== false) {
-    problems.push(
-      `${name}: agents/openai.yaml lacks "allow_implicit_invocation: false" under "policy:"`
-    );
-  }
-  entries.set(name, { title: title ?? name, description: data.description ?? "" });
+  entries.set(name, { title: title ?? name, description });
 }
 
-// Render the block.
+// Render the principle index.
 const renderedGroups = index.groups
   .map((group) => {
     const bullets = group.members
@@ -161,59 +148,78 @@ const renderedGroups = index.groups
     return `**${group.name}**\n\n${bullets}`;
   })
   .join("\n\n");
-const generatedBlock = `${begin}\n\n${renderedGroups}\n\n${end}`;
+const generatedIndex = `${skillMarkers.begin}\n\n${renderedGroups}\n\n${skillMarkers.end}`;
 
-// Splice into the router skill.
-let routerText = null;
-if (!existsSync(routerSkillPath)) {
-  problems.push(`router skill not found at ${routerSkillPath}`);
-} else {
-  routerText = readFileSync(routerSkillPath, "utf8");
-}
+// Render the companion install block for the router README.
+const installLines = [
+  "bunx skills@latest add petalas/skills \\",
+  ...listedMembers.map(
+    (name, position) => `  ${position === 0 ? "--skill " : "        "}${name} \\`
+  ),
+  "  -g -y"
+];
+const generatedInstall = `${readmeMarkers.begin}
 
-let expected = null;
-if (routerText !== null) {
-  const startIndex = routerText.indexOf(begin);
-  const endIndex = routerText.indexOf(end);
-  if (startIndex < 0 || endIndex < startIndex) {
-    problems.push(
-      `${routerSkillPath} is missing the generated index markers; add the lines "${begin}" and "${end}" where the principle index belongs, then rerun`
-    );
-  } else {
-    expected = await prettier.format(
-      `${routerText.slice(0, startIndex)}${generatedBlock}${routerText.slice(endIndex + end.length)}`,
-      { parser: "markdown" }
-    );
+## Companion skills
+
+The router indexes the \`principle-*\` leaves and \`power-of-ten\` and reads each one from \`../<name>/SKILL.md\` beside its own directory. Install them too, or the router falls back to the one-line rules in its index:
+
+\`\`\`bash
+${installLines.join("\n")}
+\`\`\`
+
+${readmeMarkers.end}`;
+
+// Compute the expected text of every generated target.
+const targets = [];
+for (const [path, markers, generated] of [
+  [routerSkillPath, skillMarkers, generatedIndex],
+  [routerReadmePath, readmeMarkers, generatedInstall]
+]) {
+  if (!existsSync(path)) {
+    problems.push(`${label(path)} is missing`);
+    continue;
   }
+  const current = readFileSync(path, "utf8");
+  const spliced = splice(current, path, markers, generated);
+  if (spliced === null) continue;
+  const expected = await formatMarkdown(spliced, path);
+  checkAscii(expected, path);
+  targets.push({ path, current, expected });
 }
 
-// (e) router description length and ASCII-only content.
-if (expected !== null) {
-  const routerDescription = parseFrontmatter(expected).data.description ?? "";
+// (e) router description length.
+const routerTarget = targets.find((target) => target.path === routerSkillPath);
+if (routerTarget) {
+  const routerDescription =
+    splitFrontmatter(routerTarget.expected)?.frontmatter.get("description") ?? "";
   if (routerDescription.length > maxRouterDescriptionLength) {
     problems.push(
       `${routerName}: frontmatter description is ${routerDescription.length} characters; limit is ${maxRouterDescriptionLength}`
     );
   }
-  const nonAscii = /[^\x00-\x7F]/.exec(expected);
-  if (nonAscii) {
-    const lineNumber = expected.slice(0, nonAscii.index).split("\n").length;
-    problems.push(
-      `${routerName}: SKILL.md contains a non-ASCII character (U+${nonAscii[0].codePointAt(0).toString(16).toUpperCase().padStart(4, "0")}) on line ${lineNumber}`
-    );
-  }
+}
 
-  // (c) drift.
-  if (expected !== routerText) {
-    if (checkOnly) {
-      problems.push(`${routerSkillPath} principle index is stale; run bun run router:sync`);
-    } else {
-      writeFileSync(routerSkillPath, expected);
-      console.log(`principle index written to ${routerSkillPath}`);
-    }
+// (c) drift. Report in check mode; in write mode only after every check passed.
+const stale = targets.filter((target) => target.expected !== target.current);
+if (checkOnly) {
+  for (const target of stale) {
+    problems.push(`${label(target.path)} generated block is stale; run bun run router:sync`);
   }
 }
 
-for (const problem of problems) console.error(problem);
-if (problems.length > 0) process.exit(1);
-console.log(checkOnly ? "principle index is current" : "principle index updated");
+if (problems.length > 0) {
+  console.error(
+    checkOnly ? "router index check failed:\n" : "router index sync failed; nothing was written:\n"
+  );
+  for (const problem of problems) console.error(`- ${problem}`);
+  process.exit(1);
+}
+
+for (const target of stale) {
+  writeFileSync(target.path, target.expected);
+  console.log(`generated block written to ${label(target.path)}`);
+}
+console.log(
+  checkOnly ? "router index is current" : `router index updated (${stale.length} files changed)`
+);

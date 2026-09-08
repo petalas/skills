@@ -11,7 +11,8 @@ import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { dirname, join, posix, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { expectedPolicyBlock } from "./lib/skill-invocation.mjs";
+import prettier from "prettier";
+import { expectedPolicyBlock, unquoteYamlScalar } from "./lib/skill-invocation.mjs";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "..");
@@ -202,6 +203,7 @@ const descriptionLine = frontmatterMatch[1]
   .find((line) => line.startsWith("description:"));
 if (!descriptionLine) throw new Error("source skill has no one-line description");
 const description = descriptionLine.slice("description:".length).trim();
+const plainDescription = unquoteYamlScalar(description);
 
 const newSkill = [
   "---",
@@ -217,7 +219,7 @@ writeFileSync(join(skillDirectory, "SKILL.md"), newSkill);
 mkdirSync(join(skillDirectory, "agents"), { recursive: true });
 writeFileSync(
   join(skillDirectory, "agents", "openai.yaml"),
-  `interface:\n  display_name: "${name}"\n  short_description: ${description}\n  default_prompt: "Use $${name} for this task."\n\n${expectedPolicyBlock(Boolean(imported.automaticInvocation))}`
+  `interface:\n  display_name: "${name}"\n  short_description: ${JSON.stringify(plainDescription)}\n  default_prompt: "Use $${name} for this task."\n\n${expectedPolicyBlock(Boolean(imported.automaticInvocation))}`
 );
 
 mkdirSync(join(pluginDirectory, "commands"), { recursive: true });
@@ -230,7 +232,7 @@ mkdirSync(join(pluginDirectory, ".codex-plugin"), { recursive: true });
 const pluginManifest = {
   name,
   version: "0.1.0",
-  description: description.replace(/^['"]|['"]$/g, ""),
+  description: plainDescription,
   author: {
     name: "Nick Petalas",
     email: "webmasternikos@gmail.com",
@@ -244,8 +246,8 @@ const pluginManifest = {
   skills: "./skills/",
   interface: {
     displayName: name,
-    shortDescription: description.replace(/^['"]|['"]$/g, ""),
-    longDescription: description.replace(/^['"]|['"]$/g, ""),
+    shortDescription: plainDescription,
+    longDescription: plainDescription,
     developerName: "Nick Petalas",
     category: "Coding",
     capabilities: ["Interactive"],
@@ -261,7 +263,7 @@ writeFileSync(
 
 writeFileSync(
   join(pluginDirectory, "README.md"),
-  `# ${name}\n\n${description.replace(/^['"]|['"]$/g, "")}\n\n## Install\n\n\`\`\`bash\nbunx skills@latest add petalas/skills --skill ${name} -g -y\n\`\`\`\n\n## Usage\n\n\`\`\`text\nUse $${name} for this task.\n\`\`\`\n\nThis plugin adapts material from pstack. The installed skill includes the full upstream notice and exact provenance.\n`
+  `# ${name}\n\n${plainDescription}\n\n## Install\n\n\`\`\`bash\nbunx skills@latest add petalas/skills --skill ${name} -g -y\n\`\`\`\n\n## Usage\n\n\`\`\`text\nUse $${name} for this task.\n\`\`\`\n\nThis plugin adapts material from pstack. The installed skill includes the full upstream notice and exact provenance.\n`
 );
 
 execFileSync(process.execPath, [join(scriptDirectory, "sync-pstack-notices.mjs")], {
@@ -269,5 +271,25 @@ execFileSync(process.execPath, [join(scriptDirectory, "sync-pstack-notices.mjs")
   env: { ...process.env, PSTACK_SOURCE_ROOT: pstackRoot },
   stdio: "inherit"
 });
+
+// Format every generated file the way `bun run format:check` expects, using the
+// repository .prettierrc.json, so the new plugin passes `bun run check` as-is.
+async function formatGeneratedFiles(path) {
+  for (const entry of readdirSync(path)) {
+    const child = join(path, entry);
+    if (statSync(child).isDirectory()) {
+      await formatGeneratedFiles(child);
+      continue;
+    }
+    const info = await prettier.getFileInfo(child);
+    if (info.ignored || !info.inferredParser) continue;
+    const options = (await prettier.resolveConfig(child)) ?? {};
+    const text = readFileSync(child, "utf8");
+    const formatted = await prettier.format(text, { ...options, filepath: child });
+    if (formatted !== text) writeFileSync(child, formatted);
+  }
+}
+
+await formatGeneratedFiles(pluginDirectory);
 
 console.log(`created ${relative(repositoryRoot, pluginDirectory)}`);

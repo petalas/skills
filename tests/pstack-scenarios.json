@@ -120,6 +120,12 @@
     "excludes": ["every coding task"]
   },
   {
+    "name": "power-of-ten command entrypoint carries the same durable-code gate",
+    "file": "plugins/power-of-ten/commands/power-of-ten.md",
+    "includes": ["run more than once", "Skip throwaway scripts, one-off commands, prototypes"],
+    "excludes": ["every coding task"]
+  },
+  {
     "name": "power-of-ten Codex policy forbids implicit invocation",
     "file": "plugins/power-of-ten/skills/power-of-ten/agents/openai.yaml",
     "includes": ["policy:", "allow_implicit_invocation: false"],

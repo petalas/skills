@@ -181,7 +181,9 @@ because no harness lets a skill invoke a user-only leaf, and every harness
 reports the loaded skill's directory, so the relative path resolves wherever
 the suite is installed. Leaves must stay user-only: keep
 `disable-model-invocation: true` in the leaf frontmatter and
-`policy.allow_implicit_invocation: false` in its Codex plugin manifest.
+`policy.allow_implicit_invocation: false` in the leaf's
+`skills/<name>/agents/openai.yaml`. Run `bun run policy:sync` to derive the
+Codex policy from the frontmatter; `bun run check` fails while they disagree.
 
 ## Move the pinned baseline
 

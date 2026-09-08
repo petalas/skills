@@ -4,6 +4,7 @@ import { dirname, join, posix, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizePstackSemanticBytes, sha256 } from "./lib/pstack-normalization.mjs";
 import {
+  nonAsciiPattern,
   openaiPolicyPath,
   parseFrontmatter as parseFrontmatterFields,
   readOpenaiPolicy
@@ -340,7 +341,7 @@ function validateHostNeutrality(imported, skillDirectory) {
   for (const path of collectTextFiles(skillDirectory)) {
     if (path.endsWith("THIRD_PARTY_NOTICES.md")) continue;
     const contents = readFileSync(path, "utf8");
-    if (/[^\x09\x0a\x0d\x20-\x7e]/.test(contents)) {
+    if (nonAsciiPattern.test(contents)) {
       fail(`${relative(repositoryRoot, path)} contains non-ASCII text`);
     }
     for (const [pattern, label] of forbidden) {
@@ -370,7 +371,6 @@ async function validateImportedPlugin(imported, marketplaceNames, inventory, sou
 
   readRequired(join(pluginDirectory, "README.md"));
   readRequired(join(pluginDirectory, "commands", `${imported.name}.md`));
-  readRequired(join(skillDirectory, "agents", "openai.yaml"));
 
   let pluginManifest;
   if (pluginManifestText) {
@@ -409,16 +409,26 @@ async function validateImportedPlugin(imported, marketplaceNames, inventory, sou
     fail(`${relative(repositoryRoot, skillPath)} must disable model invocation`);
   }
   const expectedPolicy = Boolean(imported.automaticInvocation);
-  const openaiPolicy = readOpenaiPolicy(skillDirectory);
   const openaiPolicyLabel = relative(repositoryRoot, openaiPolicyPath(skillDirectory));
-  if (openaiPolicy === null) {
+  if (!existsSync(openaiPolicyPath(skillDirectory))) {
     fail(
-      `${openaiPolicyLabel} lacks policy.allow_implicit_invocation (expected ${expectedPolicy}); run bun run policy:sync`
+      `${openaiPolicyLabel} is missing; add agents/openai.yaml with interface and policy blocks (scripts/scaffold-pstack-plugin.mjs generates it)`
     );
-  } else if (openaiPolicy !== expectedPolicy) {
-    fail(
-      `${openaiPolicyLabel} sets allow_implicit_invocation: ${openaiPolicy}, but the skill frontmatter requires ${expectedPolicy}`
-    );
+  } else {
+    try {
+      const openaiPolicy = readOpenaiPolicy(skillDirectory, openaiPolicyLabel);
+      if (openaiPolicy === null) {
+        fail(
+          `${openaiPolicyLabel} policy.allow_implicit_invocation is missing or unparseable (expected ${expectedPolicy}); run bun run policy:sync`
+        );
+      } else if (openaiPolicy !== expectedPolicy) {
+        fail(
+          `${openaiPolicyLabel} sets allow_implicit_invocation: ${openaiPolicy}, but docs/pstack-imports.json automaticInvocation requires ${expectedPolicy}`
+        );
+      }
+    } catch (error) {
+      fail(error.message);
+    }
   }
   if (!marketplaceNames.has(imported.name)) {
     fail(`${imported.name} is missing from the marketplace`);

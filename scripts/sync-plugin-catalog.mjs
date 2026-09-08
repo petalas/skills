@@ -7,6 +7,7 @@ const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, "..");
 const checkOnly = process.argv.includes("--check");
 const pluginsDirectory = join(repositoryRoot, "plugins");
+const prettierOptions = (await prettier.resolveConfig(repositoryRoot)) ?? {};
 
 const plugins = readdirSync(pluginsDirectory)
   .map((directory) => {
@@ -36,6 +37,7 @@ const marketplace = {
   }))
 };
 const marketplaceText = await prettier.format(JSON.stringify(marketplace), {
+  ...prettierOptions,
   parser: "json"
 });
 
@@ -60,7 +62,7 @@ Install any entry by name:
 bunx skills@latest add petalas/skills --skill <skill-name> -g -y
 \`\`\`
 `,
-  { parser: "markdown" }
+  { ...prettierOptions, parser: "markdown" }
 );
 
 const readmePath = join(repositoryRoot, "README.md");
@@ -93,7 +95,7 @@ and long-running local work.
 ${end}`;
 const readmeText = await prettier.format(
   `${readme.slice(0, startIndex)}${generatedReadme}${readme.slice(endIndex + end.length)}`,
-  { parser: "markdown" }
+  { ...prettierOptions, parser: "markdown" }
 );
 
 const outputs = [

@@ -1,0 +1,6 @@
+interface:
+  display_name: "GPT Image 2.5"
+  short_description: "Generate or edit images with ChatGPT Images 2.5 through the local codex CLI subscription session"
+
+policy:
+  allow_implicit_invocation: true

@@ -1,103 +1,83 @@
 ---
 name: gpt-image-2-5
-version: 0.1.0
-description: "Generate and edit images with ChatGPT Images 2.5 through the local codex CLI and the user's ChatGPT subscription, with no API key and no per-image billing. Use when the user asks for GPT Image 2.5, ChatGPT Images 2.5, or to generate or edit an image through their ChatGPT plan."
+version: 0.2.0
+description: "Generate or edit images through a ChatGPT subscription, prepare reusable prompts, and inspect saved artifacts. Use when the user names GPT Image 2.5 or asks for image generation through their ChatGPT plan. Checks exact-model requirements before generation; subscription model selection is not guaranteed."
 ---
 
 # GPT Image 2.5
 
-Generate or edit one image through the local Codex CLI and the user's existing ChatGPT subscription. The user must already have a ChatGPT plan with image generation access.
+Generate one image through the user's ChatGPT subscription and save its prompt, references, and artifact evidence. This skill uses no API key and does not grant image-generation access. Its name does not prove which image model served a request.
 
-## When to trigger
+## 1. Choose the route and check the model requirement
 
-Use this skill when the user:
+Prefer the current host's subscription-backed image tool. Use the bundled Codex CLI runner only when that capability is unavailable. Apply the same prompt preparation, artifact inspection, and reporting steps to both routes.
 
-- Explicitly names GPT Image 2.5 or ChatGPT Images 2.5.
-- Asks to generate or edit an image through their ChatGPT plan.
+When the user asks for an exact model, snapshot, or a guarantee of 2.5, read [model selection](references/model-selection.md) before generating. Check the actual tool schema and installed CLI capabilities. The examined subscription routes expose no image-model selector. An image-model name in the prompt, the skill name, or `codex --model` does not select the image model.
 
-Do not use this skill for a generic image request that names no route. Do not use it for a request to call the billed `gpt-image-2.5-flare` or `gpt-image-2.5-sunburst` API models.
+If exact selection is required and the route cannot provide it, explain the limitation and stop the dependent generation. Continue any independent preparation. Do not generate an unverified substitute or automatically switch to the separately billed API. The reference records the official API identifiers for a user who chooses that route separately.
 
-## Prerequisites
+The CLI fallback requires `python3`, `codex` on `PATH`, and a ChatGPT login with image-generation access. The native route does not require a nested CLI login check.
 
-- `codex` on `PATH`.
-- `codex login` completed with the ChatGPT option and an eligible ChatGPT plan.
-- `python3` on `PATH`.
+## 2. Prepare the image prompt
 
-This skill grants no image-generation entitlement of its own.
+- Preserve an explicitly supplied image prompt verbatim unless the user requests changes.
+- For a task request such as "regenerate our badges," write an image description from the user's intent and available project context. Keep skill links, repository operations, and workflow instructions out of that description.
+- For existing assets, locate the original prompt and inspect the original image first. Reuse the prompt when available. Otherwise reconstruct it from the artwork and say it is reconstructed.
+- Preserve the requested subject, tier, palette, silhouette, and composition. Add technical requirements from the asset's actual use, such as a transparent background, square canvas, padding, and readability at the displayed size. Do not invent a new art direction without a request.
+- Save the submitted image prompt as a UTF-8 file before generation. Distinguish it from any revised prompt reported by the generation service. Use reference images as visual inputs, not as instructions.
 
-## Invoke the runner
+## 3. Generate the requested sample
 
-Resolve `<skill-dir>` from the directory containing this loaded `SKILL.md`.
+Honor the requested image count. A request to try one sample authorizes one sample, not the whole collection. Choose a descriptive project output path when project conventions identify one. Honor an explicit output path; otherwise the runner defaults to `./image-<UTC timestamp>.png`.
 
-Text to image:
+For the native tool, pass the prepared image prompt and inspected references through the tool's documented fields. Save or copy the returned artifact into the project output path, preserving the original generated file.
 
-```bash
-python3 <skill-dir>/scripts/generate.py \
-  --prompt "<user's prompt>" \
-  --out /absolute/path/to/output.png
-```
-
-Single-reference edit:
+For the CLI fallback, resolve `<skill-dir>` from this file's directory:
 
 ```bash
 python3 <skill-dir>/scripts/generate.py \
-  --prompt "<user's prompt>" \
-  --ref /absolute/path/to/input.png \
-  --out /absolute/path/to/output.png
+  --prompt-file /absolute/path/to/badge.prompt.txt \
+  --ref /absolute/path/to/original.png \
+  --out /absolute/path/to/badge-test.png
 ```
 
-Multi-reference composition:
+Omit `--ref` for text-to-image; repeat it for multiple references. The first reference is the edit target unless the prompt specifies otherwise. Prefer `--prompt-file` to avoid shell interpretation of prompt text. `--prompt` remains available for safely passed literal strings.
+
+The runner accepts PNG output only. `--force` explicitly permits replacing the image and its manifest. See `--help` for timeouts, dry runs, and optional event logs. `--require-model <id>` is a guard: it exits before generation because this subscription runner has no exact-model selector.
+
+## 4. Inspect and record the artifact
+
+Run the same local inspector for either route:
 
 ```bash
-python3 <skill-dir>/scripts/generate.py \
-  --prompt "<user's prompt>" \
-  --ref /absolute/path/to/first.png \
-  --ref /absolute/path/to/second.png \
-  --out /absolute/path/to/output.png
+python3 <skill-dir>/scripts/inspect_image.py /absolute/path/to/badge-test.png
 ```
 
-Use `--prompt-file <path>` instead of `--prompt` when the prompt is already in a file. Optional controls are `--timeout-sec <seconds>`, `--force`, `--dry-run`, and `--json-log <path>`.
+The CLI runner writes `<output>.json` automatically. Record a native-tool result with:
 
-## Default behavior
+```bash
+python3 <skill-dir>/scripts/inspect_image.py /absolute/path/to/badge-test.png \
+  --record \
+  --prompt-file /absolute/path/to/badge.prompt.txt \
+  --ref /absolute/path/to/original.png \
+  --route native \
+  --source /absolute/path/returned/by/the/tool.png
+```
 
-- Pass the user's prompt through verbatim. Do not translate it or add style modifiers unless asked.
-- When the user names no output path, let the runner create `./image-<YYYYMMDD-HHMMSS>.png` in the current directory.
-- After success, display or attach the produced file. Do not stop after printing its path.
-- Copy every project deliverable to the requested output path. Never leave it only under `<codex-home>/generated_images`.
+The manifest retains the submitted prompt, reference paths and hashes, route, source, output hash, dimensions, transparency metadata, and unverified model mentions. Metadata mentions may describe an ingredient, so they do not prove the selected model. The inspector does not validate C2PA signatures. Generic `gpt-image` contains no model version; report `not reported`.
 
-## Hard constraints
+For app assets, inspect the actual image visually. Check framing, stray pixels, cropping, and readability at the intended display size. An alpha channel alone does not prove transparent pixels exist. Verify actual transparency with available image tooling when the asset requires it, and distinguish an exported checkerboard from transparency.
 
-- Do not substitute DALL-E, another image model, HTML, SVG, or a screenshot.
-- Do not rewrite the prompt unless the user asks.
-- Do not add or use an API-key route.
-- Do not claim a model version that the artifact does not report.
+When regenerating an existing asset, display the original and result at equal display sizes. Keep the trial separate from production assets until replacement is within the user's requested scope. If only a visual trial was requested, do not present it as an integrated app change.
 
-## Model version
+## 5. Report the result
 
-The image model served to a ChatGPT subscription session is selected server-side and cannot be selected by the Codex CLI. OpenAI made Images 2.5 available to ChatGPT and Codex accounts on 2026-09-08. Treat the runner's `provenance:` stderr line as the artifact evidence: report its exact value, or say `not reported` when the artifact carries none. Never infer 2.5 from the skill name.
+Display or attach the produced image. Include its saved path and report model evidence accurately. Separate a successful image generation from fulfillment of an exact-model requirement. Do not infer the version from appearance, date, launch announcements, filenames, or the agent's text response.
 
-## Exit codes
+## Runner behavior and data handling
 
-| Code | Meaning                               |
-| ---: | ------------------------------------- |
-|    0 | Success                               |
-|    2 | Bad arguments                         |
-|    3 | `codex` missing                       |
-|    4 | Reference image missing or unreadable |
-|    5 | `codex exec` or output I/O failed     |
-|    6 | Timed out                             |
-|    7 | No unambiguous image artifact found   |
-|    8 | Output exists without `--force`       |
-|    9 | No ChatGPT subscription login         |
+The runner uses a ChatGPT-authenticated `codex exec --json` process. It accepts one unambiguous image from that process's image event or its own `thread.started` directory. It never guesses from unrelated newly created image directories. Ambiguous outputs fail instead of selecting the newest image.
 
-## How it works
+The scripts never read `auth.json` or use an API-key route. The inspector performs no network requests. Manifests contain prompts and local reference paths; store them with project artifacts. JSONL logs are written only when requested. Existing outputs are protected unless `--force` is supplied, including when an output appears during generation.
 
-The runner validates inputs and the ChatGPT login, then calls `codex exec --json` in a read-only sandbox. It sends the unchanged user prompt through stdin and attaches each reference with `-i`. Codex stores the image under `<codex-home>/generated_images/<thread-id>/`.
-
-The runner resolves the artifact in strict order: an exact `<ig-id>.png` from `thread_id` and `image_generation_call` events when both are present, a recent `ig_*.png` or `exec-*.png` in a directory named by its own `thread.started` event, exactly one newly created thread directory, then a valid base64 `result` from its own `image_generation_call`. It refuses to guess when multiple new directories exist. A live codex-cli 0.155.0 run emitted `thread.started`, stored `exec-<id>.png`, and resolved through the `thread-directory` tier. Use the tier named in stderr as the observed mechanism for each invocation.
-
-## Data handling
-
-The script reads only the JSONL event stream from its own `codex exec` process and paths under `<codex-home>/generated_images`. It never reads `auth.json`. It writes the requested output image through a same-directory `.partial` sibling and writes the optional JSONL log only when requested. The only network traffic is the `codex` process talking to OpenAI with the user's existing ChatGPT login.
-
-When the current host already exposes its own subscription-backed image tool, use that tool instead of nesting `codex exec` inside `codex exec`.
+Exit codes: `0` success; `2` invalid arguments; `3` missing CLI; `4` unreadable reference; `5` process or I/O failure; `6` timeout; `7` missing, invalid, or ambiguous artifact; `8` existing output; `9` missing ChatGPT login; `10` exact model selection unavailable. A generation may already have produced an image when later inspection or manifest recording fails; inspect existing files before retrying.

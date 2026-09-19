@@ -17,7 +17,7 @@
   "scripts": {
     "catalog:check": "bun scripts/sync-plugin-catalog.mjs --check",
     "catalog:sync": "bun scripts/sync-plugin-catalog.mjs",
-    "check": "bun run format:check && bun run catalog:check && bun run policy:check && bun run router:check && bun run validate:fix-all-issues && bun run validate:local-plugins && bun run validate:pstack-imports && bun run test:pstack-imports",
+    "check": "bun run format:check && bun run catalog:check && bun run policy:check && bun run router:check && bun run validate:fix-all-issues && bun run validate:local-plugins && bun run validate:pstack-imports && bun run test:pstack-imports && bun run test:gpt-image-2-5",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "hooks:install": "git config core.hooksPath .githooks",
@@ -30,7 +30,8 @@
     "test:pstack-imports": "bun scripts/test-pstack-imports.mjs",
     "validate:fix-all-issues": "bun scripts/validate-fix-all-issues.mjs",
     "validate:local-plugins": "bun scripts/validate-local-plugins.mjs",
-    "validate:pstack-imports": "bun scripts/validate-pstack-imports.mjs"
+    "validate:pstack-imports": "bun scripts/validate-pstack-imports.mjs",
+    "test:gpt-image-2-5": "PYTHONDONTWRITEBYTECODE=1 python3 -B -W error -m unittest discover -s plugins/gpt-image-2-5/skills/gpt-image-2-5/scripts -p 'test_*.py'"
   },
   "devDependencies": {
     "prettier": "^3.5.3",

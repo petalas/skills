@@ -1,7 +1,7 @@
 {
   "name": "gpt-image-2-5",
-  "version": "0.1.0",
-  "description": "Generate and edit images with ChatGPT Images 2.5 through the local codex CLI and the user's ChatGPT subscription, with no API key and no per-image billing. Use when the user asks for GPT Image 2.5, ChatGPT Images 2.5, or to generate or edit an image through their ChatGPT plan.",
+  "version": "0.2.0",
+  "description": "Generate or edit images through a ChatGPT subscription, prepare reusable prompts, and inspect saved artifacts. Use when the user names GPT Image 2.5 or asks for image generation through their ChatGPT plan. Checks exact-model requirements before generation; subscription model selection is not guaranteed.",
   "author": {
     "name": "Nick Petalas",
     "email": "webmasternikos@gmail.com",
@@ -15,8 +15,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "gpt-image-2-5",
-    "shortDescription": "Generate and edit images with ChatGPT Images 2.5 through the local codex CLI and the user's ChatGPT subscription, with no API key and no per-image billing. Use when the user asks for GPT Image 2.5, ChatGPT Images 2.5, or to generate or edit an image through their ChatGPT plan.",
-    "longDescription": "Generate and edit images with ChatGPT Images 2.5 through the local codex CLI and the user's ChatGPT subscription, with no API key and no per-image billing. Use when the user asks for GPT Image 2.5, ChatGPT Images 2.5, or to generate or edit an image through their ChatGPT plan.",
+    "shortDescription": "Subscription image generation with saved prompts and artifact inspection",
+    "longDescription": "Generate or edit images through a ChatGPT subscription, prepare reusable prompts, and inspect saved artifacts. Use when the user names GPT Image 2.5 or asks for image generation through their ChatGPT plan. Checks exact-model requirements before generation; subscription model selection is not guaranteed.",
     "developerName": "Nick Petalas",
     "category": "Coding",
     "capabilities": ["Interactive", "Write"],

@@ -26,6 +26,15 @@ It prefers the host's native subscription-backed image tool. The CLI fallback re
 
 The runner writes a PNG and a `.png.json` manifest containing the prompt, reference hashes, dimensions, route, and unverified metadata. Native-tool results use the same inspector and manifest format. PNG metadata is evidence to inspect, not a model-selection control or a verified C2PA signature.
 
+For collections, the skill prepares a queue and measures completed images per minute before increasing concurrency. It records request timings and rate-limit responses, coordinates retries, and checks every saved asset. See [batch generation](skills/gpt-image-2-5/references/batch-generation.md) for the procedure and measured results. This guidance does not add a batch scheduler to the CLI runner.
+
+## Version 0.3.0
+
+- Adds collection generation with measured concurrency, shared rate-limit backoff, and resumable artifact records.
+- Records observed request serialization and distinguishes the fastest tested setup from a service limit.
+- Covers decoded alpha, low-opacity edge pixels, approximate padding, and collection review.
+- Keeps the existing model-selection checks and one-sample limit. Installation and runner defaults are unchanged.
+
 ## Version 0.2.0
 
 - Separates task requests from explicit image prompts and preserves reproducible generation records.

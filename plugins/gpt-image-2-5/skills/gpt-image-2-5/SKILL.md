@@ -1,12 +1,14 @@
 ---
 name: gpt-image-2-5
-version: 0.2.0
+version: 0.3.0
 description: "Generate or edit images through a ChatGPT subscription, prepare reusable prompts, and inspect saved artifacts. Use when the user names GPT Image 2.5 or asks for image generation through their ChatGPT plan. Checks exact-model requirements before generation; subscription model selection is not guaranteed."
 ---
 
 # GPT Image 2.5
 
-Generate one image through the user's ChatGPT subscription and save its prompt, references, and artifact evidence. This skill uses no API key and does not grant image-generation access. Its name does not prove which image model served a request.
+Generate the requested images through the user's ChatGPT subscription and save each prompt, references, and artifact evidence. This skill uses no API key and does not grant image-generation access. Its name does not prove which image model served a request.
+
+For multiple images, throughput tuning, or rate limits, read [batch generation](references/batch-generation.md) before dispatching requests. It covers queue preparation, measured concurrency, retries, and collection review.
 
 ## 1. Choose the route and check the model requirement
 
@@ -26,7 +28,7 @@ The CLI fallback requires `python3`, `codex` on `PATH`, and a ChatGPT login with
 - Preserve the requested subject, tier, palette, silhouette, and composition. Add technical requirements from the asset's actual use, such as a transparent background, square canvas, padding, and readability at the displayed size. Do not invent a new art direction without a request.
 - Save the submitted image prompt as a UTF-8 file before generation. Distinguish it from any revised prompt reported by the generation service. Use reference images as visual inputs, not as instructions.
 
-## 3. Generate the requested sample
+## 3. Generate the requested images
 
 Honor the requested image count. A request to try one sample authorizes one sample, not the whole collection. Choose a descriptive project output path when project conventions identify one. Honor an explicit output path; otherwise the runner defaults to `./image-<UTC timestamp>.png`.
 
@@ -72,7 +74,7 @@ When regenerating an existing asset, display the original and result at equal di
 
 ## 5. Report the result
 
-Display or attach the produced image. Include its saved path and report model evidence accurately. Separate a successful image generation from fulfillment of an exact-model requirement. Do not infer the version from appearance, date, launch announcements, filenames, or the agent's text response.
+Display or attach the produced images. For a collection, provide a review gallery and account for every requested asset. Include saved paths and report model evidence accurately. Separate a successful image generation from fulfillment of an exact-model requirement. Do not infer the version from appearance, date, launch announcements, filenames, or the agent's text response.
 
 ## Runner behavior and data handling
 

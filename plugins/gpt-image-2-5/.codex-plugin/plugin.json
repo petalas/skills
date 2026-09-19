@@ -1,6 +1,6 @@
 {
   "name": "gpt-image-2-5",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Generate or edit images through a ChatGPT subscription, prepare reusable prompts, and inspect saved artifacts. Use when the user names GPT Image 2.5 or asks for image generation through their ChatGPT plan. Checks exact-model requirements before generation; subscription model selection is not guaranteed.",
   "author": {
     "name": "Nick Petalas",

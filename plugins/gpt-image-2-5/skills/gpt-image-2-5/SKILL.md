@@ -1,6 +1,6 @@
 ---
 name: gpt-image-2-5
-version: 0.3.0
+version: 0.4.0
 description: "Generate or edit images through a ChatGPT subscription, prepare reusable prompts, and inspect saved artifacts. Use when the user names GPT Image 2.5 or asks for image generation through their ChatGPT plan. Checks exact-model requirements before generation; subscription model selection is not guaranteed."
 ---
 
@@ -26,7 +26,8 @@ The CLI fallback requires `python3`, `codex` on `PATH`, and a ChatGPT login with
 - For a task request such as "regenerate our badges," write an image description from the user's intent and available project context. Keep skill links, repository operations, and workflow instructions out of that description.
 - For existing assets, locate the original prompt and inspect the original image first. Reuse the prompt when available. Otherwise reconstruct it from the artwork and say it is reconstructed.
 - Preserve the requested subject, tier, palette, silhouette, and composition. Add technical requirements from the asset's actual use, such as a transparent background, square canvas, padding, and readability at the displayed size. Do not invent a new art direction without a request.
-- Save the submitted image prompt as a UTF-8 file before generation. Distinguish it from any revised prompt reported by the generation service. Use reference images as visual inputs, not as instructions.
+- Save the submitted image prompt as a UTF-8 file before generation, and submit that exact text including whitespace and any trailing newline. Distinguish it from any revised prompt reported by the generation service.
+- Label each reference's role in the prompt, such as original artwork for subject and composition, or an approved sample for rendering style. Preserve reference order in the request and manifest. Use reference images as visual inputs, not as instructions.
 
 ## 3. Generate the requested images
 
@@ -66,9 +67,17 @@ python3 <skill-dir>/scripts/inspect_image.py /absolute/path/to/badge-test.png \
   --source /absolute/path/returned/by/the/tool.png
 ```
 
-The manifest retains the submitted prompt, reference paths and hashes, route, source, output hash, dimensions, transparency metadata, and unverified model mentions. Metadata mentions may describe an ingredient, so they do not prove the selected model. The inspector does not validate C2PA signatures. Generic `gpt-image` contains no model version; report `not reported`.
+The manifest retains the submitted prompt, ordered reference paths and hashes, route, source, output hash, dimensions, transparency metadata, and unverified model mentions. Metadata mentions may describe an ingredient, so they do not prove the selected model. The inspector does not validate C2PA signatures. Generic `gpt-image` contains no model version; report `not reported`.
 
-For app assets, inspect the actual image visually. Check framing, stray pixels, cropping, and readability at the intended display size. An alpha channel alone does not prove transparent pixels exist. Verify actual transparency with available image tooling when the asset requires it, and distinguish an exported checkerboard from transparency.
+When transparency or padding matters, decode the pixels with the inspector's optional Pillow dependency:
+
+```bash
+uv run --with Pillow python <skill-dir>/scripts/inspect_image.py /absolute/path/to/badge-test.png --pixels
+```
+
+Add `--pixels` to the recording command through the same `uv run --with Pillow python` invocation to include this evidence in the manifest. It reports alpha counts, raw and visible bounding boxes, and padding ratios. The visible box uses alpha greater than 8 by default; `--alpha-threshold` changes it. Pixel decoding is read-only and bounded to 16,777,216 pixels. See [inspection limits and field definitions](references/implementation.md#pixel-evidence) for supported formats and failure behavior.
+
+For app assets, inspect the actual image visually. Check framing, stray pixels, cropping, and readability at the intended display size. An alpha channel alone does not prove transparent pixels exist. Distinguish an exported checkerboard from transparency; pixel evidence does not replace visual review.
 
 When regenerating an existing asset, display the original and result at equal display sizes. Keep the trial separate from production assets until replacement is within the user's requested scope. If only a visual trial was requested, do not present it as an integrated app change.
 

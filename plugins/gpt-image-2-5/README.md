@@ -28,6 +28,15 @@ The runner writes a PNG and a `.png.json` manifest containing the prompt, refere
 
 For collections, the skill prepares a queue and measures completed images per minute before increasing concurrency. It records request timings and rate-limit responses, coordinates retries, and checks every saved asset. See [batch generation](skills/gpt-image-2-5/references/batch-generation.md) for the procedure and measured results. This guidance does not add a batch scheduler to the CLI runner.
 
+## Version 0.4.0
+
+- Adds optional read-only pixel inspection with `--pixels`, using Pillow through `uv run --with Pillow python`.
+- Records actual alpha counts, raw and visible bounding boxes, and padding ratios in the same manifest. Faint edge pixels and nearly opaque artwork remain distinguishable.
+- Bounds decoding resources and rejects unsupported precision or failed decoding before recording evidence.
+- Preserves submitted whitespace, including trailing newlines, and labels original and style reference roles in prompts.
+- Checks collection size against the original assets before app integration.
+- Keeps standard-library inspection and runner defaults unchanged. Four independent requests remain the highest tested concurrency; the service limit is unknown.
+
 ## Version 0.3.0
 
 - Adds collection generation with measured concurrency, shared rate-limit backoff, and resumable artifact records.
@@ -48,6 +57,9 @@ For collections, the skill prepares a queue and measures completed images per mi
 ```bash
 bun run test:gpt-image-2-5
 bun run check
+# Include the optional pixel decoder tests:
+uv run --with Pillow python -B -W error -m unittest discover \
+  -s plugins/gpt-image-2-5/skills/gpt-image-2-5/scripts -p 'test_*.py'
 ```
 
 The tests use local fixtures and a fake generation boundary; they do not consume image quota. The [implementation notes](skills/gpt-image-2-5/references/implementation.md) record resource limits and verification boundaries.

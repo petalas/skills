@@ -24,15 +24,16 @@ Report the fastest tested configuration, its observed throughput, latency, and e
 
 ## Review the collection
 
-- Decode the PNG's alpha channel. Record transparent-pixel counts and the alpha distribution; a channel alone does not establish transparency. An object whose alpha is mostly 253 out of 255 is nearly opaque. Requiring every object pixel to equal 255 would misclassify it.
+- Run the inspector with `--pixels` and retain its evidence in each manifest. It decodes alpha and records transparent, partially transparent, near-opaque, and opaque pixel counts; a channel alone does not establish transparency. An object whose alpha is mostly 253 out of 255 is nearly opaque. Requiring every object pixel to equal 255 would misclassify it.
 - Compare the raw alpha bounding box with a thresholded box, such as alpha greater than 8. State the threshold. Faint pixels with alpha 1 can enlarge the raw box; inspect visible edges before classifying them as stray marks or cropping.
 - Measure actual dimensions and padding. A square-canvas prompt does not guarantee a particular pixel size, and requested percentage padding is approximate. Record deviations against the app's requirements.
+- Compare per-image and total bytes with the original collection before integrating app assets. Report the size increase and check any known delivery budget; source bytes alone do not establish the final compressed app or download size.
 - Review subjects, palettes, framing, and readability at the intended display size. Compare old and new artwork at equal display sizes. Read-only pixel inspection is separate from image editing; use the image tool for corrections unless the user authorizes programmatic edits.
 
 ## Observations from a native-tool run
 
 On 2026-09-19, a collection run produced 55 new badges without generation failures or rate-limit responses. Three independent workers with one active request each took about 25-42 seconds per request. Five measured pairs of concurrent calls within those workers completed at 35.6-40.2 seconds and 68.2-78.8 seconds from their shared dispatch time. This suggests serialization within a worker, but does not prove where queuing occurs. Doubling pending calls did not improve production speed.
 
-Four independent workers retained single-request latency of 32.5-41.3 seconds. Four was the available agent ceiling, so higher independent concurrency remained untested. Treat it as the fastest tested setup for that run, not a service limit or a guaranteed optimum. The account's weekly coding-usage reading remained at 27 percent and supplied no image-quota evidence.
+Four independent workers retained single-request latency of 32.5-41.3 seconds. Four was the highest tested independent concurrency and the available agent ceiling. The service ceiling remains unknown. Treat four as the fastest tested setup for that run, not a guaranteed optimum. The account's weekly coding-usage reading remained at 27 percent and supplied no image-quota evidence.
 
 The tool consistently returned 1254-by-1254 PNGs in that run. Several images fell short of requested 8 percent padding without clipping; alpha values around 253 and faint edge pixels were common. These are inspection examples, not output guarantees.

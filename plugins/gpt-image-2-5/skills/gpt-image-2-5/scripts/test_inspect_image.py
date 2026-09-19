@@ -3,6 +3,7 @@
 from concurrent.futures import ThreadPoolExecutor
 import binascii
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import struct
@@ -13,6 +14,8 @@ import unittest
 import zlib
 
 from inspect_image import inspect_png, read_bounded, record_manifest
+
+HAS_PILLOW = importlib.util.find_spec("PIL") is not None
 
 
 def chunk(kind, payload):
@@ -31,7 +34,31 @@ def png(color=6, metadata=None, transparency=None):
     return data + chunk(b"IDAT", zlib.compress(b"\0" + b"\xff" * channels)) + chunk(b"IEND", b"")
 
 
+def alpha_png(rows, indexed=False):
+    height, width = len(rows), len(rows[0])
+    data = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 3 if indexed else 6, 0, 0, 0))
+    if indexed:
+        data += chunk(b"PLTE", bytes([128, 64, 32]) * 256) + chunk(b"tRNS", bytes(range(256)))
+    raw = b"".join(b"\0" + b"".join(bytes([value]) if indexed else bytes([128, 64, 32, value])
+                                     for value in row) for row in rows)
+    return data + chunk(b"IDAT", zlib.compress(raw)) + chunk(b"IEND", b"")
+
+
 class ImageInspectionTests(unittest.TestCase):
+    def test_missing_optional_decoder_fails_only_when_requested(self):
+        script = Path(__file__).with_name("inspect_image.py")
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "badge.png"
+            output.write_bytes(png())
+            command = [sys.executable, "-S", str(script), str(output)]
+            normal = subprocess.run(command, capture_output=True, text=True, timeout=10)
+            self.assertEqual(normal.returncode, 0, normal.stderr)
+            self.assertEqual(json.loads(normal.stdout)["pixel_validation"], "not performed")
+            missing = subprocess.run(command + ["--pixels"], capture_output=True, text=True, timeout=10)
+            self.assertEqual(missing.returncode, 1)
+            self.assertIn("--pixels requires Pillow", missing.stderr)
+            self.assertEqual(list(Path(directory).iterdir()), [output])
+
     def test_dimensions_and_hash(self):
         data = png()
         result = inspect_png(data)
@@ -96,6 +123,93 @@ class ImageInspectionTests(unittest.TestCase):
             self.assertEqual(read_bounded(path, 5), b"12345")
             with self.assertRaisesRegex(ValueError, "exceeds 4 bytes"):
                 read_bounded(path, 4)
+
+
+@unittest.skipUnless(HAS_PILLOW, "Optional pixel inspection requires Pillow")
+class PixelInspectionTests(unittest.TestCase):
+    def test_opaque_rgba_and_transparent_palette_decode_actual_samples(self):
+        opaque = inspect_png(png(), pixels=True)
+        self.assertTrue(opaque["alpha_channel"])
+        self.assertEqual(opaque["actual_transparent_pixels"], 0)
+        self.assertEqual(opaque["pixel_evidence"]["fully_opaque_pixels"], 1)
+        palette = inspect_png(alpha_png([[0, 249, 250, 253, 255]], indexed=True), pixels=True)
+        self.assertFalse(palette["alpha_channel"])
+        self.assertTrue(palette["transparency_chunk"])
+        self.assertEqual(palette["actual_transparent_pixels"], 4)
+        self.assertEqual(palette["pixel_evidence"]["near_opaque_pixels"], 3)
+        self.assertEqual(palette["pixel_evidence"]["fully_transparent_pixels"], 1)
+        self.assertEqual(palette["pixel_evidence"]["fully_opaque_pixels"], 1)
+
+    def test_faint_speck_and_near_opaque_body_have_distinct_bounds(self):
+        data = alpha_png([[1, 0, 0, 0], [0, 253, 255, 0], [0, 0, 0, 0]])
+        result = inspect_png(data, pixels=True)
+        self.assertEqual(result["pixel_validation"], "passed")
+        self.assertEqual(result["actual_transparent_pixels"], 11)
+        self.assertEqual(result["pixel_evidence"], {
+            "decoder": "Pillow", "alpha_scale": 255, "visible_alpha_threshold": 8,
+            "pixel_count": 12, "alpha_min": 0, "alpha_max": 255,
+            "fully_transparent_pixels": 9, "partially_transparent_pixels": 2,
+            "near_opaque_pixels": 2, "fully_opaque_pixels": 1,
+            "raw_bbox": [0, 0, 3, 2], "visible_bbox": [1, 1, 3, 2],
+            "raw_padding_ratios": {"left": 0.0, "top": 0.0, "right": 0.25, "bottom": 1 / 3},
+            "visible_padding_ratios": {"left": 0.25, "top": 1 / 3, "right": 0.25, "bottom": 1 / 3},
+        })
+        strict = inspect_png(data, pixels=True, alpha_threshold=254)
+        self.assertEqual(strict["pixel_evidence"]["visible_bbox"], [2, 1, 3, 2])
+        self.assertEqual(result["model_verification"], "unverified")
+
+    def test_empty_alpha_has_null_boxes_and_padding(self):
+        result = inspect_png(alpha_png([[0, 0], [0, 0]]), pixels=True)
+        self.assertEqual(result["actual_transparent_pixels"], 4)
+        evidence = result["pixel_evidence"]
+        self.assertEqual((evidence["alpha_min"], evidence["alpha_max"]), (0, 0))
+        self.assertEqual([evidence[key] for key in ("raw_bbox", "visible_bbox", "raw_padding_ratios", "visible_padding_ratios")],
+                         [None, None, None, None])
+
+    def test_malformed_pixel_stream_rejected_despite_valid_structure(self):
+        data = png().replace(chunk(b"IDAT", zlib.compress(b"\0" + b"\xff" * 4)), chunk(b"IDAT", b"not zlib"))
+        self.assertEqual(inspect_png(data)["structure_validation"], "passed")
+        with self.assertRaisesRegex(ValueError, "pixel decoding failed"):
+            inspect_png(data, pixels=True)
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "badge.png"
+            output.write_bytes(data)
+            with self.assertRaisesRegex(ValueError, "pixel decoding failed"):
+                record_manifest(output, "badge", [], "native", "tool", pixels=True)
+            self.assertEqual(list(Path(directory).iterdir()), [output])
+            self.assertEqual(output.read_bytes(), data)
+
+    def test_decode_capacity_and_precision_guards(self):
+        old_header = chunk(b"IHDR", struct.pack(">IIBBBBB", 1, 1, 8, 6, 0, 0, 0))
+        large = png().replace(old_header, chunk(b"IHDR", struct.pack(">IIBBBBB", 4097, 4096, 8, 6, 0, 0, 0)))
+        self.assertEqual(inspect_png(large)["width"], 4097)
+        with self.assertRaisesRegex(ValueError, "exceeds 16,777,216 pixels"):
+            inspect_png(large, pixels=True)
+        deep = png().replace(old_header, chunk(b"IHDR", struct.pack(">IIBBBBB", 1, 1, 16, 6, 0, 0, 0)))
+        with self.assertRaisesRegex(ValueError, "16-bit samples would lose precision"):
+            inspect_png(deep, pixels=True)
+        with self.assertRaisesRegex(ValueError, "Alpha threshold"):
+            inspect_png(png(), pixels=True, alpha_threshold=255)
+
+    def test_cli_record_contains_pixels_and_keeps_source_bytes(self):
+        script = Path(__file__).with_name("inspect_image.py")
+        with tempfile.TemporaryDirectory() as directory:
+            output, prompt = Path(directory) / "badge.png", Path(directory) / "prompt.txt"
+            data = alpha_png([[0, 253, 255]])
+            output.write_bytes(data)
+            prompt.write_bytes(b"badge\r\nexact\n")
+            command = [sys.executable, str(script), str(output), "--pixels", "--alpha-threshold", "254"]
+            read_only = subprocess.run(command, capture_output=True, text=True, timeout=10)
+            self.assertEqual(read_only.returncode, 0, read_only.stderr)
+            evidence = json.loads(read_only.stdout)
+            recorded = subprocess.run(command + ["--record", "--prompt-file", str(prompt), "--route", "native", "--source", "tool"],
+                                      capture_output=True, text=True, timeout=10)
+            self.assertEqual(recorded.returncode, 0, recorded.stderr)
+            manifest = json.loads(output.with_suffix(".png.json").read_text())
+            self.assertEqual(manifest["submitted_prompt"], "badge\r\nexact\n")
+            self.assertEqual(manifest["output"], {"path": str(output), **evidence})
+            self.assertEqual(manifest["output"]["pixel_evidence"]["visible_bbox"], [2, 0, 3, 1])
+            self.assertEqual(output.read_bytes(), data)
 
 
 class ManifestTests(unittest.TestCase):

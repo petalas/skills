@@ -22,5 +22,13 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install optional pixel inspection test dependency
+        run: python -m pip install Pillow
+
       - name: Run repository checks
         run: bun run check

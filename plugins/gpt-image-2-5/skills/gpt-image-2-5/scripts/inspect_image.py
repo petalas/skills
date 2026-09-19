@@ -7,6 +7,7 @@ import argparse
 import binascii
 from datetime import datetime, timezone
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -20,6 +21,8 @@ MAX_FILE_BYTES = 64 * 1024 * 1024
 MAX_PROMPT_BYTES = 1024 * 1024
 MAX_REFERENCES = 16
 MAX_CHUNKS = 4096
+MAX_DECODE_PIXELS = 16_777_216
+DEFAULT_ALPHA_THRESHOLD = 8
 MODEL_IDENTIFIER = re.compile(rb"gpt-image(?:-[a-z0-9]+(?:[.-][a-z0-9]+)*)?")
 
 
@@ -104,8 +107,11 @@ def _metadata_mentions(payload: bytes) -> set[str]:
     return mentions
 
 
-def inspect_png(data: bytes) -> dict:
-    """Validate PNG structure, without decoding pixels or verifying C2PA signatures."""
+def inspect_png(data: bytes, *, pixels: bool = False,
+                alpha_threshold: int = DEFAULT_ALPHA_THRESHOLD) -> dict:
+    """Validate PNG structure and optionally decode alpha, without verifying signatures."""
+    if not isinstance(alpha_threshold, int) or not 0 <= alpha_threshold < 255:
+        raise ValueError("Alpha threshold must be an integer from 0 through 254")
     info = {}
     palette_entries = 0
     transparency = False
@@ -150,12 +156,58 @@ def inspect_png(data: bytes) -> dict:
         raise ValueError("PNG has no image data")
     candidates = {match.group(1) for value in mentions
                   if (match := re.match(r"gpt-image-(\d+(?:\.\d+)*)(?:-|$)", value))}
-    return {**info, "format": "png", "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(),
+    result = {**info, "format": "png", "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(),
             "transparency_chunk": transparency, "transparency_supported": info["alpha_channel"] or transparency,
             "actual_transparent_pixels": None, "structure_validation": "passed",
             "pixel_validation": "not performed", "metadata_model_mentions": sorted(mentions),
             "metadata_version_candidates": sorted(candidates), "model_verification": "unverified",
             "signature_verification": "not performed"}
+    if pixels:
+        result.update(_inspect_pixels(data, info, alpha_threshold))
+    return result
+
+
+def _padding_ratios(box: tuple | None, width: int, height: int) -> dict | None:
+    if box is None:
+        return None
+    left, top, right, bottom = box
+    return {"left": left / width, "top": top / height,
+            "right": (width - right) / width, "bottom": (height - bottom) / height}
+
+
+def _inspect_pixels(data: bytes, info: dict, threshold: int) -> dict:
+    if info["width"] * info["height"] > MAX_DECODE_PIXELS:
+        raise ValueError(f"Pixel decoding exceeds {MAX_DECODE_PIXELS:,} pixels")
+    if info["bit_depth"] == 16:
+        raise ValueError("Pixel inspection supports PNG bit depths up to 8; 16-bit samples would lose precision")
+    try:
+        from PIL import Image
+    except ImportError as error:
+        raise ValueError("--pixels requires Pillow; run with: uv run --with Pillow python inspect_image.py IMAGE --pixels") from error
+    try:
+        with io.BytesIO(data) as source, Image.open(source, formats=["PNG"]) as image:
+            if image.is_animated:
+                raise ValueError("Pixel inspection requires a single-frame PNG")
+            image.load()
+            with image.convert("RGBA") as rgba, rgba.getchannel("A") as alpha:
+                histogram = alpha.histogram()
+                raw_box = alpha.getbbox()
+                mask_table = [255 if value > threshold else 0 for value in range(256)]
+                with alpha.point(mask_table) as visible:
+                    visible_box = visible.getbbox()
+                alpha_min, alpha_max = alpha.getextrema()
+    except (OSError, ValueError, SyntaxError) as error:
+        raise ValueError(f"PNG pixel decoding failed: {error}") from error
+    evidence = {"decoder": "Pillow", "alpha_scale": 255, "visible_alpha_threshold": threshold,
+                "pixel_count": info["width"] * info["height"], "alpha_min": alpha_min, "alpha_max": alpha_max,
+                "fully_transparent_pixels": histogram[0], "partially_transparent_pixels": sum(histogram[1:255]),
+                "near_opaque_pixels": sum(histogram[250:]), "fully_opaque_pixels": histogram[255],
+                "raw_bbox": list(raw_box) if raw_box is not None else None,
+                "visible_bbox": list(visible_box) if visible_box is not None else None,
+                "raw_padding_ratios": _padding_ratios(raw_box, info["width"], info["height"]),
+                "visible_padding_ratios": _padding_ratios(visible_box, info["width"], info["height"])}
+    return {"pixel_validation": "passed", "actual_transparent_pixels": sum(histogram[:255]),
+            "pixel_evidence": evidence}
 
 
 def _write_manifest(path: Path, manifest: dict, force: bool) -> None:
@@ -178,7 +230,8 @@ def _write_manifest(path: Path, manifest: dict, force: bool) -> None:
 
 
 def record_manifest(output: Path, prompt: str, references: list[Path], route: str,
-                    source: str, revised_prompt: str | None = None, force: bool = False) -> Path:
+                    source: str, revised_prompt: str | None = None, force: bool = False, *,
+                    pixels: bool = False, alpha_threshold: int = DEFAULT_ALPHA_THRESHOLD) -> Path:
     """Save exact submitted text and unverified output evidence beside a valid PNG."""
     if not prompt.strip() or len(prompt.encode("utf-8")) > MAX_PROMPT_BYTES:
         raise ValueError("Prompt must be nonempty and no larger than 1 MiB")
@@ -189,7 +242,7 @@ def record_manifest(output: Path, prompt: str, references: list[Path], route: st
     if not route.strip() or not source.strip() or len(route) > 128 or len(source) > 4096:
         raise ValueError("Provide a route of at most 128 and a source of at most 4096 characters")
     output = Path(os.path.abspath(output.expanduser()))
-    info = inspect_png(read_bounded(output))
+    info = inspect_png(read_bounded(output), pixels=pixels, alpha_threshold=alpha_threshold)
     reference_records = []
     for reference in references:
         reference = reference.expanduser().resolve(strict=True)
@@ -213,17 +266,27 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--route")
     parser.add_argument("--source")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--pixels", action="store_true", help="Decode alpha with optional Pillow, at most 16,777,216 pixels")
+    parser.add_argument("--alpha-threshold", type=int, default=DEFAULT_ALPHA_THRESHOLD,
+                        help="Visible bounding box includes alpha greater than this value (0-254; default 8)")
     args = parser.parse_args(argv)
+    if not 0 <= args.alpha_threshold < 255:
+        parser.error("--alpha-threshold must be from 0 through 254")
+    if not args.pixels and args.alpha_threshold != DEFAULT_ALPHA_THRESHOLD:
+        parser.error("--alpha-threshold requires --pixels")
     try:
         if args.record:
             if args.prompt_file is None or args.route is None or args.source is None:
                 parser.error("--record requires --prompt-file, --route, and --source")
             prompt = read_bounded(args.prompt_file.expanduser(), MAX_PROMPT_BYTES).decode("utf-8")
-            result = {"manifest": str(record_manifest(args.image, prompt, args.ref, args.route, args.source, force=args.force))}
+            result = {"manifest": str(record_manifest(args.image, prompt, args.ref, args.route, args.source,
+                                                      force=args.force, pixels=args.pixels,
+                                                      alpha_threshold=args.alpha_threshold))}
         else:
             if args.prompt_file is not None or args.ref or args.route is not None or args.source is not None or args.force:
                 parser.error("Recording options require --record")
-            result = inspect_png(read_bounded(args.image.expanduser()))
+            result = inspect_png(read_bounded(args.image.expanduser()), pixels=args.pixels,
+                                 alpha_threshold=args.alpha_threshold)
         print(json.dumps(result, indent=2))
         return 0
     except (OSError, ValueError) as error:

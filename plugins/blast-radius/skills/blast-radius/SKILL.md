@@ -1,6 +1,6 @@
 ---
 name: blast-radius
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: "Find what a change could break outside its diff, identify the safety facts it depends on, and prove those facts with executable evidence when practical."
 ---
@@ -25,8 +25,6 @@ For each safety fact, get as far down this ladder as practical and report where 
 4. exercised by a focused script or test against the real code;
 5. reproduced in the running artifact.
 
-Do not describe a fact as settled below level 4 unless the higher level is impractical and the remaining uncertainty is explicit.
-
 ## Steps
 
 1. **Read the change.** Inspect the requested diff, changed symbols, surrounding code, and local repository history. Use `why` when installed and historical intent is material. Without it, inspect read-only git history, tests, comments, and available runtime evidence directly, separating sourced intent from inference.
@@ -42,7 +40,7 @@ When installed, `code-review` remains authoritative for standards/spec review an
 
 - **Behavioral delta**
 - **Load-bearing safety facts**, each with evidence level and proof
-- **Confirmed risks**
+- **Risks**
 - **Cleared hypotheses**
 - **Unproven assumptions**
 - **Cheapest next verification**

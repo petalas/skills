@@ -19,7 +19,7 @@ const repositoryRoot = resolve(scriptDirectory, "..");
 const pstackRoot = resolve(
   process.env.PSTACK_SOURCE_ROOT ?? resolve(repositoryRoot, "..", "plugins", "pstack")
 );
-const sourceCommit = "71ed0d1076fec562c1b74ee353121a8d00f75382";
+const sourceCommit = "c47b12849e43f18d5c374c7069c744cc55b0ea00";
 const [name, sourceRelative, ...additionalSourcePaths] = process.argv.slice(2);
 
 if (!name || !sourceRelative) {

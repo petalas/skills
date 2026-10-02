@@ -1,6 +1,6 @@
 ---
 name: how
-version: 0.1.1
+version: 0.2.0
 disable-model-invocation: true
 description: "Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Use why for historical motivation."
 ---
@@ -13,7 +13,9 @@ This skill is read-only. It may inspect repository files, history, tests, genera
 
 When subagents are available, use them for independent repository exploration. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Child agents must keep findings local and must not send, post, comment, review, or otherwise communicate through any external service.
 
-Model preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present, and map roles only to models the current host confirms are available. Otherwise omit model selection and inherit the parent or host defaults. Never require the file or hard-code unconfirmed model identifiers.
+Model and reasoning preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present. Use `bulk source reading` for explorers, `judgment and prose` for a simple explanation, and `synthesis` for the combined explanation.
+
+Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below.
 
 If the host cannot create subagents, perform the same exploration locally and say which parallel checks were collapsed into the main pass.
 
@@ -25,20 +27,20 @@ Treat a single module or narrow symbol as simple. Treat a cross-cutting feature,
 
 ## 2. Explore the code
 
-For a simple target, trace it directly. For a complex target, split the investigation into two to four independent angles, such as:
+For a simple target, use one read-only worker with the `judgment and prose` preference to explore and explain in one pass. Build its brief from [`references/explainer-prompt.md`](references/explainer-prompt.md) without explorer findings. Trace and explain locally when delegation is unavailable. For a complex target, split the investigation into two to four independent angles, such as:
 
 - entry points and request flow;
 - state, persistence, and data transformations;
 - boundaries, integrations, and failure paths;
 - configuration, metrics, and lifecycle behavior.
 
-When subagents are available, launch those angles concurrently with [`references/explorer-prompt.md`](references/explorer-prompt.md). Use host-supported general repository workers and read-only permissions where the host exposes them. Do not request a particular model or rely on host-specific task schemas.
+When subagents are available, launch those angles concurrently with [`references/explorer-prompt.md`](references/explorer-prompt.md). Use host-supported general repository workers and read-only permissions where the host exposes them. Apply the role preferences above without relying on host-specific task schemas.
 
 Every pass must read the implementation, follow callers and callees, inspect the relevant types, and stop only when it can trace input to output or trigger to effect without guessing. Acknowledge untraced edges.
 
 ## 3. Synthesize
 
-For a simple target, write the explanation directly with [`references/explainer-prompt.md`](references/explainer-prompt.md) as a style guide. For a complex target, have one available subagent synthesize the explorer reports, or synthesize locally when delegation is unavailable.
+For a simple target, use the explanation from the single pass. For a complex target, have one read-only subagent with the `synthesis` preference combine the explorer reports using [`references/explainer-prompt.md`](references/explainer-prompt.md), or synthesize locally when delegation is unavailable.
 
 Resolve contradictions against the code. Do not let a confident explorer report outrank direct evidence.
 

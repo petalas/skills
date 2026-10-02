@@ -1,6 +1,6 @@
 ---
 name: principle-outcome-oriented-execution
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: "Apply during planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture; don't preserve smooth intermediate states with throwaway compatibility code."
 ---
@@ -15,7 +15,6 @@ Optimize for the intended, verifiable end state rather than preserving smooth in
 
 - Prioritize end-state integrity over transitional stability
 - Intermediate breakage is acceptable when it is planned, scoped, and reversible
-- Always run final verification before declaring done
 
 **Guardrails:**
 

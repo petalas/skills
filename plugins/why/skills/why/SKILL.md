@@ -1,6 +1,6 @@
 ---
 name: why
-version: 0.1.1
+version: 0.2.0
 disable-model-invocation: true
 description: "Investigate why code has its current shape using read-only repository history, issue tracking, user-scoped documents, observability, error tracking, and product data."
 ---
@@ -13,7 +13,9 @@ This is a read-only investigation. Agents may inspect repository state, version-
 
 When subagents are available, assign one evidence lane to each investigator. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. If delegation is unavailable, run the same lanes sequentially and identify any lane the host could not inspect.
 
-Model preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present, and map roles only to models the current host confirms are available. Otherwise omit model selection and inherit the parent or host defaults. Never require the file or hard-code unconfirmed model identifiers.
+Model and reasoning preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present. Use `bulk source reading` for investigators and `synthesis` for a delegated synthesizer.
+
+Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below.
 
 ## Investigative posture
 
@@ -74,7 +76,7 @@ After the first pass, route concrete cross-lane leads to the appropriate investi
 
 ## 5. Synthesize
 
-Use [`references/synthesizer-prompt.md`](references/synthesizer-prompt.md). Separate:
+Use one read-only synthesizer with the `synthesis` preference and [`references/synthesizer-prompt.md`](references/synthesizer-prompt.md) when subagents are available. Otherwise synthesize locally using the same template. Separate:
 
 - directly supported conclusions;
 - evidence-supported inferences;

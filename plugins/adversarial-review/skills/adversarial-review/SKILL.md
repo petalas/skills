@@ -1,6 +1,6 @@
 ---
 name: adversarial-review
-version: 0.1.1
+version: 0.2.0
 disable-model-invocation: true
 description: "Run independent read-only reviewers against the same code and intent, then apply lead judgment to surface high-confidence blind spots without changing the code."
 ---
@@ -11,7 +11,9 @@ Stress-test code with independent reviewers, then synthesize their findings into
 
 This skill is read-only. Reviewers may inspect the scoped diff, surrounding repository code, tests, and local history. They must never edit code, submit a review, post a comment, change a pull request, create an issue, or message anyone. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Keep all findings and drafts local.
 
-Model preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present, and map roles only to models the current host confirms are available. Otherwise omit model selection and inherit the parent or host defaults. Never require the file or hard-code unconfirmed model identifiers.
+Model and reasoning preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present. Use `review lenses` for reviewers. A list requests one reviewer per entry, including aliases. Keep at least two independent review passes even when the preference provides only one model.
+
+Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below.
 
 `code-review` remains authoritative for standards and specification review. `fix-all-issues` remains authoritative for bounded exhaustive review and remediation. Use this skill only as an additional independent-opinion pass; it must not weaken their scope, evidence, attribution, exact-tree, or authorization rules.
 

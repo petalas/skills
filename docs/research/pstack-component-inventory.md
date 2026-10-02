@@ -7,6 +7,10 @@ change or stay behind, if the result must work outside Cursor, support a solo
 developer, allow internal subagent coordination, and never communicate with
 other people?
 
+## Current update
+
+The [0.15.5 port decisions](pstack-0.15.5-update.md) record all 45 changed paths, portable instruction removals, host adaptations, and continuing exclusions. Baseline source links below remain historical unless a row records a changed disposition.
+
 ## Sources and method
 
 This inventory reads the pstack subtree at commit
@@ -190,8 +194,8 @@ independently installable.
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | [`authoring-a-skill.md`](https://github.com/cursor/plugins/blob/799151d91b6e12ee7dbd09f708eec108d7de9b3b/pstack/skills/poteto-mode/playbooks/authoring-a-skill.md) | Adapt           | Cursor built-in `create-skill`, `cursor-team-kit`, PR finish                          | Skill authoring plugin or target contributor guide                                       |
 | [`autonomous-run.md`](https://github.com/cursor/plugins/blob/799151d91b6e12ee7dbd09f708eec108d7de9b3b/pstack/skills/poteto-mode/playbooks/autonomous-run.md)       | Adapt           | Cursor `/loop`, `AskQuestion`, commits/PR side work                                   | Router build and verify                                                                  |
-| [`autopilot-full.md`](https://github.com/cursor/plugins/blob/799151d91b6e12ee7dbd09f708eec108d7de9b3b/pstack/skills/poteto-mode/playbooks/autopilot-full.md)       | Exclude         | Cursor cloud agents, Graphite, Bugbot, pushes, PR comments, autonomous merges         | Deferred automated PR workflows                                                          |
-| [`autopilot-stack.md`](https://github.com/cursor/plugins/blob/799151d91b6e12ee7dbd09f708eec108d7de9b3b/pstack/skills/poteto-mode/playbooks/autopilot-stack.md)     | Exclude         | Cursor cloud agents, Graphite topology, PR verdict comments                           | Deferred Graphite workflows                                                              |
+| [`autopilot-full.md`](https://github.com/cursor/plugins/blob/c47b12849e43f18d5c374c7069c744cc55b0ea00/pstack/skills/poteto-mode/playbooks/autopilot-full.md)       | Extract concept | Cursor cloud agents, Graphite, Bugbot, pushes, PR comments, autonomous merges         | engineering-mode local worker accounting; remote lifecycle excluded                      |
+| [`autopilot-stack.md`](https://github.com/cursor/plugins/blob/c47b12849e43f18d5c374c7069c744cc55b0ea00/pstack/skills/poteto-mode/playbooks/autopilot-stack.md)     | Extract concept | Cursor cloud agents, Graphite topology, PR verdict comments                           | engineering-mode local worker accounting; remote lifecycle excluded                      |
 | [`babysit.md`](https://github.com/cursor/plugins/blob/799151d91b6e12ee7dbd09f708eec108d7de9b3b/pstack/skills/poteto-mode/playbooks/babysit.md)                     | Exclude         | Automated review-thread replies, Bugbot triage, CI/PR polling and pushes              | Deferred review-thread workflows                                                         |
 | [`bug-fix.md`](https://github.com/cursor/plugins/blob/799151d91b6e12ee7dbd09f708eec108d7de9b3b/pstack/skills/poteto-mode/playbooks/bug-fix.md)                     | Adapt           | Cursor loop/model and generic control skill; ends in PR                               | Build and verify; stop at local verified change                                          |
 | [`eval.md`](https://github.com/cursor/plugins/blob/799151d91b6e12ee7dbd09f708eec108d7de9b3b/pstack/skills/poteto-mode/playbooks/eval.md)                           | Adapt           | Cursor transcripts and arena task semantics                                           | Skill evaluation                                                                         |

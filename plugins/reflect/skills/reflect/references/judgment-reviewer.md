@@ -10,7 +10,7 @@ Look for mistakes and corrections, repeated user preferences, architectural fact
 
 Limit findings to skills or capabilities the session used, plus skills that were visible but failed to trigger. Route a missed trigger to `tune description: <skill path>`. Route a body gap to the exact skill and section. Propose `new skill: <kebab-name>` only when no existing skill is a real home.
 
-Return three to five findings. Each finding has:
+List each durable learning you find. Each finding has:
 
 - Principle: one durable rule.
 - Evidence: an exact moment, short quote, command, or artifact pointer.

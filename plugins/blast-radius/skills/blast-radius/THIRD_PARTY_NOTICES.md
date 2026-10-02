@@ -5,8 +5,8 @@
 This skill includes material copied or adapted from pstack.
 
 - Repository: https://github.com/cursor/plugins
-- Source commit: 71ed0d1076fec562c1b74ee353121a8d00f75382
-- Source subtree: https://github.com/cursor/plugins/tree/71ed0d1076fec562c1b74ee353121a8d00f75382/pstack
+- Source commit: c47b12849e43f18d5c374c7069c744cc55b0ea00
+- Source subtree: https://github.com/cursor/plugins/tree/c47b12849e43f18d5c374c7069c744cc55b0ea00/pstack
 - Source-to-installed-file mappings:
 
 - `skills/blast-radius/SKILL.md` -> `SKILL.md` (modified)

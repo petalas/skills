@@ -1,6 +1,6 @@
 ---
 name: architect
-version: 0.1.1
+version: 0.2.0
 disable-model-invocation: true
 description: "Design non-trivial code from caller usage, types, signatures, and module boundaries before implementation, then implement against the chosen sketch when the request authorizes it."
 ---
@@ -13,7 +13,9 @@ When installed, `codebase-design` is authoritative for deep-module vocabulary, i
 
 When candidates or critics are delegated, Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. All child agents keep artifacts local and may not send, post, comment, review, or mutate external systems. If subagents are unavailable, produce two independent local sketches before comparing them.
 
-Model preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present, and map roles only to models the current host confirms are available. Otherwise omit model selection and inherit the parent or host defaults. Never require the file or hard-code unconfirmed model identifiers.
+Model and reasoning preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present. Use `architect candidates` for candidate models, falling back to `design candidates` when that role is absent. Pass these choices to `arena` when it is installed. Use `independent judge` for a delegated design judge.
+
+Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below.
 
 ## 1. Ground
 

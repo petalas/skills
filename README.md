@@ -209,9 +209,9 @@ the user handles communication with other people.
 
 ## Pstack provenance
 
-The derived collection uses pstack 0.15.0 at commit
-`71ed0d1076fec562c1b74ee353121a8d00f75382` as its fixed upstream baseline.
-See [the 0.15.0 port decisions](docs/research/pstack-0.15.0-update.md) for changes and exclusions.
+The derived collection uses pstack 0.15.5 at commit
+`c47b12849e43f18d5c374c7069c744cc55b0ea00` as its fixed upstream baseline.
+See [the 0.15.5 port decisions](docs/research/pstack-0.15.5-update.md) for changes and exclusions.
 Each substantially copied or adapted skill contains Lauren Tan's full MIT
 notice and an exact source-path table inside its installed directory. See
 [the import manifest](docs/pstack-imports.json) and the

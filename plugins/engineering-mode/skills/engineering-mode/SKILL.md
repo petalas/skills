@@ -1,6 +1,6 @@
 ---
 name: engineering-mode
-version: 0.4.1
+version: 0.5.0
 description: "Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code that will be kept. Picks one playbook, routes to the matching principle skills and power-of-ten, and proves the result on the real artifact. Skip for casual questions, throwaway scripts, or when the user opts out."
 ---
 
@@ -21,6 +21,7 @@ Subagents may communicate with each other, but no agent may communicate with a p
 - Read repository instructions before editing.
 - Name the behavior, data shape, or measurable predicate before implementation.
 - Prefer the smallest change supported by evidence.
+- Every claim carries its evidence or its label in the same sentence: measured, inferred, or guess. A prediction or an unseen cause is a guess. Run checks you can perform before handing them to the user.
 - Remove dead code before adding a new abstraction.
 - Parse and validate at system boundaries. Keep internal logic typed and direct.
 - Give concurrent writers disjoint files, worktrees, or branches. Serialize shared writes.
@@ -81,7 +82,11 @@ Leaf skills are installed beside this skill and are user-only; do not try to inv
 
 ## Decision gate
 
-Do not execute while a product, scope, safety, or one-way user decision remains unresolved. If `wayfinder` is installed and the destination is still foggy or too large for one session, invoke it to create or work through decision tickets. Otherwise write a short local decision brief with the question, known facts, options, consequences, and recommendation, then stop for the user to decide. Internal agent votes may compare evidence. They never settle a one-way user decision.
+Before asking about an approach, check whether a local experiment can answer the question. Use the prototype playbook for observable behavior, timing, layout, or performance. Keep a read-only investigation focused on a cited answer.
+
+Under an explicit full-autonomy grant, decide calls that the grant covers, act, and report the decision without asking for a reply. For a reversible preference that only the user can choose, apply a default within the grant, explain it fully, and give one reply word that reverses it. User-named gates, missing authority, safety decisions, and irreversible choices still require the user.
+
+Without that grant, do not execute while a product, scope, safety, or one-way user decision remains unresolved. If `wayfinder` is installed and the destination is still foggy or too large for one session, invoke it to create or work through decision tickets. Otherwise write a short local decision brief with the question, known facts, options, consequences, and recommendation, then stop for the user to decide. Internal agent votes may compare evidence. They never settle a one-way user decision.
 
 `auditable-run` starts only after these decisions are settled. When it is unavailable, use its local fallback: define a falsifiable predicate, split work into independently checked units, run one hypothesis at a time, and keep the local TSV trail described above.
 
@@ -122,7 +127,9 @@ Use `auditable-run` for a large execution task that needs a custom workflow afte
 
 Use available internal subagent capabilities, not host-specific task names or flags. Choose roles by need. Bulk reading, competing designs, implementation, and independent review are different jobs. Run independent work concurrently when capacity allows. Keep file pointers in prompts and avoid pasting large source blocks.
 
-Do not require a particular model. Use the current host's available choices, the local preferences file, or the parent model. A second opinion should differ by model family or reasoning profile when possible.
+Read the repository's documented model preferences or `.agents/agent-models.md` when present. Map feature and refactoring delegates to `implementation`, bug fixes to `bug investigation`, performance work and hillclimbs to `performance investigation`, and prose or judgment to `judgment and prose`. Use the same role for that delegate's work throughout the playbook.
+
+Use only host-confirmed model identifiers and the configured global `reasoning profile` when the host supports that model/profile pair. If the role is absent or its value is `auto` or `inherit-parent`, omit both overrides. For a missing, `auto`, or `inherit-parent` reasoning profile, omit only the reasoning override. If a configured pair is rejected, report the fallback and retry once without either override. If that also fails, perform the work locally or record the delegation gap. Do not construct model identifiers from profile names. A second opinion should differ by model family or reasoning profile when possible.
 
 ## Handoff
 

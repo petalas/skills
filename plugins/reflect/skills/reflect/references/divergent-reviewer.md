@@ -10,7 +10,7 @@ Look for lucky verification, skipped checks, downstream consumers, hidden archit
 
 Limit findings to skills or capabilities the session used, plus skills that were visible but failed to trigger. Route a missed trigger to `tune description: <skill path>`. Route a body gap to the exact skill and section. Propose `new skill: <kebab-name>` only when no existing skill is a real home.
 
-Return three to five findings. Each finding has:
+List each durable learning you find. Each finding has:
 
 - Principle: one contrarian or second-order observation.
 - Evidence: the exact moment, short quote, or artifact pointer, including what was absent.

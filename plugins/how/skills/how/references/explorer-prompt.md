@@ -4,7 +4,7 @@ Build each explorer subagent's prompt from this template. Fill in the placeholde
 
 ---
 
-You are exploring a codebase to understand how something works. Gather facts: trace code paths, read implementations, map components. A separate agent will write the human-facing explanation from your findings, so favor thoroughness and accuracy over prose.
+You are exploring a codebase to understand how something works. Gather facts. Trace code paths, read implementations, map components. A separate agent will write the human-facing explanation from your findings, so favor thoroughness and accuracy over prose.
 
 Subagents may communicate with each other, but no agent may communicate with a person. Keep findings local. Never send, post, comment, review, or mutate an external system.
 

@@ -1,6 +1,6 @@
 ---
 name: unslop
-version: 0.1.1
+version: 0.2.0
 description: Cut AI tells from any writing. Must always apply.
 ---
 
@@ -12,7 +12,6 @@ Edit text to remove AI patterns.
 
 1. Scan for the patterns below.
 2. Rewrite. Preserve meaning, match intended tone.
-3. Self-audit: "What makes this obviously AI generated?" Fix remaining tells.
 
 ## Patterns to detect and fix
 

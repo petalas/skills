@@ -1,6 +1,6 @@
 # Third-party notices
 
-The solo developer workflow guide is adapted from the pstack guide at commit `71ed0d1076fec562c1b74ee353121a8d00f75382`.
+The solo developer workflow guide is adapted from the pstack guide at commit `c47b12849e43f18d5c374c7069c744cc55b0ea00`.
 
 ## Source mapping
 

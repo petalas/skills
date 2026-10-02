@@ -15,9 +15,10 @@ Use these sources in this order:
 3. [`docs/research/pstack-component-inventory.md`](research/pstack-component-inventory.md)
    records the baseline decision to copy, adapt, extract, or exclude each
    upstream component.
-4. Each installed `SKILL.md` defines current behavior. Keep existing
-   `petalas/skills` behavior when upstream guidance conflicts with a stronger
-   local contract.
+4. Each installed `SKILL.md` defines current behavior. Port portable upstream
+   changes, including instruction removals. Preserve unrelated local behavior,
+   the solo policy, and model- and host-neutral operation. Do not retain removed
+   guidance merely because it appears more cautious or useful for a particular model.
 5. `scripts/validate-pstack-imports.mjs` defines the mechanical provenance,
    packaging, host-neutrality, and communication checks.
 
@@ -116,7 +117,7 @@ When a change overlaps an existing skill, use this order:
 
 1. Keep the existing local safety and authorization rules.
 2. Keep the existing behavioral owner.
-3. Merge useful upstream detail into that owner.
+3. Apply portable upstream additions and removals to that owner.
 4. Rename only when the upstream workflow has a distinct solo purpose.
 5. Exclude the change when it depends on team communication or automated
    external publication.

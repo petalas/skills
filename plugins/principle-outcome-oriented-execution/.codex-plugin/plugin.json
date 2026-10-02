@@ -1,6 +1,6 @@
 {
   "name": "principle-outcome-oriented-execution",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Apply during planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture; don't preserve smooth intermediate states with throwaway compatibility code.",
   "author": {
     "name": "Nick Petalas",

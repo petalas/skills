@@ -1,6 +1,6 @@
 # configure-agent-models
 
-Record host-neutral model preferences for internal agent roles using only models available in the current environment.
+Record host-neutral model and reasoning preferences for internal agent roles using only choices available in the current environment.
 
 ## Install
 

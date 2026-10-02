@@ -1,6 +1,6 @@
 ---
 name: principle-local-autonomy
-version: 0.1.1
+version: 0.2.0
 disable-model-invocation: true
 description: "Apply when reversible local work can proceed without a permission pause. Keep agents autonomous inside the workspace while reserving external communication and consequential actions for the user."
 ---
@@ -16,9 +16,7 @@ The user supervises through the current task conversation. Agents should stay un
 **Pattern:**
 
 - **Proceed, then present.** Do the work, show the result. Don't ask "should I do X?" Do X, explain why.
-- **Reserve questions for genuine ambiguity.** Ask only when you cannot infer intent from context.
 - **Make the system self-healing.** When you notice a problem, log it and fix it in the next round.
-- **Supervision is async.** Design workflows for review-after-the-fact.
 
 **Boundaries:**
 

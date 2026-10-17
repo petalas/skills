@@ -31,7 +31,6 @@ If you only want to install a skill, use the commands below and ignore the inter
 | [`create-verification-skill`](plugins/create-verification-skill/README.md)                                                   | Create a project-local skill that drives an app through its real user surface and captures proof.                                                      |
 | [`engineering-mode`](plugins/engineering-mode/README.md)                                                                     | Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code th... |
 | [`explain-code`](plugins/explain-code/README.md)                                                                             | Explain code by combining how it works with evidence for why it has that shape.                                                                        |
-| [`fix-all-issues`](plugins/fix-all-issues/README.md)                                                                         | Bounded PR review with exact-tree evidence and durable issue routes                                                                                    |
 | [`gpt-image-2-5`](plugins/gpt-image-2-5/README.md)                                                                           | Subscription image generation with saved prompts and artifact inspection                                                                               |
 | [`how`](plugins/how/README.md)                                                                                               | Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Use why for historical motivation.                   |
 | [`in-your-own-words`](plugins/in-your-own-words/README.md)                                                                   | Restate in your own words what you think the user's goals are and what problem they're trying to solve.                                                |
@@ -103,12 +102,6 @@ Install `commit-guidelines` globally:
 bunx skills@latest add petalas/skills --skill commit-guidelines -g -y
 ```
 
-Install `fix-all-issues` globally:
-
-```bash
-bunx skills@latest add petalas/skills --skill fix-all-issues -g -y
-```
-
 Install `safe-refactor` globally:
 
 ```bash
@@ -121,10 +114,10 @@ Install the optional solo-development router globally:
 bunx skills@latest add petalas/skills --skill engineering-mode -g -y
 ```
 
-Install `fix-all-issues` for the current project:
+Install `commit-guidelines` for the current project:
 
 ```bash
-bunx skills@latest add petalas/skills --skill fix-all-issues -y
+bunx skills@latest add petalas/skills --skill commit-guidelines -y
 ```
 
 ## Update
@@ -172,7 +165,7 @@ docs/PLUGIN_CATALOG.md
 What each layer is for:
 
 - `SKILL.md` contains the actual skill instructions
-- `commands/` provides command entrypoints like `$commit-guidelines` and `$fix-all-issues`
+- `commands/` provides command entrypoints like `$commit-guidelines` and `$safe-refactor`
 - `.codex-plugin/plugin.json` stores plugin metadata and public-facing display information
 - `.agents/plugins/marketplace.json` supports local plugin development
 - plugin-level `README.md` files make the repo easier to browse without digging through prompt files
@@ -199,7 +192,7 @@ More detail:
 
 - contribution workflow: [CONTRIBUTING.md](CONTRIBUTING.md)
 - release and update process: [docs/RELEASING.md](docs/RELEASING.md)
-- orchestration design notes: [LEARNINGS.md](LEARNINGS.md)
+- repository gotchas: [LEARNINGS.md](LEARNINGS.md)
 
 ## Philosophy
 

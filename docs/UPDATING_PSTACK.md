@@ -32,8 +32,8 @@ Apply these rules to every upstream change:
 
 - Keep one behavioral owner for each job. Merge useful guidance into an
   existing authoritative skill instead of creating a competing workflow.
-- Keep `commit-guidelines`, `safe-refactor`, and `fix-all-issues` authoritative
-  for their existing scopes.
+- Keep `commit-guidelines` and `safe-refactor` authoritative for their existing
+  scopes.
 - Preserve the current renamed concepts. For example, `poteto-mode` maps to
   `engineering-mode`, `setup-pstack` maps to `configure-agent-models`, and
   pstack `tdd` maps to the narrower `regression-test` skill.

@@ -160,7 +160,6 @@ third-party notice file at the fixed commit. Its current plugin manifests all
 declare `"license": "UNLICENSED"`:
 
 - [`commit-guidelines` line 13](https://github.com/petalas/skills/blob/ff2cfb9b4540b0691fa0165b9fd4895bc34eb4dd/plugins/commit-guidelines/.codex-plugin/plugin.json#L13)
-- [`fix-all-issues` line 13](https://github.com/petalas/skills/blob/ff2cfb9b4540b0691fa0165b9fd4895bc34eb4dd/plugins/fix-all-issues/.codex-plugin/plugin.json#L13)
 - [`safe-refactor` line 13](https://github.com/petalas/skills/blob/ff2cfb9b4540b0691fa0165b9fd4895bc34eb4dd/plugins/safe-refactor/.codex-plugin/plugin.json#L13)
 
 The extraction resolves that ambiguity by MIT-licensing each pstack-derived

@@ -1,6 +1,6 @@
 ---
 name: engineering-mode
-version: 0.6.0
+version: 0.6.1
 description: "Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code that will be kept. Picks one playbook, routes to the matching principle skills and power-of-ten, and proves the result on the real artifact. Skip for casual questions, throwaway scripts, or when the user opts out."
 ---
 
@@ -99,7 +99,7 @@ Match review work by intent before choosing an implementation playbook.
 
 - Use `code-review` for a read-only review against repository standards and the originating spec. If unavailable, inspect the exact diff from the named base, read repository instructions, check behavior and tests, and report only evidence-backed findings with file and line pointers.
 - Use `adversarial-review` to pressure-test a design, diagnosis, or patch without changing it. If unavailable, run two or more read-only internal reviewers with different lenses, verify their claims against source, and synthesize agreements and disagreements.
-- Use `fix-all-issues` when the user asks for a bounded repeated review-and-fix loop over all qualifying findings. If unavailable, define the responsibility boundary and stop conditions, alternate fresh local review with focused fixes, validate the exact tree after each round, and stop only on a clean, blocked, stabilized, or capped result.
+- When the user asks for a bounded repeated review-and-fix loop over all qualifying findings, define the responsibility boundary and stop conditions, alternate fresh local review with focused fixes, validate the exact tree after each round, and stop only on a clean, blocked, stabilized, or capped result.
 
 Review routes do not grant remote mutation or human-communication authority.
 

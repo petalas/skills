@@ -1,6 +1,6 @@
 ---
 name: adversarial-review
-version: 0.3.0
+version: 0.3.1
 disable-model-invocation: true
 description: "Run independent read-only reviewers against the same code and intent, then apply lead judgment to surface high-confidence blind spots without changing the code."
 ---
@@ -15,7 +15,7 @@ Model and reasoning preferences are optional. Read repository-documented model c
 
 Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
-`code-review` remains authoritative for standards and specification review. `fix-all-issues` remains authoritative for bounded exhaustive review and remediation. Use this skill only as an additional independent-opinion pass; it must not weaken their scope, evidence, attribution, exact-tree, or authorization rules.
+`code-review` remains authoritative for standards and specification review. Use this skill only as an additional independent-opinion pass; it must not weaken that skill's scope, evidence, or authorization rules.
 
 If the host cannot create multiple subagents, perform two explicitly separate review passes with different lenses, then disclose the lack of independent workers.
 

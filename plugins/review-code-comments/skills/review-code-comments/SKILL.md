@@ -1,6 +1,6 @@
 ---
 name: review-code-comments
-version: 0.2.0
+version: 0.2.1
 disable-model-invocation: true
 description: "Review source-code comments for noise, stale explanations, suppressions, and constraints that should be encoded in code, then apply only authorized local cleanups."
 ---
@@ -17,7 +17,7 @@ Model preferences are optional. Read repository-documented model configuration o
 
 ## Scope and authority
 
-Use the files or diff named by the caller. Otherwise use the smallest current diff implied by context. Local comment edits are allowed only when the user's request authorizes changes. When installed, `safe-refactor` is authoritative for broader behavior-preserving restructuring and `fix-all-issues` is authoritative for exhaustive review and remediation. Without them, keep this skill inside comment cleanup and small obvious encodings; report any broader work as a local follow-up instead of expanding scope.
+Use the files or diff named by the caller. Otherwise use the smallest current diff implied by context. Local comment edits are allowed only when the user's request authorizes changes. When installed, `safe-refactor` is authoritative for broader behavior-preserving restructuring. In either case, keep this skill inside comment cleanup and small obvious encodings; report any broader work as a local follow-up instead of expanding scope.
 
 ## Keep only proven exceptions
 

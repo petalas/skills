@@ -1,6 +1,6 @@
 {
   "name": "review-code-comments",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Review source-code comments for noise, stale explanations, suppressions, and constraints that should be encoded in code, then apply only authorized local cleanups.",
   "author": {
     "name": "Nick Petalas",

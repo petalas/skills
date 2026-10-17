@@ -1,6 +1,6 @@
 ---
 name: blast-radius
-version: 0.2.0
+version: 0.2.1
 disable-model-invocation: true
 description: "Find what a change could break outside its diff, identify the safety facts it depends on, and prove those facts with executable evidence when practical."
 ---
@@ -34,7 +34,7 @@ For each safety fact, get as far down this ladder as practical and report where 
 5. **Rank confirmed risks.** For each, give the reachable failure path, exact evidence, likelihood, impact, and cheapest check. Separate cleared hypotheses from remaining risks.
 6. **Prove the safety facts.** Prefer the smallest focused executable check that imports and exercises the real shipped code. Keep any probe local. Do not claim production certainty from a mocked proxy.
 
-When installed, `code-review` remains authoritative for standards/spec review and `fix-all-issues` remains authoritative for exhaustive remediation. Without them, this skill still completes its scoped risk probe but does not expand into those broader workflows. It does not authorize changes merely because it found a risk.
+When installed, `code-review` remains authoritative for standards/spec review. Without it, this skill still completes its scoped risk probe. In either case it does not expand into broader review or remediation. It does not authorize changes merely because it found a risk.
 
 ## Output
 

@@ -124,7 +124,7 @@ independently installable.
 | Personal workflow       | `automate-me`, `reflect`, `show-me-your-work`, `figure-it-out`                                                                | Keep artifacts local; never file tracker items automatically.                                                                          |
 | Writing                 | `unslop`, `technical-writing`, `bro`                                                                                          | Copy `unslop` and `bro`; adapt technical-writing links and ASCII spelling.                                                             |
 | Language guidance       | `typescript-best-practices`                                                                                                   | Adapt the skill's sibling-skill references for standalone use; copy its patterns reference.                                            |
-| Existing target plugins | `safe-refactor`, `commit-guidelines`, `fix-all-issues`                                                                        | Fold distinctive refactor, PR-authoring, and review ideas into these only after a gap check; do not create near-duplicates.            |
+| Existing target plugins | `safe-refactor`, `commit-guidelines`                                                                                          | Fold distinctive refactor and PR-authoring ideas into these only after a gap check; do not create near-duplicates.                     |
 
 ## Skill inventory
 
@@ -315,8 +315,7 @@ rules consistently rather than fixing each copied file ad hoc.
    other human-directed external communication. Skills that can prepare a PR
    body return the draft to the user.
 7. **Existing target overlap:** compare source behavior against
-   `safe-refactor`, `commit-guidelines`, and `fix-all-issues` before creating a
-   new plugin. Add only a distinctive behavior; do not fork two competing
+   `safe-refactor` and `commit-guidelines` before creating a new plugin. Add only a distinctive behavior; do not fork two competing
    policies.
 
 ## Extraction waves

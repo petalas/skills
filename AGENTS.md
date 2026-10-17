@@ -80,6 +80,6 @@ type(scope): description
 ```
 
 Valid types: `feat`, `fix`, `refactor`, `chore`, `perf`, `docs`, `style`, `test`, `build`, `ci`, `revert`, `release`.
-Scopes are usually plugin names such as `commit-guidelines`, `fix-all-issues`, or `safe-refactor`, or repository areas such as `docs` and `ci`.
+Scopes are usually plugin names such as `commit-guidelines`, `engineering-mode`, or `safe-refactor`, or repository areas such as `docs` and `ci`.
 
 Do not add `Co-Authored-By` footers.

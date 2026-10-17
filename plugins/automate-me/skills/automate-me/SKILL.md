@@ -1,6 +1,6 @@
 ---
 name: automate-me
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: Create or update a personal mode skill from the user's stated preferences and workspace-scoped conversation history.
 ---
@@ -21,7 +21,7 @@ For an update, preserve rules that new evidence does not contradict. Mine only h
 
 Use only the active workspace's conversation history exposed by the host. Never scan unrelated projects or a global transcript store. If no transcript path or conversation-history capability exists, work from the current conversation and ask the user for missing preferences.
 
-When enough history exists, split it into a few time slices and ask parallel read-only subagents to find recurring patterns. Require evidence pointers. Promote patterns repeated across slices. Treat a single occurrence as weak evidence.
+When enough history exists, split it into a few time slices and ask parallel read-only subagents to find recurring patterns. Require evidence pointers. Promote patterns repeated across slices. Treat a single occurrence as weak evidence. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
 Look for response style, autonomy limits, delegation preferences, verification standards, code and prose rules, local process conventions, and skill-authoring habits.
 

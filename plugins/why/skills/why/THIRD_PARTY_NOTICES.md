@@ -5,8 +5,8 @@
 This skill includes material copied or adapted from pstack.
 
 - Repository: https://github.com/cursor/plugins
-- Source commit: c47b12849e43f18d5c374c7069c744cc55b0ea00
-- Source subtree: https://github.com/cursor/plugins/tree/c47b12849e43f18d5c374c7069c744cc55b0ea00/pstack
+- Source commit: 101b274dd991f694e1f7024be2157e5f3adf07de
+- Source subtree: https://github.com/cursor/plugins/tree/101b274dd991f694e1f7024be2157e5f3adf07de/pstack
 - Source-to-installed-file mappings:
 
 - `skills/why/SKILL.md` -> `SKILL.md` (modified)
@@ -14,7 +14,7 @@ This skill includes material copied or adapted from pstack.
 - `skills/why/references/investigator-prompt.md` -> `references/investigator-prompt.md` (modified)
 - `skills/why/references/source-playbook.md` -> `references/source-playbook.md` (modified)
 - `skills/why/references/synthesizer-prompt.md` -> `references/synthesizer-prompt.md` (modified)
-- `skills/why/references/sources/code-archaeology.md` -> `references/sources/code-archaeology.md` (modified)
+- `skills/why/references/sources/code-archaeology.md` -> `references/sources/code-archaeology.md` (unchanged)
 - `skills/why/references/sources/databricks.md` -> `references/sources/databricks.md` (modified)
 - `skills/why/references/sources/datadog.md` -> `references/sources/datadog.md` (modified)
 - `skills/why/references/sources/incident-postmortem.md` -> `references/sources/incident-postmortem.md` (modified)

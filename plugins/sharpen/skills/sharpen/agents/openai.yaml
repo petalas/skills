@@ -1,0 +1,7 @@
+interface:
+  display_name: "sharpen"
+  short_description: "Sharpen a task before starting: the expert approach, what the user is really after, and the right level of specification."
+  default_prompt: "Use $sharpen for this task."
+
+policy:
+  allow_implicit_invocation: false

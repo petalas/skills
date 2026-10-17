@@ -6,13 +6,11 @@ Datadog holds the runtime record, what actually happened in production, as oppos
 
 - **Metrics.** Counters, gauges, and histograms instrumented in the system. A metric's _presence_ is itself evidence that the number was worth watching.
 - **Monitors & alerts.** Conditions configured as operationally significant. A monitor firing on `rate_limit_hit > 10/min` is evidence that the threshold mattered.
-- **Dashboards.** Curated views. The charts show which subsystem signals were considered important.
-- **APM traces & spans.** Request-level runtime data. Useful for "why is this slow" / "why is there a timeout here" questions.
-- **Logs.** High-volume event records. Often contain the error conditions that motivated defensive code.
+- **Dashboards.** Curated views of which subsystem signals were considered important.
+- **APM traces & spans.** Request-level runtime data, for "why is this slow" / "why is there a timeout here" questions.
+- **Logs.** High-volume event records, often holding the error conditions that motivated defensive code.
 - **Incidents.** Formal incident records with timelines and linked postmortems.
-- **Notebooks.** Exploratory investigations. Often contain hypotheses and analyses.
-
-Datadog answers "what was the production reality around the time this code was written?", which often explains the code's shape.
+- **Notebooks.** Exploratory investigations, often with hypotheses and analyses.
 
 ## How to search it
 
@@ -25,7 +23,7 @@ Use the Datadog MCP. Start broad, then narrow.
    search_datadog_service_dependencies (see upstream/downstream)
    ```
 
-2. **Dashboards and monitors first. They show what the system is designed to watch.**
+2. **Dashboards and monitors first.**
 
    ```
    search_datadog_dashboards (query: feature name, service name, symbol)
@@ -51,7 +49,7 @@ Use the Datadog MCP. Start broad, then narrow.
    analyze_datadog_logs (SQL-style aggregations, only when you need counts)
    ```
 
-   Search with symbols, error strings, or feature names. **Strongly prefer time-bounded queries** (e.g., 30 days before/after the change). Log volume is huge. Unconstrained searches waste time and may time out.
+   Search with symbols, error strings, or feature names. **Strongly prefer time-bounded queries** (e.g., 30 days before/after the change).
 
 5. **APM spans and traces.**
 
@@ -82,11 +80,11 @@ Use the Datadog MCP. Start broad, then narrow.
 
 ## Common pitfalls
 
-- **Correlation is not causation.** A spike before a PR and stabilization after is suggestive, not definitive. Other changes may have landed in the same window. Check neighboring PRs.
+- **Correlation is not causation.** A spike before a PR and stabilization after is suggestive, not definitive, since other changes may have landed in the same window. Check neighboring PRs.
 - **Overfitting to the chart you found.** A chart reflects its creator's framing. A chart named "retry success rate" is evidence that retry success was monitored, not that it motivated a specific line of code.
 - **Vanished telemetry.** Metrics can be renamed, deleted, or have short retention. If you can't find data from the relevant window, that's a gap, not a null result.
-- **Noise at scale.** Searching logs for a common string returns thousands of matches. Narrow by service, tag, and time aggressively. Use `analyze_datadog_logs` to aggregate rather than dumping raw logs.
-- **Instrumented != caused.** A metric's existence tells you someone cared enough to measure something, not that the code was added _because_ of it. Cross-reference with commit/PR dates.
+- **Noise at scale.** Narrow log searches by service, tag, and time window aggressively. Use `analyze_datadog_logs` to aggregate rather than dumping raw logs.
+- **Instrumented != caused.** A metric shows someone cared enough to measure something, not that the code was added _because_ of it. Cross-reference with commit/PR dates.
 
 ## What to return
 

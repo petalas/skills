@@ -1,0 +1,27 @@
+{
+  "name": "ketchup",
+  "version": "0.1.0",
+  "description": "Catch the user up on what changed in this chat since their last message, in a few plain sentences and small visuals. Give each action item just enough context to make the call.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "ketchup"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "ketchup",
+    "shortDescription": "Catch the user up on what changed in this chat since their last message, in a few plain sentences and small visuals. Give each action item just enough context to make the call.",
+    "longDescription": "Catch the user up on what changed in this chat since their last message, in a few plain sentences and small visuals. Give each action item just enough context to make the call.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $ketchup for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

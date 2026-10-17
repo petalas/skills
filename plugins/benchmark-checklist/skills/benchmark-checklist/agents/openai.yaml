@@ -1,0 +1,7 @@
+interface:
+  display_name: "benchmark-checklist"
+  short_description: "Vet a perf measurement (limiter, tuning, limits, errors, repeatability, relevance, and whether the work happened) before you report or act on it. Use when you run a benchmark or report a speedup or regression you measured."
+  default_prompt: "Use $benchmark-checklist for this task."
+
+policy:
+  allow_implicit_invocation: false

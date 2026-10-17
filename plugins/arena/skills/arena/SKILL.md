@@ -1,19 +1,17 @@
 ---
 name: arena
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: "Generate several independent candidates for the same non-trivial artifact, judge them against a concrete rubric, and synthesize one verified result."
 ---
 
 # Arena
 
-Produce several independent attempts at the same artifact, select the strongest base, and deliberately graft useful ideas from the others into one coherent result.
-
 Arena never grants authority beyond the caller's task. Candidate agents may make only the local changes the user already authorized. They must never publish, push, comment, review, message, or mutate an external system. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt.
 
 Model and reasoning preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present. Use the caller's confirmed candidate choices when supplied; otherwise use `design candidates`. Select one entry from `independent judge` for the cross-judge. A candidate list requests one seat per entry, including aliases. The judge list is a pool, not a panel.
 
-Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below.
+Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
 If the host cannot run parallel subagents, produce the candidate attempts sequentially in isolated local paths. If isolation is also unavailable, keep candidates as clearly separated drafts and do not let one candidate see another before it is complete.
 
@@ -45,11 +43,11 @@ After every candidate has finished writing, ask one independent read-only judge 
 
 Read every candidate end to end. Score criterion by criterion. Prefer the base a future maintainer can extend without violating its invariants. When the judge and lead disagree, resolve the disagreement from evidence rather than averaging scores.
 
-When the remaining difference is a subjective preference owned by the user, such as visual taste, product voice, workflow feel, or an unrecorded scope tradeoff, check the caller's authority. Under an explicit full-autonomy grant that covers a reversible default, apply the default, explain it fully, and give one reply word that reverses it. Otherwise present the viable options and evidence in the current task and ask the user to choose. User-named gates and irreversible choices still require the user. Do not let agent votes, model diversity, or the cross-judge settle a preference that only the user can own.
+When the remaining difference is a subjective preference owned by the user, such as visual taste, product voice, workflow feel, or an unrecorded scope tradeoff, check the caller's authority. Under an explicit full-autonomy grant that covers a reversible default, apply the default, explain it fully, and say in plain words what the user could tell you to do instead. The user answers in their own words. Never offer a shorthand token to type back. Otherwise present the viable options and evidence in the current task and ask the user to choose. User-named gates and irreversible choices still require the user. Do not let agent votes, model diversity, or the cross-judge settle a preference that only the user can own.
 
 ## 5. Graft
 
-Inspect each losing candidate for one or two ideas worth adapting. Integrate those ideas by hand so the result retains one mental model. Record what was borrowed and what was rejected.
+Inspect each losing candidate for one or two ideas worth adapting. Integrate those ideas by hand so the result retains one mental model.
 
 If candidates converge, record the agreement and keep the simplest coherent shape. If they diverge because the brief was underspecified, refine the rubric and rerun instead of blending incompatible designs.
 
@@ -57,4 +55,4 @@ If candidates converge, record the agreement and keep the simplest coherent shap
 
 Run the checks appropriate to the synthesized artifact. A candidate report is not proof; inspect the actual output. When verification fails, decide whether the frame was wrong or a useful candidate idea was missed, then revisit that phase.
 
-Return one synthesized local artifact and a compact synthesis note. Do not publish either one.
+Return one synthesized local artifact and a compact synthesis note naming the base and why, the cross-judge's verdict, each graft with its source candidate, what was rejected and why, any convergence or dropouts, and the verification result. Do not publish either one.

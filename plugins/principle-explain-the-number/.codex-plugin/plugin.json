@@ -1,0 +1,27 @@
+{
+  "name": "principle-explain-the-number",
+  "version": "0.1.0",
+  "description": "Apply before you trust, report, or act on a number you measured: a speedup, a regression, a throughput, a latency, or an eval result. Find what limits it, and rule out that it measured something other than the work you think.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "principle-explain-the-number"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "principle-explain-the-number",
+    "shortDescription": "Apply before you trust, report, or act on a number you measured: a speedup, a regression, a throughput, a latency, or an eval result. Find what limits it, and rule out that it measured something other than the work you think.",
+    "longDescription": "Apply before you trust, report, or act on a number you measured: a speedup, a regression, a throughput, a latency, or an eval result. Find what limits it, and rule out that it measured something other than the work you think.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $principle-explain-the-number for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

@@ -1,0 +1,7 @@
+interface:
+  display_name: "principle-explain-the-number"
+  short_description: "Apply before you trust, report, or act on a number you measured: a speedup, a regression, a throughput, a latency, or an eval result. Find what limits it, and rule out that it measured something other than the work you think."
+  default_prompt: "Use $principle-explain-the-number for this task."
+
+policy:
+  allow_implicit_invocation: false

@@ -1,6 +1,6 @@
 ---
 name: review-code-comments
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: true
 description: "Review source-code comments for noise, stale explanations, suppressions, and constraints that should be encoded in code, then apply only authorized local cleanups."
 ---
@@ -13,7 +13,7 @@ This skill concerns comments in source files. It never reads or writes human rev
 
 Use a host-available general subagent with [`references/reviewer-prompt.md`](references/reviewer-prompt.md) rather than a named custom agent. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. If delegation is unavailable, run the same prompt as a separate local review pass before editing.
 
-Model preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present, and map roles only to models the current host confirms are available. Otherwise omit model selection and inherit the parent or host defaults. Never require the file or hard-code unconfirmed model identifiers.
+Model preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present, and map roles only to models the current host confirms are available. Otherwise omit model selection and inherit the parent or host defaults. Never require the file or hard-code unconfirmed model identifiers. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
 ## Scope and authority
 

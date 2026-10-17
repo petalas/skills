@@ -1,6 +1,6 @@
 ---
 name: adversarial-review
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: "Run independent read-only reviewers against the same code and intent, then apply lead judgment to surface high-confidence blind spots without changing the code."
 ---
@@ -13,7 +13,7 @@ This skill is read-only. Reviewers may inspect the scoped diff, surrounding repo
 
 Model and reasoning preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present. Use `review lenses` for reviewers. A list requests one reviewer per entry, including aliases. Keep at least two independent review passes even when the preference provides only one model.
 
-Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below.
+Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
 `code-review` remains authoritative for standards and specification review. `fix-all-issues` remains authoritative for bounded exhaustive review and remediation. Use this skill only as an additional independent-opinion pass; it must not weaken their scope, evidence, attribution, exact-tree, or authorization rules.
 
@@ -47,7 +47,7 @@ Deduplicate common root causes. Treat agreement as a confidence signal, not a vo
 
 ## 5. Apply lead judgment
 
-Use [`references/lead-judgment.md`](references/lead-judgment.md). Classify each finding:
+You are the lead reviewer, a pragmatic senior engineer, not a neutral aggregator. Use [`references/lead-judgment.md`](references/lead-judgment.md). Classify each finding:
 
 - **Act on:** demonstrated correctness, security, or material maintainability issues.
 - **Consider:** legitimate concerns with uncertain tradeoffs.

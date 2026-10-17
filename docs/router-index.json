@@ -37,7 +37,9 @@
         "principle-prove-it-works",
         "principle-fix-root-causes",
         "principle-sequence-verifiable-units",
-        "principle-test-behavior-not-implementation"
+        "principle-test-behavior-not-implementation",
+        "principle-explain-the-number",
+        "benchmark-checklist"
       ]
     },
     {

@@ -1,20 +1,21 @@
 # Third-party notices
 
-The solo developer workflow guide is adapted from the pstack guide at commit `c47b12849e43f18d5c374c7069c744cc55b0ea00`.
+The solo developer workflow guide is adapted from the pstack guide at commit `101b274dd991f694e1f7024be2157e5f3adf07de`.
 
 ## Source mapping
 
-| Upstream pstack path                    | Adapted path                            |
-| --------------------------------------- | --------------------------------------- |
-| `docs/guide/README.md`                  | `docs/guide/README.md`                  |
-| `docs/guide/02-poteto-mode.md`          | `docs/guide/01-entry-point.md`          |
-| `docs/guide/03-understand.md`           | `docs/guide/02-understand.md`           |
-| `docs/guide/04-design.md`               | `docs/guide/03-design.md`               |
-| `docs/guide/05-build-and-clean.md`      | `docs/guide/04-build.md`                |
-| `docs/guide/06-verify-and-ship.md`      | `docs/guide/05-verify.md`               |
-| `docs/guide/07-overnight.md`            | `docs/guide/06-long-running-work.md`    |
-| `docs/guide/08-principles.md`           | `docs/guide/07-principles.md`           |
-| `docs/guide/10-recipes-and-pitfalls.md` | `docs/guide/08-recipes-and-pitfalls.md` |
+| Upstream pstack path                    | Adapted path                                              |
+| --------------------------------------- | --------------------------------------------------------- |
+| `docs/guide/README.md`                  | `docs/guide/README.md`                                    |
+| `docs/guide/01-setup.md`                | `docs/guide/01-entry-point.md`, `docs/guide/05-verify.md` |
+| `docs/guide/02-poteto-mode.md`          | `docs/guide/01-entry-point.md`                            |
+| `docs/guide/03-understand.md`           | `docs/guide/02-understand.md`                             |
+| `docs/guide/04-design.md`               | `docs/guide/03-design.md`                                 |
+| `docs/guide/05-build-and-clean.md`      | `docs/guide/04-build.md`                                  |
+| `docs/guide/06-verify-and-ship.md`      | `docs/guide/05-verify.md`                                 |
+| `docs/guide/07-overnight.md`            | `docs/guide/06-long-running-work.md`                      |
+| `docs/guide/08-principles.md`           | `docs/guide/07-principles.md`                             |
+| `docs/guide/10-recipes-and-pitfalls.md` | `docs/guide/08-recipes-and-pitfalls.md`                   |
 
 The adapted guide removes Cursor-specific operation, teammate workflows, workplace communication, pull-request handling, and shipping guidance. It renames and relinks concepts to the host-neutral skills distributed by this repository.
 

@@ -11,7 +11,7 @@ const pluginsRoot = resolve(repositoryRoot, "plugins");
 const sourceRoot = resolve(
   process.env.PSTACK_SOURCE_ROOT ?? resolve(repositoryRoot, "..", "plugins", "pstack")
 );
-const approvedSourceCommit = "c47b12849e43f18d5c374c7069c744cc55b0ea00";
+const approvedSourceCommit = "101b274dd991f694e1f7024be2157e5f3adf07de";
 const importsManifest = JSON.parse(
   readFileSync(join(repositoryRoot, "docs", "pstack-imports.json"), "utf8")
 );

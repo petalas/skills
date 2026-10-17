@@ -36,6 +36,8 @@ bunx skills@latest add petalas/skills \
           principle-fix-root-causes \
           principle-sequence-verifiable-units \
           principle-test-behavior-not-implementation \
+          principle-explain-the-number \
+          benchmark-checklist \
           principle-guard-the-context-window \
           principle-local-autonomy \
           principle-encode-lessons-in-structure \

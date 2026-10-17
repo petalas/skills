@@ -1,0 +1,27 @@
+{
+  "name": "sharpen",
+  "version": "0.1.0",
+  "description": "Sharpen a task before starting: the expert approach, what the user is really after, and the right level of specification.",
+  "author": {
+    "name": "Nick Petalas",
+    "email": "webmasternikos@gmail.com",
+    "url": "https://github.com/petalas"
+  },
+  "homepage": "https://github.com/petalas/skills",
+  "repository": "https://github.com/petalas/skills",
+  "bugs": "https://github.com/petalas/skills/issues",
+  "license": "MIT",
+  "keywords": ["agent-skill", "solo-developer", "sharpen"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "sharpen",
+    "shortDescription": "Sharpen a task before starting: the expert approach, what the user is really after, and the right level of specification.",
+    "longDescription": "Sharpen a task before starting: the expert approach, what the user is really after, and the right level of specification.",
+    "developerName": "Nick Petalas",
+    "category": "Coding",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Use $sharpen for this task."],
+    "brandColor": "#475569",
+    "screenshots": []
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "unslop",
-  "version": "0.2.0",
-  "description": "Cut AI tells from any writing. Must always apply.",
+  "version": "0.3.0",
+  "description": "Cut AI tells from any writing. Use when writing or editing prose a person will read.",
   "author": {
     "name": "Nick Petalas",
     "email": "webmasternikos@gmail.com",
@@ -15,8 +15,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "unslop",
-    "shortDescription": "Cut AI tells from any writing. Must always apply.",
-    "longDescription": "Cut AI tells from any writing. Must always apply.",
+    "shortDescription": "Cut AI tells from any writing. Use when writing or editing prose a person will read.",
+    "longDescription": "Cut AI tells from any writing. Use when writing or editing prose a person will read.",
     "developerName": "Nick Petalas",
     "category": "Coding",
     "capabilities": ["Interactive"],

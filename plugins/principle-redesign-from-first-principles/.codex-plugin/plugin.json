@@ -1,6 +1,6 @@
 {
   "name": "principle-redesign-from-first-principles",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Apply when integrating a new requirement into an existing design. Redesign as if the requirement had been a foundational assumption from day one, instead of bolting it on.",
   "author": {
     "name": "Nick Petalas",

@@ -1,6 +1,6 @@
 ---
 name: configure-agent-models
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: Record host-neutral model and reasoning preferences for internal agent roles using only choices available in the current environment.
 ---
@@ -36,7 +36,7 @@ Do not add a role until a consumer skill documents that role. When a consumer is
 
 ## 3. Choose reasoning and confirm the mapping
 
-Show the current reasoning profile and offer the profiles the host actually supports, plus `inherit-parent` and `auto`. Use the chosen profile across explicit model entries, including panel entries. Keep existing model choices, lists, and aliases when changing the profile. Do not assume that profile labels, effort ordering, or model families are portable between hosts. A reasoning profile is a preference, not a guaranteed token or spending limit.
+Show the current reasoning profile and offer the profiles the host actually supports, plus `inherit-parent` and `auto`. Use the chosen profile across explicit model entries, including panel entries. Keep existing model choices, lists, and aliases when changing the profile. Do not assume that profile labels, effort ordering, or model families are portable between hosts. A reasoning profile is a preference, not a guaranteed token or spending limit. The configured profile is each role's starting point. A consuming skill may step it up or down per job, only within the profiles the host confirms for that model, and keeps the model family unchanged. When `engineering-mode` is installed, its Delegation rule defines those steps.
 
 Show every role, its model choices, and the effective reasoning profile. Mark unavailable identifiers and unsupported model/profile pairs. Let the user accept the mapping or choose from confirmed models and profiles plus `inherit-parent` and `auto`.
 
@@ -64,9 +64,9 @@ This file configures internal subagent roles. Skills fall back to the parent mod
 - bulk source reading: inherit-parent
 ```
 
-Keep provider-specific identifiers only in the values. Do not add provider-specific tool calls, task flags, or directory assumptions.
+Keep provider-specific identifiers only in the values. Do not add provider-specific tool calls, task flags, or directory assumptions. Never write role lines into always-loaded agent instruction files such as `AGENTS.md`. Keep them in the documented configuration file or `.agents/agent-models.md`. If the documented configuration lives in such a file, propose `.agents/agent-models.md` and let the user decide.
 
-Consumers read the role they document and the optional `reasoning profile` line. Before each spawn, validate the pair against the current host. For a missing role, or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` reasoning profile, omit only the reasoning override. If a configured choice is unavailable or the host rejects a model/profile pair, report the rejected choice and retry that seat once with both overrides omitted. If the retry fails, record the gap or perform the consumer's documented local fallback. Never rewrite identifiers or silently claim the requested model or profile ran.
+Consumers read the role they document and the optional `reasoning profile` line. Before each spawn, validate the pair against the current host. For a missing role, or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` reasoning profile, omit only the reasoning override. If the host rejects a consumer's adjusted profile, retry once with the configured pair. If a configured choice is unavailable or the host rejects a configured model/profile pair, report the rejected choice and retry that seat once with both overrides omitted. If the retry fails, record the gap or perform the consumer's documented local fallback. Never rewrite identifiers or silently claim the requested model or profile ran.
 
 ## 5. Report
 

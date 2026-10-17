@@ -1,6 +1,6 @@
 # unslop
 
-Cut AI tells from any writing. Must always apply.
+Cut AI tells from any writing. Use when writing or editing prose a person will read.
 
 ## Install
 

@@ -1,6 +1,6 @@
 {
   "name": "swarm",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Fan out independent subagents across parallel slices or races, drain every required result, and return one consolidated local report.",
   "author": {
     "name": "Nick Petalas",

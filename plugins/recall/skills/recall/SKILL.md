@@ -1,6 +1,6 @@
 ---
 name: recall
-version: 0.1.1
+version: 0.2.0
 disable-model-invocation: true
 description: "Reconstruct recent solo-development context from the current host's accessible task history, repository history, local docs, and live workspace state, then return a concise current-state brief."
 ---
@@ -13,7 +13,7 @@ Only inspect the active workspace and task history the host exposes for this use
 
 When the accessible history is large, use subagents to inspect disjoint time or topic slices. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Each child must keep extracted history local and return only the facts needed for synthesis. If subagents or task-history access are unavailable, fall back to the current conversation, repository history, and live workspace state, and state the limitation.
 
-Model preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present, and map roles only to models the current host confirms are available. Otherwise omit model selection and inherit the parent or host defaults. Never require the file or hard-code unconfirmed model identifiers.
+Model preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present, and map roles only to models the current host confirms are available. Otherwise omit model selection and inherit the parent or host defaults. Never require the file or hard-code unconfirmed model identifiers. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
 ## 1. Set scope
 

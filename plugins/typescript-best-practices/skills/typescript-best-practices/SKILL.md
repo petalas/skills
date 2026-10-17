@@ -1,6 +1,6 @@
 ---
 name: typescript-best-practices
-version: 0.3.0
+version: 0.4.0
 description: TypeScript best practices. Use when reading or editing any TypeScript or JavaScript file (.ts, .tsx, .js, .mjs, .cjs).
 ---
 

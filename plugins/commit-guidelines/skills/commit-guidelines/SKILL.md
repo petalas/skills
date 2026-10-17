@@ -1,6 +1,6 @@
 ---
 name: commit-guidelines
-version: 0.1.0
+version: 0.2.0
 disable-model-invocation: false
 description: Create focused Git commits in the user's preferred style. Use whenever an agent is about to create, amend, squash, or propose a commit or commit message. Require Conventional Commits, inspect the exact diff, preserve unrelated work, run repository checks, and never attribute authorship or co-authorship to an AI model, agent, assistant, bot, vendor, or tool.
 ---
@@ -45,7 +45,7 @@ Rules:
 - Add a short scope when it helps locate the change. Follow repository scope conventions. Omit it when the change is genuinely cross-cutting or no useful scope exists.
 - Write the description in imperative, present-tense language. Start lowercase, omit the final period, and keep the subject under 72 characters when practical.
 - Describe the change, not the work session. Avoid subjects such as `update files`, `address feedback`, or `misc fixes`.
-- Use the body only when the reason, tradeoff, migration, or non-obvious behavior needs explanation. Wrap it according to repository convention.
+- Use the body only when the reason, tradeoff, migration, or non-obvious behavior needs explanation. Start with what the subject leaves out instead of restating it. Wrap it according to repository convention.
 - Mark a breaking change with `!` and add a `BREAKING CHANGE:` footer that states what callers must change.
 - Add issue references only when they are known. Never invent an issue number.
 

@@ -5,8 +5,8 @@
 This skill includes material copied or adapted from pstack.
 
 - Repository: https://github.com/cursor/plugins
-- Source commit: c47b12849e43f18d5c374c7069c744cc55b0ea00
-- Source subtree: https://github.com/cursor/plugins/tree/c47b12849e43f18d5c374c7069c744cc55b0ea00/pstack
+- Source commit: 101b274dd991f694e1f7024be2157e5f3adf07de
+- Source subtree: https://github.com/cursor/plugins/tree/101b274dd991f694e1f7024be2157e5f3adf07de/pstack
 - Source-to-installed-file mappings:
 
 - `skills/principle-sequence-verifiable-units/SKILL.md` -> `SKILL.md` (modified)

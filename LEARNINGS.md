@@ -704,3 +704,9 @@ Cold review binds to the proposed body. If the remote body changes before delive
 `clean` now means fresh-zero proof, final validation, and no known routed issue. If current-PR responsibility is green but verified adjacent or product work remains, the terminal state is `scope-routed`.
 
 Blocked and capped states remain separate. `capped-in-envelope-green` says repairs pass but the required fresh confirmation did not fit. `capped-with-residuals` says qualifying work or required evidence remains. None of these states is reported as cleanly fixed.
+
+## Prettier Renumbers Ordered Lists
+
+Prettier rewrites an ordered Markdown list so its numbers run consecutively. A list that skips a number on purpose, such as `unslop` rules whose numbers are stable ids with gaps for removed rules, loses those gaps on the next `bun run format`. This silently shifted `unslop` rules 5 and 22 to 4 and 21 during an earlier port.
+
+Put `<!-- prettier-ignore -->` on the line before any ordered list whose numbers carry meaning. `tests/pstack-scenarios.json` asserts the `unslop` ids, so `bun run check` fails if the marker is removed.

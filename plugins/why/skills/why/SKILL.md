@@ -1,6 +1,6 @@
 ---
 name: why
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: "Investigate why code has its current shape using read-only repository history, issue tracking, user-scoped documents, observability, error tracking, and product data."
 ---
@@ -15,7 +15,7 @@ When subagents are available, assign one evidence lane to each investigator. Sub
 
 Model and reasoning preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present. Use `bulk source reading` for investigators and `synthesis` for a delegated synthesizer.
 
-Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below.
+Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
 ## Investigative posture
 
@@ -40,7 +40,8 @@ Gather:
 - recent commits touching the target;
 - blame for the most relevant lines;
 - rename-aware file history and patches;
-- references in commit messages to local documents or repository-hosted discussions.
+- references in commit messages to local documents or repository-hosted discussions;
+- for each substantive commit, the linked pull request's title, body, and review discussion, read without mutation through the forge's CLI or web view when available.
 
 Useful read-only commands include:
 
@@ -51,7 +52,7 @@ git log --oneline -20 -- <file>
 git show <commit>
 ```
 
-If a repository CLI can read a linked change or discussion without mutating it, that read is allowed. Never use commands that comment, approve, assign, label, close, merge, or otherwise update remote state.
+If a repository CLI can read a linked change or discussion without mutating it, that read is allowed. This anchor goes to every investigator and to the synthesizer. Never use commands that comment, approve, assign, label, close, merge, or otherwise update remote state.
 
 ## 3. Cover the available evidence lanes
 

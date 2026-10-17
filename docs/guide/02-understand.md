@@ -1,6 +1,18 @@
 # Understand the code before changing it
 
-Start with the question you need answered. [`how`](../../plugins/how/README.md) traces current mechanics. [`why`](../../plugins/why/README.md) investigates historical intent. [`explain-code`](../../plugins/explain-code/README.md) combines both. [`recall`](../../plugins/recall/README.md) rebuilds recent workspace context.
+Editing code you do not understand is how subtle regressions ship, and that holds for the agent as much as for you. Agents usually fail in one of two ways. They misread what you want, or they lack the context to do the work right. [Say what goes in a prompt](./01-entry-point.md#say-what-goes-in-a-prompt) handles the first. This page handles the second.
+
+Start with the question you need answered. [`how`](../../plugins/how/README.md) traces current mechanics. [`why`](../../plugins/why/README.md) investigates historical intent. [`explain-code`](../../plugins/explain-code/README.md) combines both. [`recall`](../../plugins/recall/README.md) rebuilds recent workspace context. Each one also makes the agent explain itself in words you can check. That is how you supervise an agent that may know the code better than you do.
+
+## Start with a read-only investigation
+
+When the cause is unclear, ask for findings, not a fix:
+
+```text
+Use engineering-mode. Investigate why background jobs time out every few hours. Give me what we know, what data you used, and your best hypotheses. Do not change any code yet.
+```
+
+"Do not change any code yet" routes this to the investigation playbook. It traces the code, adds history for questions about motivation, and returns a cited answer. For a choice between options, it returns a recommendation with the trade-offs. Asking "what data you used" makes the agent separate its evidence from its guesses. When the findings point at a fix, start the fix as a new task.
 
 ## Trace current behavior with `how`
 
@@ -28,6 +40,14 @@ Use explain-code on the retry subsystem. Show the runtime flow, then explain whi
 
 Use this when the reason explains the mechanism. The final explanation should distinguish what the code proves from what history suggests.
 
+It works on the agent's own choices too:
+
+```text
+Use explain-code on the change you just made. Why did you implement it this way and not with a queue? What did you trade off, and why?
+```
+
+Teaching helps the agent as much as you. An agent that has to explain its work must read the code and back each claim with evidence, instead of stating it confidently and moving on.
+
 ## Rebuild your own context with `recall`
 
 ```text
@@ -35,6 +55,12 @@ Use recall to catch me up on the export work in this workspace. Include the curr
 ```
 
 `recall` stays inside the active workspace and the conversation history the host exposes. It does not scan unrelated projects or other people's conversations. Verify its summary against the current files before continuing old work.
+
+Old sessions hold context that a fresh agent lacks. Start new work on an old topic by loading that context first, then hand over the new input:
+
+```text
+Use recall for my work on the virtualized list from yesterday, then read this bug report.
+```
 
 ## Know when to stop reading
 

@@ -36,6 +36,16 @@ Startup takes 1.8 seconds on this fixture. Profile it, change the measured cause
 
 A performance claim needs a stable fixture and comparable measurements. Revert experiments that do not help. Do not accumulate speculative optimizations.
 
+The perf issue and hillclimb playbooks vet their numbers with [`benchmark-checklist`](../../plugins/benchmark-checklist/README.md) when it is installed. Perf issue vets its baseline and every number after it. Hillclimb vets its harness before freezing it. [Vet a measured number](./05-verify.md#vet-a-measured-number-with-benchmark-checklist) shows when to ask for it yourself.
+
+## Find the cause before any fix
+
+Sometimes you want a diagnosis before anyone changes code. For a live symptom, such as a leak, an idle CPU spin, or a visual glitch, the runtime forensics playbook instruments the running process. For a profile or trace you already captured, the trace forensics playbook reads the artifact and maps the hot frame to source. Both return a diagnosis, not a fix:
+
+```text
+Use engineering-mode. Here is a CPU profile from the slow startup. Tell me where the time goes and which source lines own it. No fix yet.
+```
+
 ## Clean the diff before handoff
 
 Run [`review-code-comments`](../../plugins/review-code-comments/README.md) when comments narrate the implementation or encode a constraint that a type, test, or lint could enforce. Apply [`unslop`](../../plugins/unslop/README.md) to prose, including README changes, commit bodies, and local handoff drafts.

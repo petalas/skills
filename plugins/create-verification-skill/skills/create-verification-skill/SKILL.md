@@ -1,6 +1,6 @@
 ---
 name: create-verification-skill
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: Create a project-local skill that drives an app through its real user surface and captures proof.
 ---
@@ -29,7 +29,7 @@ Inspect repository instructions and the active skill catalog. Use the repository
 
 Write `SKILL.md` with `name`, `description`, and the host's required frontmatter. Include these sections:
 
-- `Launch`: exact start command, readiness check, and teardown.
+- `Launch`: exact start command, readiness check, and teardown. Launch must reach a usable state from an empty data directory, including any migrations and seed data. Ready means usable, not just that a process answers. A port answering or a database health check passing is not a ready signal while init scripts still run.
 - `Doctor`: one read-only check that confirms the instance, build, port, data, and authentication are safe to drive.
 - `Drive`: real selectors, prompts, routes, or commands from this repository.
 - `Evidence`: artifacts that prove both the action and resulting state. Check side effects through a second read-only view.
@@ -49,6 +49,8 @@ Create `features/README.md` and one file for each of the top three to five user-
 3. `Driving it with <harness>`
 4. `Gotchas`
 
+If the seed data lacks a precondition that a journey needs, the journey reports a failure and the reason goes in that feature's `Gotchas`. Never weaken the journey to make it pass.
+
 Cover every user entry point the repository exposes. Do not claim one path verifies another skipped path.
 
 ## 4. Prove the generated skill
@@ -62,7 +64,7 @@ Run the generated instructions end to end:
 5. Clean up.
 6. Confirm the evidence still exists.
 
-Clean up after every failed attempt. A generated skill that has never completed this loop is a draft.
+Clean up after every failed attempt. A generated skill that has never completed this loop is a draft. If you proved it in a stand-in for the real target (a container in place of a fresh virtual machine, a local stack in place of a remote one), list every setup step the stand-in did that the target will not. Those steps stay unverified until a run on the real target covers them.
 
 ## 5. Hand off maintenance
 

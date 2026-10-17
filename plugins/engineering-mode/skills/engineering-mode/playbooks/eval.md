@@ -8,6 +8,6 @@ Use to test how a skill, prompt, or structure changes agent behavior before adop
 4. Run candidates in parallel on different available model families or reasoning profiles when possible.
 5. Give sanitized outputs and the private rubric to one independent judge. The judge must compare all outputs in one pass.
 6. Inspect candidate artifacts and available local run records yourself. Grade behavior from what happened, not from self-report.
-7. Compare your reading with the judge. Treat disagreement as evidence that the rubric or judgment needs another pass.
+7. Compare your reading with the judge. Treat disagreement as evidence that the rubric or judgment needs another pass. Before trusting a gap, check that every candidate run did the task, that the gap holds across trials and models, and that the scenario matters.
 
 Return the variant, rubric, candidate notes, blinded verdict, your synthesis, and an adoption recommendation.

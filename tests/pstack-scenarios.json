@@ -142,5 +142,85 @@
     "file": "plugins/engineering-mode/skills/engineering-mode/agents/openai.yaml",
     "includes": ["policy:", "allow_implicit_invocation: true"],
     "excludes": ["allow_implicit_invocation: false"]
+  },
+  {
+    "name": "unslop rule numbers stay stable ids despite Prettier",
+    "file": "plugins/unslop/skills/unslop/SKILL.md",
+    "includes": [
+      "5. **Vague attributions.**",
+      "22. **Sycophantic tone.**",
+      "Use when writing or editing prose a person will read."
+    ],
+    "excludes": ["4. **Vague attributions.**", "21. **Sycophantic tone.**", "Must always apply."]
+  },
+  {
+    "name": "autonomy defaults are reversed in plain words, not reply tokens",
+    "file": "plugins/engineering-mode/skills/engineering-mode/SKILL.md",
+    "includes": [
+      "say in plain words what the user could tell you to do instead",
+      "Never give a shorthand token to type back."
+    ],
+    "excludes": ["reply word"]
+  },
+  {
+    "name": "arena autonomy defaults avoid reply tokens",
+    "file": "plugins/arena/skills/arena/SKILL.md",
+    "excludes": ["reply word"]
+  },
+  {
+    "name": "auditable-run autonomy defaults avoid reply tokens",
+    "file": "plugins/auditable-run/skills/auditable-run/SKILL.md",
+    "excludes": ["reply word"]
+  },
+  {
+    "name": "per-job reasoning stays within host-confirmed profiles",
+    "file": "plugins/engineering-mode/skills/engineering-mode/SKILL.md",
+    "includes": [
+      "When the host confirms an ordered set of reasoning profiles for that model",
+      "Never change the model family.",
+      "Do not construct model identifiers from profile names."
+    ]
+  },
+  {
+    "name": "measured numbers are vetted with a complete fallback",
+    "file": "plugins/engineering-mode/skills/engineering-mode/SKILL.md",
+    "includes": [
+      "follow `benchmark-checklist` when installed",
+      "run each side at least 5 times in alternating order"
+    ]
+  },
+  {
+    "name": "benchmark checklist stays user-only and indexed",
+    "file": "plugins/engineering-mode/skills/engineering-mode/SKILL.md",
+    "includes": ["(`principle-explain-the-number`)", "(`benchmark-checklist`)"]
+  },
+  {
+    "name": "benchmark checklist is user-only",
+    "file": "plugins/benchmark-checklist/skills/benchmark-checklist/SKILL.md",
+    "includes": ["disable-model-invocation: true"],
+    "excludes": ["Opening a PR"]
+  },
+  {
+    "name": "ketchup stays read-only and never posts",
+    "file": "plugins/ketchup/skills/ketchup/SKILL.md",
+    "includes": [
+      "Keep this turn read-only.",
+      "do not rerun, retry, merge, comment on, or otherwise change any of them"
+    ],
+    "excludes": ["/visualize", "/bro"]
+  },
+  {
+    "name": "correct commits only with explicit authority",
+    "file": "plugins/correct/skills/correct/SKILL.md",
+    "includes": [
+      "Commit only when the user or the invoking workflow explicitly authorizes commits.",
+      "Review comments are read-only evidence"
+    ]
+  },
+  {
+    "name": "worktree audit reads base reachability without fetching",
+    "file": "plugins/worktree-cleanup/skills/worktree-cleanup/scripts/worktree-audit.sh",
+    "includes": ["BASE_MERGED", "It never fetches"],
+    "excludes": ["git fetch", "gh pr"]
   }
 ]

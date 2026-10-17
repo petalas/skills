@@ -1,6 +1,6 @@
 {
   "name": "configure-agent-models",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Record host-neutral model and reasoning preferences for internal agent roles using only choices available in the current environment.",
   "author": {
     "name": "Nick Petalas",

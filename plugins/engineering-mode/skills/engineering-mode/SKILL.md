@@ -1,6 +1,6 @@
 ---
 name: engineering-mode
-version: 0.5.0
+version: 0.6.0
 description: "Use when starting a software task that needs rigor: a bug, feature, refactor, investigation, performance issue, or any multi-step change to code that will be kept. Picks one playbook, routes to the matching principle skills and power-of-ten, and proves the result on the real artifact. Skip for casual questions, throwaway scripts, or when the user opts out."
 ---
 
@@ -26,9 +26,10 @@ Subagents may communicate with each other, but no agent may communicate with a p
 - Parse and validate at system boundaries. Keep internal logic typed and direct.
 - Give concurrent writers disjoint files, worktrees, or branches. Serialize shared writes.
 - Verify on the real user surface when the task changes behavior.
-- Use `unslop` for prose when installed. Otherwise remove filler, generic claims, decorative formatting, and host jargon. Write short concrete sentences.
+- Use `unslop` for all prose, including your reply to the user, when installed. Otherwise remove filler, generic claims, decorative formatting, and host jargon. Write short concrete sentences.
 - Use `show-me-your-work` for long, unattended, or multi-phase runs when installed. Otherwise keep a local append-only `decisions.tsv` with timestamp, phase, decision, reason, evidence, and result columns.
 - Read `.agents/agent-models.md` when present. Treat its values as preferences, never as required fixed identifiers.
+- Before you report or act on a number you measured, such as a speedup, regression, throughput, latency, or eval result, vet it. For a performance number, follow `benchmark-checklist` when installed. It is user-only, so read `../benchmark-checklist/SKILL.md` relative to this skill's directory, as with principle leaves. Otherwise name the limiter, count errors, confirm the work ran inside the timed region, run each side at least 5 times in alternating order and report the median and range, and give the result's share of the end-to-end path. For an eval result, check that every run did the task, that the gap holds across trials and models, and that the scenario matters.
 
 ## Principles
 
@@ -41,7 +42,7 @@ Leaf skills are installed beside this skill and are user-only; do not try to inv
 - **Laziness Protocol** (`principle-laziness-protocol`). Apply when refactoring, evaluating diff size, or tempted to add abstractions, layers, or signal threading. Bias toward deletion and the smallest change that solves the problem.
 - **Foundational Thinking** (`principle-foundational-thinking`). Apply before writing logic: choosing core types and data structures, sequencing scaffold-vs-feature work, asking what concurrent actors share. Get the data structures right so downstream code becomes obvious.
 - **Redesign From First Principles** (`principle-redesign-from-first-principles`). Apply when integrating a new requirement into an existing design. Redesign as if the requirement had been a foundational assumption from day one, instead of bolting it on.
-- **Attack the Premise** (`principle-attack-the-premise`). Apply when two or more fixes that share one premise have failed the same gate. Take a census of which actors hold the imbalance before the next fix, then question the premise instead of writing another fix that assumes it.
+- **Attack the Premise** (`principle-attack-the-premise`). Apply when two or more fixes that share one premise have failed the same gate. Write the premise down and test it directly before you write another fix that assumes it.
 - **Subtract Before You Add** (`principle-subtract-before-you-add`). Apply when sequencing an addition, refactor, or rewrite. Remove dead code, redundant validators, and stub references first, then build on the simpler base.
 - **Minimize Reader Load** (`principle-minimize-reader-load`). Apply when reviewing or shaping code that's hard to trace. Count layers between question and answer, and hidden state in the reader's head; collapse one-caller wrappers and shrink mutable scope.
 - **Outcome-Oriented Execution** (`principle-outcome-oriented-execution`). Apply during planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture; don't preserve smooth intermediate states with throwaway compatibility code.
@@ -53,7 +54,7 @@ Leaf skills are installed beside this skill and are user-only; do not try to inv
 
 - **Model Domain in Code** (`principle-model-domain-in-code`). Apply when writing stateful logic, or when code branches a lot or repeats a shape assumption across files. Encode the domain in a structure instead of scattered conditionals.
 - **Boundary Discipline** (`principle-boundary-discipline`). Apply when wiring validation, error handling, or framework adapters. Concentrate guards at system boundaries (CLI, config, network, external APIs); trust internal types and keep business logic in pure functions.
-- **Type System Discipline** (`principle-type-system-discipline`). Apply when designing types, reviewing a function signature, or writing code in any statically-typed language. Make illegal states unrepresentable, brand semantic primitives, parse external data at boundaries, refuse to lie to the compiler, exhaust variants, derive from authoritative schemas.
+- **Type System Discipline** (`principle-type-system-discipline`). Apply when designing types, reviewing a function signature, or writing code in any statically-typed language. Make illegal states unrepresentable, brand semantic primitives, parse external data at boundaries, exhaust variants, derive from authoritative schemas.
 - **Make Operations Idempotent** (`principle-make-operations-idempotent`). Apply when designing commands, lifecycle steps, or processing loops that run amid crashes, restarts, and retries. Converge to the same end state regardless of partial prior runs.
 - **Replace Internal APIs Atomically** (`principle-replace-internal-apis-atomically`). Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserving compatibility layers.
 - **Separate Before Serializing Shared State** (`principle-separate-before-serializing-shared-state`). Apply when concurrent actors might write to the same file, branch, key, or state object. Eliminate the sharing first; serialize structurally only when one shared writer is a real invariant.
@@ -61,9 +62,11 @@ Leaf skills are installed beside this skill and are user-only; do not try to inv
 **Verification**
 
 - **Prove It Works** (`principle-prove-it-works`). Apply after completing a task, before declaring done. Verify against the real artifact (run the feature, read the actual value, inspect the diff), not a proxy, self-report, or 'it compiles.'
-- **Fix Root Causes** (`principle-fix-root-causes`). Apply when debugging. Trace each symptom to its root cause and fix it there; reproduce first, ask why until you reach it, resist nil-check guards that silence crashes.
+- **Fix Root Causes** (`principle-fix-root-causes`). Apply when debugging. Trace each symptom back to the first place the system went wrong and fix it there. A guard is a fix only when the state it handles is legitimate.
 - **Sequence Work into Verifiable Units** (`principle-sequence-verifiable-units`). Apply to multi-step work such as sweeps, migrations, and runs of similar edits. Break work into small units that each end in a verifiable state, check each before the next, and order authorized delivery so the sequence proves itself.
-- **Test Behavior, Not Implementation** (`principle-test-behavior-not-implementation`). Apply when you write, change, or keep a test. Call the code the way its users do and assert the result they observe against a literal expected value. If the test would still pass when every imported function returns undefined, rewrite the assertion or delete the test.
+- **Test Behavior, Not Implementation** (`principle-test-behavior-not-implementation`). Apply when you write, change, or keep a test. Assert what the code's users can observe, so that the test fails when that behavior breaks and keeps passing when only the internals change.
+- **Explain the Number** (`principle-explain-the-number`). Apply before you trust, report, or act on a number you measured: a speedup, a regression, a throughput, a latency, or an eval result. Find what limits it, and rule out that it measured something other than the work you think.
+- **Benchmark checklist** (`benchmark-checklist`). Vet a perf measurement (limiter, tuning, limits, errors, repeatability, relevance, and whether the work happened) before you report or act on it. Use when you run a benchmark or report a speedup or regression you measured.
 
 **Delegation**
 
@@ -84,7 +87,7 @@ Leaf skills are installed beside this skill and are user-only; do not try to inv
 
 Before asking about an approach, check whether a local experiment can answer the question. Use the prototype playbook for observable behavior, timing, layout, or performance. Keep a read-only investigation focused on a cited answer.
 
-Under an explicit full-autonomy grant, decide calls that the grant covers, act, and report the decision without asking for a reply. For a reversible preference that only the user can choose, apply a default within the grant, explain it fully, and give one reply word that reverses it. User-named gates, missing authority, safety decisions, and irreversible choices still require the user.
+Under an explicit full-autonomy grant, decide calls that the grant covers, act, and report the decision without asking for a reply. For a reversible preference that only the user can choose, apply a default within the grant, explain it fully, and say in plain words what the user could tell you to do instead. The user answers in their own words. Never give a shorthand token to type back. User-named gates, missing authority, safety decisions, and irreversible choices still require the user.
 
 Without that grant, do not execute while a product, scope, safety, or one-way user decision remains unresolved. If `wayfinder` is installed and the destination is still foggy or too large for one session, invoke it to create or work through decision tickets. Otherwise write a short local decision brief with the question, known facts, options, consequences, and recommendation, then stop for the user to decide. Internal agent votes may compare evidence. They never settle a one-way user decision.
 
@@ -125,11 +128,17 @@ Use `auditable-run` for a large execution task that needs a custom workflow afte
 
 ## Delegation
 
-Use available internal subagent capabilities, not host-specific task names or flags. Choose roles by need. Bulk reading, competing designs, implementation, and independent review are different jobs. Run independent work concurrently when capacity allows. Keep file pointers in prompts and avoid pasting large source blocks.
+The agent that loaded this skill runs the playbook. Delegate steps, never the playbook itself.
+
+Use available internal subagent capabilities, not host-specific task names or flags. Choose roles by need. Bulk reading, competing designs, implementation, and independent review are different jobs. Run independent work concurrently when capacity allows. Keep file pointers in prompts and avoid pasting large source blocks. When a child must apply a principle leaf or another user-only sibling skill, put the absolute path of that skill's `SKILL.md` in the child prompt. A child's skill catalog can hide user-only skills.
+
+Give new work to a fresh subagent by default. This covers a fix round, a follow-up, a retry, and the next queue item. The fresh brief consolidates the original brief, every later directive, and the prior agent's report, branch, and worktree. Resume or message an existing agent only when the new work needs state that lives in that agent and is costly to move: its checkout, its uncommitted changes, or a process it still runs, such as a dev server or simulator. A stop or hold order to a running agent is not reuse. Chained resumes can drop directives, so review the artifact instead of trusting a resumed agent's "done" summary.
 
 Read the repository's documented model preferences or `.agents/agent-models.md` when present. Map feature and refactoring delegates to `implementation`, bug fixes to `bug investigation`, performance work and hillclimbs to `performance investigation`, and prose or judgment to `judgment and prose`. Use the same role for that delegate's work throughout the playbook.
 
 Use only host-confirmed model identifiers and the configured global `reasoning profile` when the host supports that model/profile pair. If the role is absent or its value is `auto` or `inherit-parent`, omit both overrides. For a missing, `auto`, or `inherit-parent` reasoning profile, omit only the reasoning override. If a configured pair is rejected, report the fallback and retry once without either override. If that also fails, perform the work locally or record the delegation gap. Do not construct model identifiers from profile names. A second opinion should differ by model family or reasoning profile when possible.
+
+Match reasoning to the job. Start each subagent from its role's configured reasoning profile. When the host confirms an ordered set of reasoning profiles for that model, step up one for the hardest work, down one for judgment work, and down two or more for routine reading or mechanical edits. Use a faster speed option only when the user is blocked right now. Keep verification on its configured profile and model. Never change the model family. If the host rejects the adjusted choice, retry once with the configured pair and say so. When the role has no configured reasoning profile, keep the reasoning override omitted.
 
 ## Handoff
 

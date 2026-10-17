@@ -1,13 +1,13 @@
 ---
 name: auditable-run
-version: 0.4.0
+version: 0.5.0
 disable-model-invocation: true
 description: Design and execute an evidence-driven local workflow for a large task when no focused playbook fits.
 ---
 
 # Auditable run
 
-Design a task-specific execution workflow for a large migration, an ambitious multi-part change, or work the user will review after stepping away. This skill begins only after product, scope, safety, and one-way user decisions are settled. An explicit full-autonomy grant can settle a reversible preference through a default: apply it, explain it fully, and give one reply word that reverses it. User-named gates, missing authority, safety decisions, and irreversible choices still require the user. For any decision that remains open, use `wayfinder` when installed. Otherwise write the unresolved question, known facts, options, consequences, and recommendation, then stop for the user.
+Design a task-specific execution workflow for a large migration, an ambitious multi-part change, or work the user will review after stepping away. This skill begins only after product, scope, safety, and one-way user decisions are settled. An explicit full-autonomy grant can settle a reversible preference through a default: apply it, explain it fully, and say in plain words what the user could tell you to do instead. The user answers in their own words. Never offer a shorthand token to type back. User-named gates, missing authority, safety decisions, and irreversible choices still require the user. For any decision that remains open, use `wayfinder` when installed. Otherwise write the unresolved question, known facts, options, consequences, and recommendation, then stop for the user.
 
 Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. No agent may post, send, reply, or comment through external services. Internal delegation and local tool use are allowed within the user's scope.
 
@@ -28,7 +28,7 @@ Split the work into atomic units that can be checked independently. Order the la
 
 For a reversible technical choice inside the settled constraints, run parallel isolated design candidates and use an independent judge when the comparison is worth its cost. Internal agent votes never settle a one-way user decision. Skip the panel for mechanical work with a settled shape.
 
-Parallelize only across seams. Give concurrent writers separate files, worktrees, or branches when repository instructions permit them. Shared writes stay serial. Pair delegated work with an independent judge. The parent owns the result.
+Parallelize only across seams. Give concurrent writers separate files, worktrees, or branches when repository instructions permit them. Shared writes stay serial. Pair delegated work with an independent judge. The parent owns the result. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
 Write the phase list before starting. Add each concrete unit to the active plan.
 

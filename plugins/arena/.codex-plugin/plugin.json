@@ -1,6 +1,6 @@
 {
   "name": "arena",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Generate several independent candidates for the same non-trivial artifact, judge them against a concrete rubric, and synthesize one verified result.",
   "author": {
     "name": "Nick Petalas",

@@ -1,6 +1,6 @@
 ---
 name: how
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: "Explain how code works: subsystem architecture, runtime flow, ownership, placement, and layering. Use why for historical motivation."
 ---
@@ -15,7 +15,7 @@ When subagents are available, use them for independent repository exploration. S
 
 Model and reasoning preferences are optional. Read repository-documented model configuration or `.agents/agent-models.md` when present. Use `bulk source reading` for explorers, `judgment and prose` for a simple explanation, and `synthesis` for the combined explanation.
 
-Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below.
+Read its optional `reasoning profile` line and validate each explicit model/profile pair against the current host. For a missing role or an `auto` or `inherit-parent` model entry, omit both overrides. For a missing, `auto`, or `inherit-parent` profile, omit the reasoning override. Never require the file, construct model identifiers from effort labels, or use unconfirmed choices. If a configured choice is unavailable or the host rejects a model/profile pair, report the fallback and retry that seat once with both overrides omitted. If the retry fails, record the gap or use the local fallback below. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
 If the host cannot create subagents, perform the same exploration locally and say which parallel checks were collapsed into the main pass.
 
@@ -35,8 +35,6 @@ For a simple target, use one read-only worker with the `judgment and prose` pref
 - configuration, metrics, and lifecycle behavior.
 
 When subagents are available, launch those angles concurrently with [`references/explorer-prompt.md`](references/explorer-prompt.md). Use host-supported general repository workers and read-only permissions where the host exposes them. Apply the role preferences above without relying on host-specific task schemas.
-
-Every pass must read the implementation, follow callers and callees, inspect the relevant types, and stop only when it can trace input to output or trigger to effect without guessing. Acknowledge untraced edges.
 
 ## 3. Synthesize
 

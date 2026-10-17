@@ -1,6 +1,6 @@
 ---
 name: worktree-cleanup
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: Audit git worktrees and local development caches, then remove only targets proven unused and recoverable.
 ---
@@ -13,15 +13,17 @@ Subagents may communicate with each other, but no agent may communicate with a p
 
 ## 1. Snapshot
 
-Record free space with `df -h /`. Run `scripts/worktree-audit.sh [repo-path]` and derive every candidate path from its `git worktree list --porcelain` inventory. Never hand-type or glob a broad worktree parent. The helper is read-only and uses local Git state. It does not fetch or inspect remote reviews or conversation transcripts.
+Record free space with `df -h /`. Run `scripts/worktree-audit.sh [-b <ref>] [repo-path]` and derive every candidate path from its `git worktree list --porcelain` inventory. Never hand-type or glob a broad worktree parent. The helper is read-only and uses local Git state. It does not fetch or inspect remote reviews or conversation transcripts. `-h` prints its usage.
+
+The first output line, `# base: <ref>`, names the ref behind the `BASE_MERGED` column. Pass `-b <ref>` when the user names the branch work merges into. Without `-b`, the helper uses the first of `origin/HEAD`, `origin/main`, and `origin/master` that exists in local refs, and prints `none` with every row `unknown` when all are missing. An explicit `-b` ref that does not exist locally exits 1. An unknown option exits 2.
 
 For each worktree, collect:
 
-- path and branch or detached revision
-- disk usage
-- last filesystem change time
+- `WORKTREE` path and `SIZE_KIB` disk usage
+- `AGE_DAYS`: days since the HEAD commit
 - tracked, untracked, and ignored entries from `git status --ignored --short --untracked-files=all`
-- whether its revision is reachable from the repository's configured integration branches
+- `REF`: the branch, or for a detached worktree the first local or remote-tracking ref containing its revision, else `unrecoverable-detached`
+- `BASE_MERGED`: `yes` when the revision is an ancestor of the base ref, `no` when it is not, `unknown` without a base. The result reflects the last fetch. A squash- or rebase-merged branch reads `no`. The column is informational and never changes the bucket.
 - whether a local process has its working directory or any file open beneath the worktree
 - whether the status and process scans completed; an unavailable or failed scan is unknown, never clean
 
@@ -48,7 +50,7 @@ Do not remove a worktree with tracked or untracked changes unless the user expli
 For each authorized path:
 
 1. Re-run `git status --ignored --short --untracked-files=all` in the target. Compare tracked, untracked, and ignored paths with the approved evidence.
-2. Re-run `scripts/worktree-audit.sh [repo-path]` or the equivalent local process check. Hold the path if its bucket or evidence changed.
+2. Re-run `scripts/worktree-audit.sh [-b <ref>] [repo-path]` with the step 1 arguments, or the equivalent local process check. Hold the path if its bucket or evidence changed.
 3. Re-check that no current process uses it.
 4. Run `git worktree remove <path>` without `--force`.
 5. If removal refuses, hold the path and report why. Do not bypass the gate.
@@ -62,6 +64,6 @@ Inspect development caches only when the user asks to reclaim more space. Report
 
 ## 6. Verify
 
-Re-run `scripts/worktree-audit.sh [repo-path]`, `git worktree list --porcelain`, and `df -h /`. Report free space before and after, every removed worktree, and every held path with its reason.
+Re-run `scripts/worktree-audit.sh [-b <ref>] [repo-path]` with the step 1 arguments, `git worktree list --porcelain`, and `df -h /`. Report free space before and after, every removed worktree, and every held path with its reason.
 
 Version control history changes, remote operations, and external communication remain outside this skill.

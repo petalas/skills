@@ -1,6 +1,6 @@
 ---
 name: show-me-your-work
-version: 0.3.0
+version: 0.4.0
 disable-model-invocation: true
 description: Keep a local, reviewable TSV decision trail for long-running, unattended, or multi-phase work.
 ---
@@ -42,7 +42,7 @@ Before handoff, compare this run's rows with the actual run. Use the active conv
 
 The audit never edits or removes a row, even an invented one. Correct a false claim or unresolved evidence by appending a row that supersedes it with what happened and a resolvable pointer. The audit does not check other runs' stretches. If this run's work proves an earlier row wrong, supersede it like any wrong call.
 
-Ask an independent subagent to inspect the trail and the available run record. The reviewer flags weak evidence, skipped verification, risky choices, and gaps. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Agents must not post, send, reply, or comment through any external service. The parent agent owns the final report and presents the findings only to the user in the current conversation.
+Ask an independent subagent to inspect the trail and the available run record. The reviewer flags weak evidence, skipped verification, risky choices, and gaps. Subagents may communicate with each other, but no agent may communicate with a person. Repeat that sentence verbatim in every child prompt. Agents must not post, send, reply, or comment through any external service. The parent agent owns the final report and presents the findings only to the user in the current conversation. When `engineering-mode` is installed, match each subagent's reasoning profile to the job by its Delegation rule; otherwise use the configured profile.
 
 End the handoff with an `Attention` section. Name the review capability used, then list specific rows or moments that deserve scrutiny. `No flags` is valid.
 

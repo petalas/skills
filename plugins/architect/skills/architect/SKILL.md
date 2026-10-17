@@ -1,13 +1,13 @@
 ---
 name: architect
-version: 0.2.0
+version: 0.3.0
 disable-model-invocation: true
 description: "Design non-trivial code from caller usage, types, signatures, and module boundaries before implementation, then implement against the chosen sketch when the request authorizes it."
 ---
 
 # Architect
 
-Design before implementing. Start from caller usage, sketch types and module boundaries, compare structurally different candidates, and then implement only when the user's request includes implementation.
+Start from caller usage, sketch types and module boundaries, compare structurally different candidates, and then implement only when the user's request includes implementation.
 
 When installed, `codebase-design` is authoritative for deep-module vocabulary, interface depth, and design tests. Invoke it during grounding and synthesis. Without it, apply the bundled local tests: prefer a small interface that hides meaningful policy, keep representations private, align modules with owned knowledge, reject pass-through layers, and minimize the number of files needed to trace a flow. This skill is an execution workflow, not a competing design doctrine. When installed, use `safe-refactor` instead for a principally behavior-preserving structural change; without it, explicitly pin behavior, compatibility constraints, and verification before restructuring.
 
@@ -27,16 +27,7 @@ Skip only for genuinely greenfield work with no surrounding system.
 
 Use `arena` when installed to produce at least two structurally distinct candidates. Without it, create two independent candidates concurrently with available subagents or sequentially when delegation is unavailable, keeping each in an isolated local artifact path and hiding completed candidates from unfinished ones. Give each candidate [`references/runner-prompt.md`](references/runner-prompt.md) and the grounding evidence.
 
-Each candidate follows [`references/rationale-template.md`](references/rationale-template.md):
-
-1. caller-facing usage and realistic call sites;
-2. core data types and invariants;
-3. public signatures;
-4. module map and ownership;
-5. data and error flow;
-6. tradeoffs and rejected alternatives.
-
-Screen candidates with [`references/design-red-flags.md`](references/design-red-flags.md) and `codebase-design` when installed. Without it, use the bundled deep-module tests above. Reject shallow wrappers, leaked representations, temporal decomposition, and pass-through layers. Prefer the design that hides more policy behind the smaller coherent interface.
+Screen candidates with [`references/design-red-flags.md`](references/design-red-flags.md) and `codebase-design` when installed. Without it, use the bundled deep-module tests above. Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo. Prefer the design that hides more policy behind the smaller coherent interface.
 
 ## 3. Decide
 

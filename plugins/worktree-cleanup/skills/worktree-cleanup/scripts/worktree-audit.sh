@@ -2,9 +2,58 @@
 # Read-only local worktree audit. It inventories tracked, untracked, and ignored
 # files, local ref reachability, disk use, and processes with open files below
 # each worktree. It never fetches, deletes, or changes repository state.
-#
-# Usage: worktree-audit.sh [repo-path]
 set -eu
+
+usage() {
+	cat <<'USAGE'
+Usage: worktree-audit.sh [-b|--base <ref>] [repo-path]
+
+  repo-path       Repository to audit. Defaults to the current repository.
+  -b, --base REF  Ref for the BASE_MERGED column. Without it, the first of
+                  origin/HEAD, origin/main, and origin/master that exists in
+                  local refs is used. The script never fetches, so the result
+                  reflects the last fetch.
+  -h, --help      Print this help and exit.
+
+BASE_MERGED is informational: yes, no, or unknown. A squash-merged branch
+reads no. It does not change the BUCKET column.
+USAGE
+}
+
+base=
+while [ $# -gt 0 ]; do
+	case "$1" in
+		-b|--base)
+			if [ $# -lt 2 ] || [ -z "$2" ]; then
+				printf 'error: %s needs a ref\n' "$1" >&2
+				exit 2
+			fi
+			base=$2
+			shift 2
+			;;
+		-h|--help)
+			usage
+			exit 0
+			;;
+		--)
+			shift
+			break
+			;;
+		-*)
+			printf 'error: unknown option: %s\n' "$1" >&2
+			usage >&2
+			exit 2
+			;;
+		*)
+			break
+			;;
+	esac
+done
+if [ $# -gt 1 ]; then
+	printf 'error: expected at most one repo-path\n' >&2
+	usage >&2
+	exit 2
+fi
 
 repo=${1:-}
 if [ -z "$repo" ]; then
@@ -16,6 +65,30 @@ if [ -z "$repo" ] || ! git -C "$repo" rev-parse --git-dir >/dev/null 2>&1; then
 fi
 
 repo=$(cd "$repo" && pwd -P)
+
+# Resolve the base from local refs only. An explicit ref must exist; the
+# default fall-through degrades to an unknown BASE_MERGED column.
+base_commit=
+if [ -n "$base" ]; then
+	if ! base_commit=$(git -C "$repo" rev-parse --verify --quiet "$base^{commit}" 2>/dev/null); then
+		printf 'error: base ref not found in local refs: %s\n' "$base" >&2
+		exit 1
+	fi
+else
+	origin_head=$(git -C "$repo" symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true)
+	for candidate in "$origin_head" origin/main origin/master; do
+		[ -n "$candidate" ] || continue
+		if base_commit=$(git -C "$repo" rev-parse --verify --quiet "$candidate^{commit}" 2>/dev/null); then
+			base=$candidate
+			break
+		fi
+		base_commit=
+	done
+	if [ -z "$base" ]; then
+		printf 'warn: no base ref (origin/HEAD, origin/main, origin/master missing locally); BASE_MERGED is unknown. Pass -b <ref>.\n' >&2
+	fi
+fi
+
 main_worktree=$(git -C "$repo" worktree list --porcelain | awk '/^worktree / { print substr($0, 10); exit }')
 now=$(date +%s)
 tmp_dir=$(mktemp -d)
@@ -42,7 +115,8 @@ classify_ignored_path() {
 	esac
 }
 
-printf 'SIZE_KIB\tAGE_DAYS\tREF\tTRACKED\tUNTRACKED\tIGNORED_STATE\tIGNORED_OTHER\tPROCESS\tBUCKET\tWORKTREE\n'
+printf '# base: %s\n' "${base:-none}"
+printf 'SIZE_KIB\tAGE_DAYS\tREF\tBASE_MERGED\tTRACKED\tUNTRACKED\tIGNORED_STATE\tIGNORED_OTHER\tPROCESS\tBUCKET\tWORKTREE\n'
 
 git -C "$repo" worktree list --porcelain |
 	awk '/^worktree / { print substr($0, 10) }' |
@@ -85,6 +159,16 @@ git -C "$repo" worktree list --porcelain |
 		fi
 		[ -n "$ref" ] || ref=unrecoverable-detached
 
+		base_merged=unknown
+		if [ -n "$base_commit" ] && [ -n "$head" ]; then
+			merge_status=0
+			git -C "$repo" merge-base --is-ancestor "$head" "$base_commit" 2>/dev/null || merge_status=$?
+			case "$merge_status" in
+				0) base_merged=yes ;;
+				1) base_merged=no ;;
+			esac
+		fi
+
 		head_time=$(git -C "$worktree" log -1 --format='%ct' HEAD 2>/dev/null || printf '0')
 		if [ "$head_time" -gt 0 ] 2>/dev/null; then
 			age_days=$(((now - head_time) / 86400))
@@ -122,8 +206,8 @@ git -C "$repo" worktree list --porcelain |
 			bucket=candidate
 		fi
 
-		printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
-			"$size_kib" "$age_days" "$ref" "$tracked" "$untracked" \
+		printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+			"$size_kib" "$age_days" "$ref" "$base_merged" "$tracked" "$untracked" \
 			"$ignored_state" "$ignored_other" "$process" "$bucket" "$worktree"
 		cat "$ignored_file" >>"$tmp_dir/all-ignored"
 	done
